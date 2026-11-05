@@ -315,11 +315,23 @@ describe("project content", () => {
     assert.deepEqual([...found], ["info@latansajogja.co.id"]);
   });
 
-  it("marks the provisional headline as pending client confirmation", async () => {
+  it("has the owner-confirmed headline and no copy pending confirmation", async () => {
     const { company } = await import("../../src/content/company.ts");
-    assert.deepEqual(paths(pendingCopy(collectCopy(company))), [
-      "company.positioning.headline",
-    ]);
+    const { headline } = company.positioning;
+    // Approved by the owner as the official headline, 2026-11-06.
+    assert.equal(headline.confirmation, "confirmed");
+    assert.equal(
+      headline.text,
+      "Perangkat dan perlengkapan kerja untuk instansi dan lembaga.",
+    );
+    assert.ok([...headline.text].length <= 62, "headline ≤ 62 characters");
+    assert.deepEqual(pendingCopy(collectCopy(company)), []);
+  });
+
+  it("passes the strict launch gate (content:check --strict)", () => {
+    const r = runCli("--strict");
+    assert.equal(r.code, 0, r.out);
+    assert.doesNotMatch(r.out, /launch blocker/i);
   });
 
   it("publishes the owner-confirmed Google Maps listing", async () => {

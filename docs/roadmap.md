@@ -35,10 +35,11 @@ and [domain-hostinger-dns.md](domain-hostinger-dns.md).
   - response headers and CSP;
   - performance budgets, with what is met and how LCP must be re-measured on the deployed preview;
   - accessibility, WebKit verification, and the photo-license re-check.
+- **Launch gate:** the owner approved the headline on 2026-11-06, and `content:check --strict`
+  passes.
 - **Still open for launch:**
-  1. The client confirms the headline. `content:check --strict` fails only on that.
-  2. A separate PR sets `launchReady: true`.
-  3. Deployment and DNS, each with its own explicit approval.
+  1. Merge PR 5, then the launch PR, which only sets `launchReady: true`.
+  2. Deployment and DNS, each with its own explicit approval.
 
 ## Phase 5 results
 

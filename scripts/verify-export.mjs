@@ -179,6 +179,19 @@ check(
     : /Disallow: \//.test(robotsTxt) && !/Sitemap:/.test(robotsTxt),
   `robots.txt ${site.launchReady ? "allows crawling with the sitemap" : "blocks crawling until launch"}`,
 );
+if (site.launchReady) {
+  // Indexing may only be on when the strict launch gate is clean (CI runs this script).
+  const { collectCopy, collectFacts, evaluateLaunch, pendingCopy } =
+    await import("./lib/content-rules.mjs");
+  const { blocking } = evaluateLaunch(collectFacts(company));
+  const pending = pendingCopy(collectCopy(company));
+  check(
+    blocking.length === 0 && pending.length === 0,
+    `launchReady with no launch blockers (content:check --strict)${blocking.length + pending.length ? `: ${[...blocking, ...pending].map((x) => x.path).join(", ")}` : ""}`,
+  );
+}
+const sitemap = readFileSync(join(out, "sitemap.xml"), "utf8");
+check(sitemap.includes(`<loc>${site.url}/</loc>`), "sitemap.xml lists the domain root");
 
 // Structured data: valid JSON-LD built from publishable facts only.
 const ldText = index.match(

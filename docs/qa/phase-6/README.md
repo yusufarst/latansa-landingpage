@@ -4,9 +4,15 @@ SEO, accessibility, performance and production verification of the static export
 Everything was measured on `out/` served by `npm run preview`. It now serves the way Cloudflare
 Pages will: `_headers` applied, brotli/gzip compression, and `404.html` with HTTP 404.
 
-**Launch gate:** `content:check --strict` still fails on one item, the provisional headline,
-which needs the client's confirmation. `launchReady` stays `false` (noindex) and flips in its own
-PR after that ([deployment guide](../../deployment-cloudflare-pages.md)).
+**Launch gate:**
+
+- **Headline:** the owner approved it as the official headline on 2026-11-06.
+- **Strict gate:** `content:check --strict` passes. Only optional facts remain open: office hours
+  and Mbizmarket.
+- **`launchReady`:** stays `false` (noindex) in this PR and flips in its own launch PR, as the
+  [deployment guide](../../deployment-cloudflare-pages.md) requires.
+- **Guard:** once `launchReady` is `true`, `verify:export` fails the build if any launch blocker
+  returns, so indexing can never be on with unconfirmed content.
 
 ## SEO
 

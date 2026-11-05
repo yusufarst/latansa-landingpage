@@ -22,9 +22,10 @@ Every fact is a `Fact<T>` with a `status` and a `source`:
 Components **omit the element entirely** when a fact is not publishable. Visitors never see
 placeholder text. Optional sections are dropped when their data is missing.
 
-**Confirmable copy.** Copy shown on the site that still needs the client's final word (currently
-the hero headline) is a `ConfirmableCopy` with `confirmation: "pending"`. It may be shown, and
-`content:check --strict` blocks launch until it is confirmed.
+**Confirmable copy.** Copy shown on the site that still needs the client's final word is a
+`ConfirmableCopy` with `confirmation: "pending"`. It may be shown, and `content:check --strict`
+blocks launch until it is confirmed. The hero headline was the case until the owner approved it
+on 2026-11-06; nothing is pending now.
 
 ## Launch requirements
 
