@@ -31,6 +31,7 @@ export function SiteHeader() {
           <BrandLogo
             variant="horizontal"
             loading="eager"
+            sizes="(min-width: 1024px) 10.5rem, (min-width: 430px) 9.25rem, 8.75rem"
             className="h-auto w-[8.75rem] min-w-0 xs:w-[9.25rem] lg:w-[10.5rem]"
           />
         </a>

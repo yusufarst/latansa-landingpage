@@ -8,6 +8,7 @@ import { Profile } from "@/components/site/profile";
 import { RevealObserver } from "@/components/site/reveal-observer";
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteHeader } from "@/components/site/site-header";
+import { StructuredData } from "@/components/site/structured-data";
 import { copy } from "@/content/copy";
 
 /**
@@ -38,6 +39,7 @@ export default function Home() {
       </main>
       <SiteFooter />
       <RevealObserver />
+      <StructuredData />
     </>
   );
 }

@@ -4,6 +4,10 @@ All eight photographs are licensed under the **Unsplash License**. Each photo pa
 use under the Unsplash License" on 2026-11-05; none is an Unsplash+ (paid) image. The official
 license page, unsplash.com/license, was reviewed the same day.
 
+**Re-verified before launch (Phase 6, 2026-11-06):** each of the seven photo pages the site uses
+(listed in `src/content/images.ts`) is live, titled "Free Photo on Unsplash" and licensed under
+the Unsplash License. None has become Unsplash+.
+
 **The license allows:**
 
 - free download and use for commercial and non-commercial purposes;
@@ -66,8 +70,9 @@ removed by retouching.
 
 ## Rules for the live site
 
-- These photos are illustrative. The footer states that the imagery is illustrative and not
-  documentation of the company's activities.
+- These photos are illustrative. By the owner's decision (2026-11-05) the site shows no visible
+  disclaimer; this file and `src/content/images.ts` keep the provenance, and no copy may present a
+  photo as the company's own premises, staff, stock, deliveries or clients.
 - Optional credit line, appreciated by Unsplash: "Foto: [photographer] / Unsplash".
 - Re-verify each photo page before launch. Licenses can change, so record the check date in this
   file.

@@ -33,6 +33,18 @@ deltas D10, D11, D12 and D14 in [art-direction.md §12](art-direction.md#12-delt
 >   wrapped link retracts and returns line by line. With reduced motion the hover leaves the
 >   underline shown, as the M11 row specifies; before, it vanished instantly.
 
+> **Phase 6 (2026-11-06), M7 (menu sheet):**
+>
+> - **Restyle after the paint:** the sheet's open and close paint first. Then the page becomes
+>   `inert` (or stops being inert), scrolling locks (or unlocks), and focus moves. Toggling
+>   `inert` restyles the whole page, and doing it before the frame held the tap's response.
+>   Lab INP went from 168–272ms to a median of 184ms under 4× CPU.
+> - **Focus target:** focus goes to the first link, or to the dialog (`tabIndex={-1}`) where the
+>   browser will not focus links (Safari's default). It returns to the dialog if it falls to the
+>   page while the menu is open.
+> - **Reduced motion:** the sheet has no transition at all, so a closed sheet no longer stays
+>   visible and focusable for the 550ms close delay.
+
 ## 1. Principles
 
 1. **One orchestrated moment.** The hero entrance runs once on load. The photograph opens, the

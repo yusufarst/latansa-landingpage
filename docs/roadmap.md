@@ -10,7 +10,7 @@ in `main` by Pull Request. Nothing is deployed and no DNS is changed without exp
 | 3     | Premium art direction and motion specification; image-asset plan                                                                  | High   | Done (PR 2) |
 | 4     | Frontend implementation, mobile-first; generate images if a suitable free tool exists                                             | MAX    | Done (PR 3) |
 | 5     | Browser visual testing and intensive refinement (mobile first)                                                                    | MAX    | Done (PR 4) |
-| 6     | SEO, accessibility, performance, `content:check --strict` (required launch info only), production verification, set `launchReady` | High   | —           |
+| 6     | SEO, accessibility, performance, `content:check --strict` (required launch info only), production verification, set `launchReady` | High   | In review   |
 
 After Phase 6, deployment to Cloudflare Pages and the Hostinger DNS change are separate steps
 that each need explicit approval. See [deployment-cloudflare-pages.md](deployment-cloudflare-pages.md)
@@ -27,6 +27,18 @@ and [domain-hostinger-dns.md](domain-hostinger-dns.md).
   derivatives and on-page rules.
 - The approved board and its screenshots are in [design/concepts/](design/concepts/). Photo
   provenance is in [design/concepts/photos/SOURCES.md](design/concepts/photos/SOURCES.md).
+
+## Phase 6 results
+
+- [qa/phase-6/README.md](qa/phase-6/README.md):
+  - SEO: metadata, share image, JSON-LD, the 404 page;
+  - response headers and CSP;
+  - performance budgets, with what is met and how LCP must be re-measured on the deployed preview;
+  - accessibility, WebKit verification, and the photo-license re-check.
+- **Still open for launch:**
+  1. The client confirms the headline. `content:check --strict` fails only on that.
+  2. A separate PR sets `launchReady: true`.
+  3. Deployment and DNS, each with its own explicit approval.
 
 ## Phase 5 results
 

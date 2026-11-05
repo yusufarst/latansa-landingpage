@@ -12,10 +12,11 @@
     "content:check": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/content-check.mjs",
     "brand:assets": "node scripts/brand-assets.mjs",
     "verify:export": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/verify-export.mjs",
-    "preview": "npx --yes serve@14 out -l 4173",
+    "preview": "node scripts/preview-export.mjs",
     "check": "npm run lint && npm run typecheck && npm run format:check && npm test && npm run content:check && npm run build && npm run verify:export",
     "test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test \"scripts/__tests__/*.test.mjs\"",
-    "images:build": "node scripts/build-images.mjs"
+    "images:build": "node scripts/build-images.mjs",
+    "og:image": "node scripts/og-image.mjs"
   },
   "dependencies": {
     "next": "16.4.5",

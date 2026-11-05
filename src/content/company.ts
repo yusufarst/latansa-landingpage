@@ -195,5 +195,7 @@ export const company = {
     title: "CV. Latansa Jogjakarta — Pemasok Barang & Jasa Pendukung",
     description:
       "CV. Latansa Jogjakarta, perusahaan perdagangan dan pemasok di Kabupaten Bantul, DIY: komputer & TI, perlengkapan kantor, elektronik, dan peralatan kelembagaan.",
+    ogImageAlt:
+      "Logo LATANSA, CV. Latansa Jogjakarta, di atas foto laptop dan cangkir di meja kerja gelap.",
   },
 } satisfies CompanyContent;

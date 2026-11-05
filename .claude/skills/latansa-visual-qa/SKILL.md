@@ -19,9 +19,24 @@ npm run content:check
 ```
 
 Then serve `out/` with the `static-export` config in `.claude/launch.json` (port 4173) via the
-built-in browser's `preview_start`. On a real phone, open the Network URL that
-`npm run preview` prints (same Wi-Fi); `next dev` over the LAN needs `allowedDevOrigins`. Use `dev` (port 3000) only for quick iteration, never for
+built-in browser's `preview_start`. It runs `scripts/preview-export.mjs`, which serves the way
+Cloudflare Pages does: `_headers` applied (CSP included), brotli/gzip, and HTTP 404 for unknown
+paths. Restart it after a build that changes `_headers`.
+
+On a real phone, open the Network URL that `npm run preview` prints (same Wi-Fi); `next dev` over
+the LAN needs `allowedDevOrigins`. Use `dev` (port 3000) only for quick iteration, never for
 sign-off.
+
+**Performance:** run Lighthouse against the preview with
+`npx --yes lighthouse@13.6.0 http://localhost:4173/ --output=json`: mobile simulated (default),
+`--throttling-method=devtools`, and `--preset=desktop`. Take medians of 3–5 runs and note
+`environment.benchmarkIndex`: TBT and simulated LCP move with the machine's load. Localhost
+HTTP/1.1 has no request priorities, so confirm the simulated LCP on the deployed preview
+(PageSpeed Insights).
+
+**Safari's engine:** run Playwright WebKit (with `executablePath` to the installed
+`ms-playwright/webkit-*` build) for errors, CSP, overflow and the menu's focus. Safari does not
+focus links by default.
 
 ## 2. Viewport ladder — in this order
 

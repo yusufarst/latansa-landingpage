@@ -128,7 +128,11 @@ export interface CompanyContent {
   categories: BusinessCategory[];
   procurementChannels: ProcurementChannel[];
   seo: {
+    /** Page title, ≤ 60 characters. */
     title: string;
+    /** Meta description, ≤ 160 characters. */
     description: string;
+    /** Alt text of the share image (public/og/latansa-og.jpg). */
+    ogImageAlt: string;
   };
 }

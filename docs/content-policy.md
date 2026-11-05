@@ -60,6 +60,17 @@ but safe to omit until the client confirms it.
 
 It always lists launch blockers and unresolved optional facts.
 
+**Machine-readable output follows the same rules.** Search engines read more than the visible
+page: metadata, the share image's alt text, and the JSON-LD (`src/components/site/structured-data.tsx`).
+These come from the same publishable facts, through `publishedValue()`.
+`npm run verify:export` checks them on the built page:
+
+- no tax ID or NPWP;
+- no founding year, ratings, reviews or awards;
+- no `telephone`, because the WhatsApp number is offered for chat;
+- no opening hours while unconfirmed;
+- the email exactly as published.
+
 `npm run content:check -- --strict` is the Phase 6 production gate: it additionally fails while
 any **launch blocker** remains: an unresolved required fact, a group with no resolved member,
 or copy still pending confirmation. Unresolved optional facts do **not** block launch.
