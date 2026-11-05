@@ -4,7 +4,8 @@ import { copy } from "@/content/copy";
 import { publishedValue } from "@/content/facts";
 import { addressLines, formatPhoneId } from "@/lib/format";
 import { siplahStore, whatsappHref } from "@/lib/links";
-import { ExternalIcon, WhatsAppIcon } from "./icons";
+import { EmailText, TextLinkLabel } from "./actions";
+import { ExternalIcon, MailIcon, WhatsAppIcon } from "./icons";
 import { navLinks } from "./site-header";
 
 const heading = "text-label font-semibold text-brass-deep";
@@ -13,7 +14,8 @@ const extra = { target: "_blank", rel: "noopener noreferrer" } as const;
 /**
  * Footer (art-direction §6.8): the letterhead rule closes the document, then
  * four groups — identity, navigation, contact and location, procurement —
- * and a quiet bottom line. Email appears only once it is activated.
+ * and a quiet bottom line. The email shows only while its fact is
+ * publishable (activated 2026-11-06), with a mail glyph like WhatsApp's.
  */
 export function SiteFooter() {
   const year = new Date().getFullYear();
@@ -40,19 +42,24 @@ export function SiteFooter() {
                 className="h-auto w-[9.5rem] lg:w-[10.5rem]"
               />
             </a>
-            <p className="mt-4 max-w-[26rem] text-[0.9375rem] leading-relaxed text-slate">
+            <p className="mt-4 max-w-[26rem] text-base leading-relaxed text-slate lg:text-[0.9375rem]">
               {company.positioning.summary}
             </p>
           </div>
 
-          <nav aria-label={copy.nav.footerLabel} className="lg:col-span-2 lg:col-start-6">
+          {/* 1024–1279: no spacer column, so the procurement group gets three
+              columns and "SIPLah Toko Ladang" stays on one line. */}
+          <nav
+            aria-label={copy.nav.footerLabel}
+            className="lg:col-span-2 lg:col-start-5 xl:col-start-6"
+          >
             <h2 className={heading}>{copy.footer.navHeading}</h2>
             <ul className="mt-3 grid grid-cols-2 gap-x-4 md:grid-cols-1">
               {navLinks().map((link) => (
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    className="navlink flex min-h-11 w-fit items-center font-medium"
+                    className="navlink flex min-h-11 w-fit min-w-11 items-center font-medium"
                   >
                     {link.label}
                   </a>
@@ -63,7 +70,7 @@ export function SiteFooter() {
 
           <div className="lg:col-span-3">
             <h2 className={heading}>{copy.footer.contactHeading}</h2>
-            <div className="mt-3 grid gap-3 text-[0.9375rem]">
+            <div className="mt-3 grid gap-3 text-base lg:text-[0.9375rem]">
               {whatsapp && (
                 <a
                   href={whatsappHref(whatsapp)}
@@ -78,9 +85,10 @@ export function SiteFooter() {
               {email && (
                 <a
                   href={`mailto:${email}`}
-                  className="inline-flex min-h-11 w-fit items-center font-semibold"
+                  className="inline-flex min-h-11 w-fit max-w-full items-center gap-2.5 font-semibold"
                 >
-                  {email}
+                  <MailIcon className="size-[1.125rem] shrink-0 text-brass-deep" />
+                  <EmailText address={email} />
                 </a>
               )}
               <address className="leading-relaxed text-slate not-italic">
@@ -89,9 +97,15 @@ export function SiteFooter() {
                 {line2}
               </address>
               {mapsHref && (
-                <a href={mapsHref} {...extra} className="tlink w-fit text-[0.9375rem]">
-                  {copy.actions.maps}
-                  <ExternalIcon />
+                <a
+                  href={mapsHref}
+                  {...extra}
+                  className="tlink w-fit text-base lg:text-[0.9375rem]"
+                >
+                  <TextLinkLabel>
+                    {copy.actions.maps}
+                    <ExternalIcon />
+                  </TextLinkLabel>
                   <span className="sr-only"> {copy.externalHint}</span>
                 </a>
               )}
@@ -99,15 +113,23 @@ export function SiteFooter() {
           </div>
 
           {store && (
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-3 xl:col-span-2">
               <h2 className={heading}>{copy.footer.procurementHeading}</h2>
               <div className="mt-3 grid gap-1">
-                <a href={store.url} {...extra} className="tlink w-fit text-[0.9375rem]">
-                  {store.name}
-                  <ExternalIcon />
+                <a
+                  href={store.url}
+                  {...extra}
+                  className="tlink w-fit text-base lg:text-[0.9375rem]"
+                >
+                  <TextLinkLabel>
+                    {store.name}
+                    <ExternalIcon />
+                  </TextLinkLabel>
                   <span className="sr-only"> {copy.externalHint}</span>
                 </a>
-                <p className="text-[0.9375rem] text-slate">{copy.footer.storeNote}</p>
+                <p className="text-base text-slate lg:text-[0.9375rem]">
+                  {copy.footer.storeNote}
+                </p>
               </div>
             </div>
           )}
@@ -119,7 +141,7 @@ export function SiteFooter() {
           </p>
           <a
             href="#top"
-            className="inline-flex min-h-11 w-fit items-center gap-2 font-medium text-navy"
+            className="inline-flex min-h-11 w-fit items-center gap-2 text-label font-medium text-navy"
           >
             {copy.footer.backToTop}
             <svg

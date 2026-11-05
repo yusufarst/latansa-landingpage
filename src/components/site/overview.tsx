@@ -4,6 +4,7 @@ import { copy } from "@/content/copy";
 import { publishedValue } from "@/content/facts";
 import { countWord, fill, formatPhoneId } from "@/lib/format";
 import { siplahStore } from "@/lib/links";
+import { TextLinkLabel } from "./actions";
 
 /**
  * At-a-glance strip under the hero (art-direction §6.2a): what LATANSA
@@ -69,8 +70,11 @@ export function Overview() {
                 {item.value}
               </dd>
               <dd className="mt-auto pt-1">
-                <a href={item.href} className="tlink text-[0.9375rem] text-slate">
-                  {item.link}
+                <a
+                  href={item.href}
+                  className="tlink text-base text-slate lg:text-[0.9375rem]"
+                >
+                  <TextLinkLabel>{item.link}</TextLinkLabel>
                 </a>
               </dd>
             </div>

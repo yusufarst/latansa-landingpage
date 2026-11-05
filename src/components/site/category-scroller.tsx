@@ -27,7 +27,9 @@ const Chevron = ({ flip }: { flip?: boolean }) => (
  * The category row (motion M17): a native, snap-aligned swipe carousel below
  * 1024px and a mosaic above it (layout in CSS). Previous and next buttons give
  * a non-swipe alternative; the meter and the "1 dari 5" position follow the
- * card at the scroller's start through an IntersectionObserver.
+ * card at the scroller's start through an IntersectionObserver. The meter
+ * compresses on narrow rows and leaves below 17rem (large default text), where
+ * the position alone carries the state.
  */
 export function CategoryScroller({
   label,
@@ -95,13 +97,16 @@ export function CategoryScroller({
       >
         {children}
       </div>
-      <div className="mt-7 flex items-center gap-4 lg:hidden">
-        <div className="meter" aria-hidden="true">
+      <div className="@container mt-7 flex items-center gap-4 lg:hidden">
+        <div className="meter min-w-0 @max-[17rem]:hidden" aria-hidden="true">
           {Array.from({ length: count }, (_, i) => (
             <i key={i} data-active={i === active} />
           ))}
         </div>
-        <p className="text-label text-slate tabular-nums" aria-live="polite">
+        <p
+          className="shrink-0 text-label whitespace-nowrap text-slate tabular-nums"
+          aria-live="polite"
+        >
           {position}
         </p>
         <div className="ml-auto flex gap-2">

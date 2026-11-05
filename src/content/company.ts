@@ -99,10 +99,11 @@ export const company = {
     },
     email: {
       value: "info@latansajogja.co.id",
-      status: "pending-activation",
-      source: "Planned domain address, supplied by the client in chat, 2026-11-05",
+      status: "client-confirmed",
+      source:
+        "Domain address supplied by the client in chat, 2026-11-05; the owner confirmed in chat, 2026-11-06, that Cloudflare Email Routing (Free) is active and an inbound test email reached the destination inbox",
       launch: { atLeastOneOf: "contact" },
-      note: "Cloudflare Email Routing is not configured yet. Publish (status client-confirmed) only after the address receives email successfully. Never publish the personal forwarding inbox.",
+      note: "Receive-only: Email Routing forwards inbound mail and does not send mail from this address, so no copy may promise replies from it and no form may send from it. The personal forwarding inbox is never recorded or published.",
     },
   },
   positioning: {

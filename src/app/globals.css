@@ -79,6 +79,10 @@
 
 @layer base {
   html {
+    /* Light-only design: opts out of forced dark modes (Samsung Internet,
+       Android auto-dark), which would put the logo on black and erase the
+       button outlines. */
+    color-scheme: only light;
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
     scroll-padding-top: 4.5rem;
@@ -88,6 +92,11 @@
     }
   }
 
+  a,
+  button {
+    -webkit-tap-highlight-color: transparent;
+  }
+
   @media (prefers-reduced-motion: no-preference) {
     html {
       scroll-behavior: smooth;
@@ -95,7 +104,9 @@
   }
 
   body {
-    min-width: 20rem;
+    /* In px, not rem: a reader's larger default font must never make the
+       page wider than the phone. */
+    min-width: 320px;
     background-color: var(--color-white);
     color: var(--color-navy);
     font-family: var(--font-sans);
@@ -278,32 +289,51 @@
     top: 0.75rem;
     left: 0.75rem;
     z-index: 60;
+    max-width: calc(100vw - 1.5rem);
     transform: translateY(-160%);
   }
   .btn.skip-link:focus-visible {
     transform: none;
   }
 
+  /* Text links (motion M11). The 44px link box centers its label; the 1px
+     underline lives on the label's inline span (TextLinkLabel), so a label
+     that wraps is underlined line by line, never through the text. The ↗
+     icon sits on the last line, above the same underline. */
   .tlink {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
     min-height: 2.75rem;
     font-size: var(--text-ui);
     font-weight: 600;
-    background: linear-gradient(currentColor, currentColor) left calc(50% + 0.8em) / 100%
-      1px no-repeat;
+    transition: opacity 150ms;
+  }
+  .tlink:active {
+    opacity: 0.7;
+  }
+  .tlink-label {
+    min-width: 0;
+  }
+  .tlink-label > span {
+    padding-bottom: 0.2em;
+    background: linear-gradient(currentColor, currentColor) left bottom / 100% 1px
+      no-repeat;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
     transition: background-size 400ms var(--ease-precise);
   }
   .tlink svg {
+    display: inline-block;
     width: 1rem;
     height: 1rem;
-    flex: none;
+    margin-left: 0.5rem;
+    vertical-align: middle;
   }
-  @media (hover: hover) {
-    .tlink:hover {
+  /* Reduced motion keeps the underline shown (M11). */
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .tlink:hover .tlink-label > span {
       background-size: 0% 1px;
-      background-position: right calc(50% + 0.8em);
+      background-position: right bottom;
     }
   }
 
@@ -381,12 +411,15 @@
   .menu-sheet {
     position: fixed;
     inset: 4rem 0 0;
+    /* The dynamic viewport keeps the actions above iOS and Android toolbars. */
+    height: calc(100vh - 4rem);
+    height: calc(100dvh - 4rem);
     z-index: 39;
     display: flex;
     flex-direction: column;
     overflow-y: auto;
     overscroll-behavior: contain;
-    padding: 1rem var(--spacing-page) 1.75rem;
+    padding: 1rem var(--spacing-page) max(1.75rem, env(safe-area-inset-bottom));
     background-color: var(--color-navy);
     color: var(--color-white);
     clip-path: inset(0 0 100% 0);
@@ -519,6 +552,29 @@
           rgb(8 19 31 / 0) 66%
         ),
         linear-gradient(to top, rgb(8 19 31 / 0.55) 0%, rgb(8 19 31 / 0) 42%);
+    }
+  }
+  /* Phones: a second grade that follows the copy rather than the hero box.
+     Where the hero sits at its 33rem floor (short screens, browser toolbars)
+     or the text is enlarged, the headline rises over the bright laptop lid;
+     this keeps it legible wherever it lands. From 768px the left-side shade
+     covers the copy. */
+  .hero-copy {
+    position: relative;
+  }
+  .hero-copy::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: -4.5rem;
+    bottom: 0;
+    left: calc(-1 * var(--spacing-page));
+    width: 100vw;
+    background: linear-gradient(to bottom, rgb(8 19 31 / 0) 0, rgb(8 19 31 / 0.5) 4.5rem);
+    pointer-events: none;
+
+    @media (width >= 48rem) {
+      content: none;
     }
   }
   .hero-word {
@@ -730,7 +786,8 @@
     background-color: var(--color-raised);
     transition: border-color 300ms;
   }
-  .locator svg {
+  /* The diagram only: the caption's external icon must stay inline. */
+  .locator > svg {
     position: absolute;
     inset: 0;
     width: 100%;

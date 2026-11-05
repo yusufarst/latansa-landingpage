@@ -49,7 +49,8 @@ Palette and rules: [design-standards.md](design-standards.md).
 Tracked live by `npm run content:check`. At least one contact channel (WhatsApp or email) is
 required before launch; the rest are optional and omitted until confirmed. At the time of writing:
 
-- Official WhatsApp number and email address
+- Official WhatsApp number and email address: resolved. WhatsApp was provided on 2026-11-05;
+  the email was activated and confirmed by the owner on 2026-11-06.
 - Confirmation of office hours (Google Maps shows Mon–Fri 09.00–17.00, Sat 09.00–15.00)
 - Verified Mbizmarket profile URL
 - Vector logo source (SVG/AI/PDF), if one exists

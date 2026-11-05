@@ -287,13 +287,32 @@ describe("project content", () => {
     assert.deepEqual(blocking, []);
   });
 
-  it("publishes the client's WhatsApp and keeps the planned email unpublished", async () => {
+  it("publishes the client's WhatsApp and the owner-confirmed email", async () => {
     const { company } = await import("../../src/content/company.ts");
     const { whatsapp, email } = company.contact;
     assert.equal(isPublishableFact(whatsapp), true);
     assert.match(whatsapp.value, /^62\d{8,13}$/);
-    assert.equal(email.status, "pending-activation");
-    assert.equal(isPublishableFact(email), false);
+    // Activated through Cloudflare Email Routing, confirmed by the owner 2026-11-06.
+    assert.equal(email.status, "client-confirmed");
+    assert.equal(isPublishableFact(email), true);
+    assert.equal(email.value, "info@latansajogja.co.id");
+  });
+
+  it("records no email address in src/ but the official one (never the forwarding inbox)", () => {
+    const address = /[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}/g;
+    const found = new Set();
+    (function walk(dir) {
+      for (const name of readdirSync(dir)) {
+        const p = join(dir, name);
+        if (statSync(p).isDirectory()) walk(p);
+        else if (/\.(tsx?|css|json)$/.test(name)) {
+          for (const m of readFileSync(p, "utf8").matchAll(address)) {
+            found.add(m[0].toLowerCase());
+          }
+        }
+      }
+    })(join(root, "src"));
+    assert.deepEqual([...found], ["info@latansajogja.co.id"]);
   });
 
   it("marks the provisional headline as pending client confirmation", async () => {

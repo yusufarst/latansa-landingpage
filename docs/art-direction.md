@@ -72,6 +72,53 @@ wins.** Every difference is listed with its reason in [§12](#12-deltas-from-the
 >   assets for other hosts, so a phone saw an unstyled, zoomed-out page. Sign-off uses the export
 >   (`npm run build && npm run preview`, then the Network URL).
 
+> **Phase 5 refinement (2026-11-05).** Browser QA on the exported build; the record and
+> screenshots are in [qa/phase-5/](qa/phase-5/README.md). The implemented build is the reference
+> (D36–D41).
+>
+> - **Hero on short phones:** a second navy grade follows the copy instead of the hero box (phones
+>   only). Where the hero sits at its 33rem floor, as on an iPhone SE in Safari (375 × 547 with
+>   toolbars), small Android phones (360 × 560) and 320 × 568, the headline rose over the bright
+>   laptop lid at 2.6:1. Every headline word now measures at least 6.8:1 on the rendered photo.
+> - **Light only:** `color-scheme: only light` (CSS and meta) opts the page out of forced
+>   darkening, which put the logo on black and erased the outline button.
+> - **Larger default text** (browser setting 20px or 24px): no horizontal overflow from 320px.
+>   - The header logo scales down proportionally only when the enlarged Menu button leaves no
+>     room. Default sizes are unchanged.
+>   - The carousel meter compresses on narrow rows and gives way to "1 dari 5" below 17rem.
+> - **Phone text:** footer and overview links and text are 16px on phones (15px from 1024px, the
+>   header's `ui` size). Footer navigation links are at least 44px wide.
+> - **Locator:**
+>   - the caption sits on a navy fade, so contour lines no longer cross it;
+>   - the "↗" after "Buka di Google Maps" shows inline (a descendant rule had pinned it over the
+>     caption);
+>   - the link's accessible name is its visible caption (WCAG 2.5.3).
+> - **Identity sheet:** the `dl` holds only `div` groups of `dt` and `dd` (axe:
+>   `definition-list`).
+> - **Phone details:**
+>   - no grey tap flash;
+>   - text links dim while pressed;
+>   - the skip link never exceeds the screen;
+>   - the menu sheet uses `100dvh` and the bottom safe area.
+> - **Text links (2026-11-06):** the 1px underline sits on the label's inline span
+>   (`TextLinkLabel`), so a wrapped link is underlined line by line, never through the text; the
+>   "↗" stays on the last line. Single-line links look as before.
+> - **Footer at 1024–1279:** no spacer column before the navigation. The procurement group spans
+>   three columns, so "SIPLah Toko Ladang" stays on one line. From 1280 the layout is unchanged.
+
+> **Owner update: email active (2026-11-06).** The owner confirmed that Cloudflare Email Routing
+> (Free) delivers `info@latansajogja.co.id` to the destination inbox, so `contact.email` is now
+> `client-confirmed` and published in the Kontak band and the footer only (§6.7, §6.9 and §6.8).
+>
+> - **Kontak:** the ghost "Kirim email" action follows WhatsApp, and an "Email" line follows the
+>   WhatsApp number.
+> - **Footer:** the address follows the WhatsApp number, with a mail glyph in brass-deep.
+> - **Hero, header and menu:** they keep WhatsApp as their single action.
+> - **Links:** every `mailto:` opens in place. The address may wrap after the "@" on narrow lines.
+> - **Receive-only:** Email Routing forwards inbound mail and sends nothing. No copy may promise a
+>   reply from this address, and no form may send from it. The forwarding inbox is never recorded
+>   or published.
+
 The rejected "Kop" direction is archived at
 [design/archive/kop-board-rejected.html](design/archive/kop-board-rejected.html). Its spec lives
 only in git history.
@@ -193,9 +240,9 @@ Fluid sizes run from 360px to their cap. Tokens live in `src/app/globals.css`.
 
 - **Wrapping:** headings use `text-wrap: balance`; paragraphs use `text-wrap: pretty`.
   Hyphenation stays manual, because browser hyphenation for Indonesian is unreliable.
-- **Headline lines:** the hero headline sets in 4 lines at 360–430px and 1024–1920px, and in 2
-  lines at 768px. A replacement headline must stay at or under 62 characters and at or under 5
-  lines at 360px.
+- **Headline lines** (as built, measured in Phase 5): the hero headline sets in 4 lines at
+  320–390px, 768px and 1440–1920px, and in 3 lines at 430px and 1024px. A replacement headline
+  must stay at or under 62 characters and at or under 5 lines at 360px.
 - **Measure:** running text ≤ 34rem; hero line ≤ 30rem; ledes ≤ 34rem.
 - **Headings:** there is one `h1` (hero). Each section has one `h2`; the profile statement is that
   section's `h2`. Category titles are `h3`.
@@ -554,6 +601,8 @@ apart.
   - "Buka di Google Maps", an external text link: the company's listing once `mapsUrl` is
     confirmed, and a search for the client-provided address until then (D23).
   - "WhatsApp" with the number in Indonesian format, when the fact is publishable (D24).
+  - "Email" with the address as a `mailto:` link, when the fact is publishable. The address may
+    wrap after the "@".
   - "Jam operasional" rows, only when `officeHours` is publishable.
 - **Locator:** 44px below.
   - A raised panel with a 1px `hair-inverse` frame, at 4:3.
@@ -695,7 +744,10 @@ percentages for each crop with the `object-fit: cover` math, so every marker sta
 **Display and media:**
 
 - Reduced motion shows final states ([motion-spec.md §5](motion-spec.md#5-reduced-motion)).
-- The page reflows at 320px and at 200% zoom without horizontal scrolling. Sizes use rem units.
+- The page reflows at 320px and at 200% zoom without horizontal scrolling. Sizes use rem units,
+  and a browser default text size of 20px or 24px causes no horizontal overflow from 320px
+  (`body` keeps a 320px minimum in px).
+- The page is light only (`color-scheme: only light`), so forced dark modes leave it as designed.
 - Every text pair comes from the §4 contrast table.
 - The logo alt text is "LATANSA — CV Latansa Jogjakarta". Photo alt texts are in §7.
 
@@ -717,16 +769,16 @@ Measured on the exported `out/` build in Phase 6.
 
 A build is accepted only when **all** of these hold:
 
-1. **First screens:**
-   - 390×844: the headline, line, photograph, A1 and both actions;
-   - 360×780: the headline, line, photograph, A1 and the primary action;
+1. **First screens** (the annotation markers were retired by the refinement brief):
+   - 320×568, 360×780, 375×667 and 390×844: the headline, line, photograph and both actions;
    - 768×1024: the whole hero;
-   - 1440×900: the whole hero with both annotations.
+   - 1440×900: the whole hero.
 2. **Fidelity:** side-by-side screenshots against the approved board at 360, 390, 768 and 1440
    match it, except for the deltas in §12.
-3. **Annotations:** the markers sit on their objects at every width from 360 to 1920.
-4. **No template tells** (§2): no cards with shadows, no gradients except the scrim, no uppercase
-   eyebrows, no stats or badges.
+3. **Hero legibility:** every headline word measures at least 4.5:1 on the rendered photograph
+   at every width, including short phone screens with browser toolbars (375×547, 360×560).
+4. **No template tells** (§2): no cards with shadows, no gradients except the legibility scrims
+   (the hero grades and the locator caption fade), no uppercase eyebrows, no stats or badges.
 5. **Color:** only the tokens are used, brass text appears only on dark, and the §4 table holds.
 6. **Content:**
    - every fact is rendered through the provenance rules;
@@ -745,6 +797,8 @@ A build is accepted only when **all** of these hold:
     - a keyboard-only walkthrough works: skip link, menu trap and focus return, visible focus,
       the carousel reachable;
     - axe-core reports no serious or critical issues.
+12. **Robustness:** forced dark mode leaves the page as designed, and a 20px or 24px default text
+    size causes no horizontal overflow from 320px.
 
 ## 12. Deltas from the approved board
 
@@ -788,6 +842,14 @@ rule or replaces a stand-in.
 | D33 | Maps search link; locator not a link                                             | Owner-confirmed listing everywhere; the locator links to it with a visible label                                              | The owner confirmed the listing                                             |
 | D34 | Footer with an imagery note                                                      | Four groups plus a bottom line; no photo disclaimer                                                                           | Owner brief                                                                 |
 | D35 | Phone section padding 88px; display 34px                                         | 72px; 30px at 320px                                                                                                           | Phone-specific calibration                                                  |
+| D36 | Phone hero grade tied to the hero box (Phase 4 build)                            | A second grade follows the copy on phones                                                                                     | Short screens put the headline on the bright lid at 2.6:1; now ≥ 6.8:1      |
+| D37 | Default color scheme                                                             | `color-scheme: only light`                                                                                                    | Forced darkening put the logo on black and erased the outline button        |
+| D38 | Header logo at a fixed width                                                     | Scales down proportionally only when enlarged text leaves no room                                                             | No horizontal overflow with a 20px or 24px default text size                |
+| D39 | Meter always shown                                                               | Compresses on narrow rows; hidden below 17rem, where "1 dari 5" carries the state                                             | Same                                                                        |
+| D40 | Footer and overview links and text at 15px                                       | 16px on phones; 15px from 1024px                                                                                              | Phone minimum is 16px                                                       |
+| D41 | Locator caption directly on the contours                                         | A navy fade under the caption                                                                                                 | Contour lines crossed the caption                                           |
+| D42 | Text-link underline placed from the link box's center                            | An underline per line on the label's inline span; the icon on the last line                                                   | A wrapped link was struck through its second line                           |
+| D43 | Footer spacer column at every width from 1024                                    | No spacer at 1024–1279; procurement spans three columns there                                                                 | "SIPLah Toko Ladang" wrapped at 1024–1290px                                 |
 
 ## 13. Content model (implemented in Phase 4)
 
@@ -795,10 +857,13 @@ rule or replaces a stand-in.
 
 - **`contact.whatsapp`:** `6281802681183`, client-provided (2026-11-05). Every WhatsApp action
   links to `https://wa.me/6281802681183`, and the contact band shows "0818-0268-1183".
-- **`contact.email`:** `info@latansajogja.co.id`, status **`pending-activation`**. It is never
-  rendered. Cloudflare Email Routing is not configured; publish (status `client-confirmed`) only
-  after the address receives email successfully. The personal forwarding inbox is never recorded
-  or published.
+- **`contact.email`:** `info@latansajogja.co.id`, status **`client-confirmed`** since 2026-11-06.
+  Before that it was `pending-activation` and never rendered. The owner confirmed that Cloudflare
+  Email Routing (Free) is active and an inbound test arrived. It is published in the Kontak band
+  and the footer as `mailto:`.
+  - Email Routing is receive-only: it forwards inbound mail and sends none.
+  - The personal forwarding inbox is never recorded or published. A test and `verify:export`
+    reject any other address in `src/` and in the exported pages.
 - **`positioning.headline`:** confirmable copy with `confirmation: "pending"`. It is shown
   provisionally, and `content:check --strict` blocks launch until the client confirms it.
 - **Address and location (updated):** `mapsUrl` and `coordinates` are now `client-confirmed`

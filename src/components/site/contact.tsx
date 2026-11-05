@@ -3,13 +3,14 @@ import { copy } from "@/content/copy";
 import { publishedValue } from "@/content/facts";
 import { addressLines, formatPhoneId } from "@/lib/format";
 import { contactActions, whatsappHref } from "@/lib/links";
-import { ContactButton, ExternalTextLink } from "./actions";
+import { ContactButton, EmailText, ExternalTextLink, TextLinkLabel } from "./actions";
 import { Locator } from "./locator";
 import { SectionHeading } from "./section-heading";
 
 /**
  * Kontak (art-direction §6.7): the midnight band. Every action comes from a
- * publishable fact: WhatsApp now; the planned email only once it is activated.
+ * publishable fact: WhatsApp first, then the email (activated 2026-11-06) as a
+ * ghost "Kirim email" and an "Email" line. `mailto:` links open in place.
  * Location links open the owner-confirmed Google Maps listing.
  */
 export function Contact() {
@@ -75,7 +76,7 @@ export function Contact() {
                     rel="noopener noreferrer"
                     className="tlink text-[1.0625rem] tabular-nums"
                   >
-                    {formatPhoneId(whatsapp)}
+                    <TextLinkLabel>{formatPhoneId(whatsapp)}</TextLinkLabel>
                     <span className="sr-only"> {copy.externalHint}</span>
                   </a>
                 </dd>
@@ -86,7 +87,9 @@ export function Contact() {
                 <dt className="text-label text-mist">{copy.contact.emailLabel}</dt>
                 <dd className="mt-1">
                   <a href={`mailto:${email}`} className="tlink text-[1.0625rem]">
-                    {email}
+                    <TextLinkLabel>
+                      <EmailText address={email} />
+                    </TextLinkLabel>
                   </a>
                 </dd>
               </div>
@@ -113,7 +116,6 @@ export function Contact() {
         <div className="mt-12 lg:col-span-6 lg:col-start-7 lg:mt-0">
           <Locator
             href={mapsHref}
-            label={`${copy.actions.maps}: ${company.legalName.value}`}
             caption={copy.contact.locatorCaption}
             coordinates={coordinates?.display}
           />

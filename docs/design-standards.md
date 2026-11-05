@@ -68,7 +68,11 @@ Design, code and review in this order:
 - **Intent:** each breakpoint is an intentional composition, not a stretched mobile layout.
 - **Review order:** review real mobile screenshots before any desktop refinement.
 - **Ergonomics:** touch targets ≥ 44×44px; mobile body text ≥ 16px; comfortable line length.
-- **Stability:** no horizontal overflow at any width; no cumulative layout shift.
+- **Stability:** no horizontal overflow at any width, also with the browser's default text size
+  at 20px or 24px; no cumulative layout shift.
+- **Robustness:** the page is light only (`color-scheme: only light`), so forced dark modes leave
+  it as designed. Text over photographs is measured on the rendered image at the shortest real
+  phone screens (browser toolbars included), not judged by eye.
 - **Motion:** mobile motion is lighter (shorter distances, smaller scale).
   `prefers-reduced-motion: reduce` shows final states.
 - **Sign-off:** final verification runs on the exported static build (`out/`).

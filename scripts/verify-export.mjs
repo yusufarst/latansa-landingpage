@@ -75,6 +75,59 @@ check(
   `${expected.length} photo derivatives exported${missing.length ? `; missing: ${missing.join(", ")}` : ""}`,
 );
 
+// Contact and channel links in the page follow the published facts.
+const { company } = await import("../src/content/company.ts");
+const { isPublishableFact } = await import("./lib/content-rules.mjs");
+const published = (fact) => (fact && isPublishableFact(fact) ? fact.value : null);
+const hrefs = [...index.matchAll(/href="([^"]+)"/g)].map((m) =>
+  m[1].replaceAll("&amp;", "&"),
+);
+const count = (href) => hrefs.filter((h) => h === href).length;
+const linkCheck = (href, name) =>
+  href && check(count(href) > 0, `${name} links → ${href.slice(0, 60)} (${count(href)})`);
+const whatsapp = published(company.contact.whatsapp);
+linkCheck(whatsapp && `https://wa.me/${whatsapp}`, "WhatsApp");
+linkCheck(published(company.mapsUrl), "Google Maps");
+const siplah = company.procurementChannels.find((c) => c.id === "siplah-toko-ladang");
+linkCheck(published(siplah?.url), "SIPLah");
+
+const email = published(company.contact.email);
+const mailtos = hrefs.filter((h) => h.startsWith("mailto:"));
+const region = (start, end) => {
+  const i = index.indexOf(start);
+  return i < 0 ? "" : index.slice(i, index.indexOf(end, i));
+};
+if (email) {
+  check(
+    mailtos.length > 0 && mailtos.every((h) => h === `mailto:${email}`),
+    `email links → mailto:${email} (${mailtos.length})`,
+  );
+  check(
+    region('id="kontak"', "</section>").includes(`mailto:${email}`),
+    "email shown in Kontak",
+  );
+  check(
+    region("<footer", "</footer>").includes(`mailto:${email}`),
+    "email shown in the footer",
+  );
+} else {
+  check(mailtos.length === 0, "no mailto: links while the email is unpublished");
+}
+
+// No other address anywhere in the exported pages (never a forwarding inbox).
+const address = /[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}/g;
+const pages = files.filter((f) => /\.(html|txt)$/.test(f.p));
+const stray = new Set();
+for (const f of pages) {
+  for (const m of readFileSync(f.p, "utf8").matchAll(address)) {
+    if (m[0].toLowerCase() !== email) stray.add(m[0]);
+  }
+}
+check(
+  stray.size === 0,
+  `no email address but ${email ?? "the published one"} in ${pages.length} pages${stray.size ? `: ${[...stray].join(", ")}` : ""}`,
+);
+
 if (failures.length) {
   console.error("\nStatic export verification FAILED:");
   for (const f of failures) console.error(`  ✗ ${f}`);
