@@ -1,0 +1,1055 @@
+<!doctype html>
+<!--
+  Phase 3 design board — a static visual mock for art-direction review only.
+  NOT production code: it uses the Google Fonts CDN and inline styles for speed.
+  Phase 4 rebuilds everything in Next.js/Tailwind with self-hosted fonts.
+-->
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>LATANSA — Phase 3 design board</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --ink: #172b36;
+        --ink-soft: #24404e;
+        --porcelain: #f7f6f2;
+        --slate: #526b78;
+        --slate-deep: #46606c;
+        --champagne: #b69a75;
+        --stone: #d9dfde;
+        --serif: "Newsreader", Georgia, serif;
+        --sans: "Plus Jakarta Sans", system-ui, sans-serif;
+        --ease: cubic-bezier(0.22, 1, 0.36, 1);
+        --margin: clamp(1.25rem, 0.75rem + 2.4vw, 4.5rem);
+        --gutter: clamp(1rem, 0.75rem + 0.9vw, 2rem);
+        --section: clamp(5rem, 3.333rem + 7.41vw, 10rem);
+        --fs-display: clamp(2.375rem, 1.417rem + 4.26vw, 5.25rem);
+        --fs-h2: clamp(1.875rem, 1.5rem + 1.667vw, 3rem);
+        --fs-h3: clamp(1.375rem, 1.25rem + 0.556vw, 1.75rem);
+        --fs-lead: clamp(1.1875rem, 1.125rem + 0.278vw, 1.375rem);
+        --fs-body: clamp(1rem, 0.979rem + 0.093vw, 1.0625rem);
+        --fs-small: 0.875rem;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+      html {
+        -webkit-text-size-adjust: 100%;
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--porcelain);
+        color: var(--ink);
+        font: 400 var(--fs-body) / 1.6 var(--sans);
+        overflow-x: clip;
+      }
+      a {
+        color: inherit;
+      }
+      .wrap {
+        width: 100%;
+        max-width: 100rem;
+        margin-inline: auto;
+        padding-inline: var(--margin);
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        column-gap: var(--gutter);
+      }
+      @media (min-width: 48rem) {
+        .grid {
+          grid-template-columns: repeat(8, minmax(0, 1fr));
+        }
+      }
+      @media (min-width: 64rem) {
+        .grid {
+          grid-template-columns: repeat(12, minmax(0, 1fr));
+        }
+      }
+      .serif {
+        font-family: var(--serif);
+        font-optical-sizing: auto;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: var(--serif);
+        font-weight: 400;
+        font-optical-sizing: auto;
+        text-wrap: balance;
+      }
+      h2 {
+        font-size: var(--fs-h2);
+        line-height: 1.08;
+        letter-spacing: -0.01em;
+      }
+      h3 {
+        font-size: var(--fs-h3);
+        line-height: 1.2;
+        font-weight: 450;
+      }
+      p {
+        text-wrap: pretty;
+      }
+      .muted {
+        color: var(--slate);
+      }
+      .small {
+        font-size: var(--fs-small);
+        line-height: 1.5;
+      }
+      .section {
+        padding-block: var(--section);
+      }
+
+      /* ── Kop rule: thick over thin, the letterhead signature ── */
+      .kop-rule {
+        display: grid;
+        gap: 3px;
+      }
+      .kop-rule span {
+        display: block;
+        background: var(--ink);
+        transform-origin: left;
+      }
+      .kop-rule span:first-child {
+        height: 3px;
+      }
+      .kop-rule span:last-child {
+        height: 1px;
+      }
+      @media (prefers-reduced-motion: no-preference) {
+        .kop-rule.animate span {
+          animation: draw 720ms var(--ease) both;
+        }
+        .kop-rule.animate span:last-child {
+          animation-delay: 120ms;
+        }
+        .hero-reveal {
+          animation: rise 720ms var(--ease) 200ms both;
+        }
+        .hero-fade {
+          animation: fade 400ms var(--ease) both;
+        }
+        .hero-fade.d1 {
+          animation-delay: 120ms;
+        }
+        .hero-fade.d2 {
+          animation-delay: 440ms;
+        }
+        .hero-fade.d3 {
+          animation-delay: 520ms;
+        }
+      }
+      .still * {
+        animation: none !important;
+      }
+      @keyframes draw {
+        from {
+          transform: scaleX(0);
+        }
+      }
+      @keyframes rise {
+        from {
+          clip-path: inset(0 0 100% 0);
+          transform: translateY(24px);
+        }
+      }
+      @keyframes fade {
+        from {
+          opacity: 0;
+        }
+      }
+
+      /* ── Compact header (appears after the kop leaves the viewport) ── */
+      .bar {
+        position: fixed;
+        inset: 0 0 auto;
+        z-index: 10;
+        background: var(--porcelain);
+        border-bottom: 1px solid var(--stone);
+        transform: translateY(-100%);
+        transition: transform 280ms var(--ease);
+      }
+      .bar.show {
+        transform: none;
+      }
+      .bar .wrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 3.5rem;
+      }
+      .bar img {
+        width: 7.5rem;
+        height: auto;
+        display: block;
+      }
+
+      /* ── Buttons & links ── */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 3.25rem;
+        padding-inline: 1.5rem;
+        border-radius: 2px;
+        font: 600 1rem/1 var(--sans);
+        text-decoration: none;
+        text-align: center;
+        transition:
+          background-color 160ms var(--ease),
+          color 160ms var(--ease),
+          transform 80ms linear;
+      }
+      .btn:active {
+        transform: translateY(1px);
+      }
+      .btn-primary {
+        background: var(--ink);
+        color: var(--porcelain);
+      }
+      .btn-primary:hover {
+        background: var(--ink-soft);
+      }
+      .btn-secondary {
+        box-shadow: inset 0 0 0 1px var(--slate);
+        color: var(--ink);
+      }
+      .btn-secondary:hover {
+        background: var(--stone);
+      }
+      .menu-btn {
+        min-width: 3rem;
+        min-height: 3rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        background: none;
+        border: 0;
+        font: 500 0.9375rem var(--sans);
+        color: var(--ink);
+      }
+      .menu-btn i {
+        display: grid;
+        gap: 6px;
+        width: 1.25rem;
+        font-style: normal;
+      }
+      .menu-btn i::before,
+      .menu-btn i::after {
+        width: 100%;
+      }
+      .menu-btn i::before,
+      .menu-btn i::after {
+        content: "";
+        height: 1.5px;
+        background: currentColor;
+      }
+      .link {
+        text-decoration: none;
+        background: linear-gradient(currentColor, currentColor) left bottom / 100% 1px
+          no-repeat;
+        padding-bottom: 2px;
+      }
+      @media (hover: hover) and (pointer: fine) {
+        .link {
+          background-size: 0% 1px;
+          transition: background-size 220ms var(--ease);
+        }
+        .link:hover {
+          background-size: 100% 1px;
+        }
+      }
+      :focus-visible {
+        outline: 2px solid var(--ink);
+        outline-offset: 3px;
+      }
+      .on-ink :focus-visible {
+        outline-color: var(--champagne);
+      }
+
+      /* ── Hero / kop ── */
+      .kop-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+        padding-top: 1.25rem;
+      }
+      .kop-id {
+        display: grid;
+        gap: 0.875rem;
+      }
+      .kop-id img {
+        width: 11.5rem;
+        height: auto;
+        display: block;
+      }
+      .kop-address {
+        font-size: 0.8125rem;
+        line-height: 1.45;
+        color: var(--slate);
+        font-weight: 500;
+      }
+      .desk-nav {
+        display: none;
+      }
+      .hero .kop-rule {
+        margin-top: 1.25rem;
+      }
+      .hero h1 {
+        grid-column: 1 / -1;
+        margin-top: clamp(2.5rem, 1.6rem + 4vw, 6rem);
+        font-size: var(--fs-display);
+        line-height: 1.02;
+        letter-spacing: -0.018em;
+      }
+      .hero-body {
+        grid-column: 1 / -1;
+        margin-top: 1.5rem;
+        max-width: 34rem;
+      }
+      .hero-actions {
+        display: grid;
+        gap: 0.75rem;
+        margin-top: 2rem;
+      }
+      .hero-figure {
+        grid-column: 1 / -1;
+        margin-top: 3rem;
+      }
+      @media (min-width: 26.875rem) {
+        .kop-id img {
+          width: 12.5rem;
+        }
+      }
+      @media (min-width: 48rem) {
+        .kop-id {
+          grid-auto-flow: column;
+          align-items: end;
+          gap: 2rem;
+        }
+        .kop-address {
+          padding-bottom: 0.2rem;
+        }
+        .hero-actions {
+          grid-auto-flow: column;
+          justify-content: start;
+        }
+        .hero h1 {
+          grid-column: 1 / 8;
+        }
+      }
+      @media (min-width: 64rem) {
+        .menu-btn.top {
+          display: none;
+        }
+        .desk-nav {
+          display: flex;
+          gap: 1.75rem;
+          align-items: center;
+          font-weight: 500;
+          font-size: 0.9375rem;
+          padding-top: 0.75rem;
+        }
+        .kop-id img {
+          width: 14rem;
+        }
+        .hero h1 {
+          grid-column: 1 / 8;
+        }
+        .hero-body {
+          grid-column: 1 / 7;
+          max-width: 36rem;
+        }
+        .btn {
+          white-space: nowrap;
+        }
+        .hero-figure {
+          grid-column: 9 / -1;
+          grid-row: 1 / span 2;
+          margin-top: clamp(2.5rem, 1.6rem + 4vw, 6rem);
+          align-self: start;
+        }
+      }
+
+      /* ── Image slot (placeholder for an approved illustrative image) ── */
+      .slot {
+        position: relative;
+        aspect-ratio: 4 / 5;
+        background:
+          linear-gradient(160deg, rgb(23 43 54 / 0.08), rgb(23 43 54 / 0.32)),
+          var(--stone);
+        overflow: hidden;
+      }
+      .slot figcaption {
+        position: absolute;
+        inset: auto 0 0;
+        padding: 0.75rem 1rem;
+        font-size: 0.75rem;
+        color: var(--ink);
+        background: rgb(247 246 242 / 0.85);
+      }
+
+      /* ── Profile ── */
+      .profile h2 {
+        grid-column: 1 / -1;
+      }
+      .profile .body {
+        grid-column: 1 / -1;
+        margin-top: 2rem;
+        display: grid;
+        gap: 1.25rem;
+        max-width: 40rem;
+      }
+      .lead {
+        font-family: var(--serif);
+        font-size: var(--fs-lead);
+        line-height: 1.5;
+      }
+      @media (min-width: 64rem) {
+        .profile h2 {
+          grid-column: 1 / 5;
+        }
+        .profile .body {
+          grid-column: 6 / 12;
+          margin-top: 0.5rem;
+        }
+      }
+
+      /* ── Sectors ── */
+      .sectors h2 {
+        grid-column: 1 / -1;
+      }
+      .sectors .intro {
+        grid-column: 1 / -1;
+        margin-top: 1rem;
+        max-width: 32rem;
+      }
+      .sector-list {
+        grid-column: 1 / -1;
+        list-style: none;
+        padding: 0;
+        margin-top: 2.5rem;
+        border-top: 1px solid var(--stone);
+      }
+      .sector-list li {
+        padding-block: 1.5rem;
+        border-bottom: 1px solid var(--stone);
+        display: grid;
+        gap: 0.5rem;
+      }
+      @media (min-width: 64rem) {
+        .sectors h2 {
+          grid-column: 1 / 6;
+        }
+        .sectors .intro {
+          grid-column: 7 / 12;
+          margin-top: 0.75rem;
+        }
+        .sector-list {
+          margin-top: 4rem;
+        }
+        .sector-list li {
+          grid-template-columns: repeat(12, minmax(0, 1fr));
+          column-gap: var(--gutter);
+          padding-block: 2rem;
+        }
+        .sector-list h3 {
+          grid-column: 1 / 6;
+        }
+        .sector-list p {
+          grid-column: 7 / 12;
+          padding-top: 0.25rem;
+        }
+      }
+      @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+        .sector-list h3 {
+          transition: transform 240ms var(--ease);
+        }
+        .sector-list li:hover h3 {
+          transform: translateX(6px);
+        }
+      }
+
+      /* ── Procurement (ink band) ── */
+      .on-ink {
+        background: var(--ink);
+        color: var(--porcelain);
+        position: relative;
+        overflow: hidden;
+      }
+      .on-ink .muted {
+        color: var(--stone);
+      }
+      .guilloche {
+        position: absolute;
+        inset: auto 0 0;
+        height: 9rem;
+        opacity: 0.22;
+        pointer-events: none;
+      }
+      .channel {
+        grid-column: 1 / -1;
+        margin-top: 2.5rem;
+        display: grid;
+        gap: 0.75rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgb(247 246 242 / 0.16);
+      }
+      .on-ink .link {
+        color: var(--porcelain);
+        background-image: linear-gradient(var(--champagne), var(--champagne));
+        background-size: 100% 1px;
+        min-height: 3rem;
+        display: inline-flex;
+        align-items: center;
+        justify-self: start;
+        font-weight: 600;
+      }
+      .procurement h2 {
+        grid-column: 1 / -1;
+      }
+      @media (min-width: 64rem) {
+        .procurement h2 {
+          grid-column: 1 / 6;
+        }
+        .channel {
+          grid-column: 7 / 13;
+          margin-top: 0.75rem;
+        }
+      }
+
+      /* ── Company data (document sheet on stone) ── */
+      .on-stone {
+        background: var(--stone);
+      }
+      .on-stone .label {
+        color: var(--slate-deep);
+      }
+      .company h2 {
+        grid-column: 1 / -1;
+      }
+      .company dl {
+        grid-column: 1 / -1;
+        margin-top: 2.5rem;
+        border-top: 1px solid var(--ink);
+      }
+      .company .kop-rule {
+        grid-column: 1 / -1;
+        margin-top: 2.5rem;
+      }
+      .company .row {
+        display: grid;
+        gap: 0.25rem;
+        padding-block: 1rem;
+        border-bottom: 1px solid rgb(23 43 54 / 0.14);
+      }
+      .company dt {
+        font-size: var(--fs-small);
+        font-weight: 500;
+      }
+      .company dd {
+        font-weight: 500;
+      }
+      @media (min-width: 48rem) {
+        .company .row {
+          grid-template-columns: 14rem 1.25rem 1fr;
+          gap: 0;
+          align-items: baseline;
+        }
+        .company .row::before {
+          content: ":";
+          grid-column: 2;
+          grid-row: 1;
+          color: var(--slate-deep);
+        }
+        .company dt {
+          grid-column: 1;
+          grid-row: 1;
+          font-size: var(--fs-body);
+        }
+        .company dd {
+          grid-column: 3;
+          grid-row: 1;
+        }
+      }
+      @media (min-width: 64rem) {
+        .company h2 {
+          grid-column: 1 / 6;
+        }
+        .company .kop-rule,
+        .company dl {
+          grid-column: 1 / 11;
+        }
+      }
+
+      /* ── Contact ── */
+      .contact .identity {
+        grid-column: 1 / -1;
+        order: 3;
+        margin-top: 4rem;
+      }
+      .contact .identity img {
+        width: 9rem;
+        height: auto;
+      }
+      .contact .main {
+        grid-column: 1 / -1;
+      }
+      .contact .actions {
+        display: grid;
+        gap: 0.75rem;
+        margin-top: 2rem;
+      }
+      .contact address {
+        font-style: normal;
+        margin-top: 2.5rem;
+        display: grid;
+        gap: 0.5rem;
+      }
+      @media (min-width: 64rem) {
+        .contact .identity {
+          grid-column: 1 / 4;
+          order: 0;
+          margin-top: 0.5rem;
+        }
+        .contact .identity img {
+          width: 11rem;
+        }
+        .contact .main {
+          grid-column: 5 / 12;
+        }
+        .contact .actions {
+          grid-auto-flow: column;
+          justify-content: start;
+        }
+      }
+
+      /* ── Footer ── */
+      footer {
+        padding-block: 2.5rem 3rem;
+      }
+      footer .cols {
+        display: grid;
+        gap: 2rem;
+        margin-top: 2rem;
+      }
+      footer nav {
+        display: grid;
+        gap: 0.25rem;
+      }
+      footer nav a.link {
+        background-size: 0% 1px;
+      }
+      footer nav a {
+        min-height: 2.75rem;
+        display: inline-flex;
+        align-items: center;
+      }
+      @media (min-width: 64rem) {
+        footer .cols {
+          grid-template-columns: 1fr auto;
+        }
+        footer nav {
+          grid-auto-flow: column;
+          gap: 1.75rem;
+        }
+      }
+
+      /* ── Board-only annotations ── */
+      .note {
+        font: 500 0.75rem/1.4 var(--sans);
+        color: #8a4b2a;
+        background: #fff4e5;
+        border-left: 3px solid #d08c45;
+        padding: 0.5rem 0.75rem;
+        margin-block: 1rem;
+      }
+      .board-off .note {
+        display: none;
+      }
+      .tokens {
+        background: #fff;
+        border-top: 6px solid var(--ink);
+      }
+      .swatches {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+      .sw {
+        border: 1px solid #e3e3e3;
+        font-size: 0.75rem;
+      }
+      .sw div {
+        height: 4.5rem;
+      }
+      .sw p {
+        padding: 0.5rem;
+      }
+      .specimen > * + * {
+        margin-top: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Compact header: slides in once the kop has scrolled away -->
+    <header class="bar" id="bar" aria-hidden="true">
+      <div class="wrap">
+        <img src="../../../public/brand/latansa-logo-horizontal-480.png" alt="LATANSA" />
+        <button class="menu-btn top" type="button"><i></i>Menu</button>
+        <nav class="desk-nav" aria-label="Ringkas" style="padding-top: 0">
+          <a class="link" href="#profil">Profil</a>
+          <a class="link" href="#bidang">Bidang usaha</a>
+          <a class="link" href="#pengadaan">Pengadaan</a>
+          <a class="link" href="#data">Data perusahaan</a>
+          <a class="btn btn-primary" href="#kontak" style="min-height: 2.5rem"
+            >Hubungi kami</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <!-- 1–2. Kop (letterhead) hero -->
+      <section class="hero wrap" id="top" aria-labelledby="hero-title">
+        <div class="kop-head">
+          <div class="kop-id hero-fade d1">
+            <img
+              src="../../../public/brand/latansa-logo-horizontal-960.png"
+              alt="LATANSA — CV Latansa Jogjakarta"
+            />
+            <p class="kop-address">
+              Klisat, Srihardono, Pundong<br />Kabupaten Bantul<br />Daerah Istimewa
+              Yogyakarta 55771
+            </p>
+          </div>
+          <button class="menu-btn top" type="button"><i></i>Menu</button>
+          <nav class="desk-nav" aria-label="Utama">
+            <a class="link" href="#profil">Profil</a>
+            <a class="link" href="#bidang">Bidang usaha</a>
+            <a class="link" href="#pengadaan">Pengadaan</a>
+            <a class="link" href="#data">Data perusahaan</a>
+            <a class="btn btn-primary" href="#kontak" style="min-height: 2.75rem"
+              >Hubungi kami</a
+            >
+          </nav>
+        </div>
+        <div class="kop-rule animate" aria-hidden="true"><span></span><span></span></div>
+        <div class="grid" id="kop-end">
+          <h1 id="hero-title" class="hero-reveal">
+            Pemasok barang dan jasa pendukung untuk instansi dan lembaga.
+          </h1>
+          <div class="hero-body">
+            <p class="hero-fade d2">
+              CV. Latansa Jogjakarta adalah perusahaan perdagangan dan pemasok yang
+              berkedudukan di Kabupaten Bantul, Daerah Istimewa Yogyakarta.
+            </p>
+            <div class="hero-actions hero-fade d3">
+              <a class="btn btn-primary" href="#kontak">Hubungi kami melalui WhatsApp</a>
+              <a class="btn btn-secondary" href="#" rel="noopener noreferrer"
+                >Buka toko kami di SIPLah</a
+              >
+            </div>
+          </div>
+          <figure class="hero-figure slot" aria-hidden="true">
+            <figcaption>
+              Slot H1 · still life bahan kerja (opsional, ilustratif)
+            </figcaption>
+          </figure>
+        </div>
+        <p class="note">
+          Board note: the kop (letterhead) — logo, address, thick-over-thin rule — is the
+          one bold idea. The rule draws in on load; the headline rises from a mask. No
+          eyebrow labels.
+        </p>
+      </section>
+
+      <!-- 3. Profile -->
+      <section class="section wrap" id="profil" aria-labelledby="profil-title">
+        <div class="profile grid">
+          <h2 id="profil-title">Profil perusahaan</h2>
+          <div class="body">
+            <p class="lead">
+              CV. Latansa Jogjakarta menyediakan beragam kategori barang serta layanan
+              pendukung terpilih untuk menunjang kebutuhan operasional instansi, lembaga,
+              dan organisasi.
+            </p>
+            <p class="muted">
+              Kami melayani pengadaan melalui kanal resmi yang tersedia, dengan komunikasi
+              yang jelas mengenai spesifikasi, ketersediaan, dan proses pengiriman sesuai
+              kesepakatan.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Business sectors -->
+      <section
+        class="section wrap"
+        id="bidang"
+        aria-labelledby="bidang-title"
+        style="padding-top: 0"
+      >
+        <div class="sectors grid">
+          <h2 id="bidang-title">Bidang usaha</h2>
+          <p class="intro muted">
+            Kategori barang dan layanan yang kami sediakan untuk kebutuhan instansi dan
+            lembaga.
+          </p>
+          <ul class="sector-list">
+            <li>
+              <h3>Komputer &amp; Teknologi Informasi</h3>
+              <p class="muted">
+                Perangkat komputer, perangkat pendukung, dan kebutuhan teknologi informasi
+                untuk menunjang administrasi dan pelayanan.
+              </p>
+            </li>
+            <li>
+              <h3>Alat Tulis &amp; Perlengkapan Kantor</h3>
+              <p class="muted">
+                Alat tulis, perlengkapan, dan peralatan kantor untuk kebutuhan operasional
+                sehari-hari.
+              </p>
+            </li>
+            <li>
+              <h3>Elektronik &amp; Perlengkapan Teknis</h3>
+              <p class="muted">
+                Perangkat elektronik dan perlengkapan teknis sesuai spesifikasi kebutuhan.
+              </p>
+            </li>
+            <li>
+              <h3>Peralatan Umum Kelembagaan</h3>
+              <p class="muted">
+                Peralatan umum untuk menunjang fungsi dan fasilitas instansi maupun
+                lembaga.
+              </p>
+            </li>
+            <li>
+              <h3>Barang &amp; Jasa Pendukung Terpilih</h3>
+              <p class="muted">
+                Barang dan layanan pendukung lainnya yang disediakan berdasarkan kebutuhan
+                dan ketersediaan.
+              </p>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 5. Procurement channels (ink band) -->
+      <section class="section on-ink" id="pengadaan" aria-labelledby="pengadaan-title">
+        <div class="wrap">
+          <div class="procurement grid">
+            <h2 id="pengadaan-title">Kanal pengadaan</h2>
+            <div class="channel">
+              <h3>SIPLah Toko Ladang</h3>
+              <p class="muted">
+                Toko CV. Latansa Jogjakarta di SIPLah Toko Ladang untuk pengadaan oleh
+                satuan pendidikan.
+              </p>
+              <a class="link" href="#" rel="noopener noreferrer"
+                >Buka toko di SIPLah Toko Ladang</a
+              >
+            </div>
+          </div>
+          <p class="note">
+            Board note: one decisive ink band, no texture. (A security-paper line texture
+            was tried and removed: it read as generic wave decoration.)
+          </p>
+        </div>
+      </section>
+
+      <!-- 6. Company data (document) -->
+      <section class="section on-stone" id="data" aria-labelledby="data-title">
+        <div class="wrap">
+          <div class="company grid">
+            <h2 id="data-title">Data perusahaan</h2>
+            <dl>
+              <div class="row">
+                <dt class="label">Nama perusahaan</dt>
+                <dd>CV. Latansa Jogjakarta</dd>
+              </div>
+              <div class="row">
+                <dt class="label">Bentuk usaha</dt>
+                <dd>Persekutuan Komanditer (CV)</dd>
+              </div>
+              <div class="row">
+                <dt class="label">Status Perpajakan</dt>
+                <dd>Pengusaha Kena Pajak (PKP)</dd>
+              </div>
+              <div class="row">
+                <dt class="label">Alamat</dt>
+                <dd>
+                  Klisat, Srihardono, Kecamatan Pundong, Kabupaten Bantul, Daerah Istimewa
+                  Yogyakarta 55771
+                </dd>
+              </div>
+              <div class="row">
+                <dt class="label">Kanal pengadaan</dt>
+                <dd>SIPLah Toko Ladang</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. Contact & location -->
+      <section class="section wrap" id="kontak" aria-labelledby="kontak-title">
+        <div class="contact grid">
+          <div class="identity">
+            <img
+              src="../../../public/brand/latansa-logo-vertical-480.png"
+              alt="LATANSA — CV Latansa Jogjakarta"
+            />
+          </div>
+          <div class="main">
+            <h2 id="kontak-title">Hubungi kami</h2>
+            <p class="muted" style="margin-top: 1rem; max-width: 32rem">
+              Sampaikan kebutuhan pengadaan Anda. Kami akan membantu menjelaskan
+              spesifikasi dan ketersediaan barang.
+            </p>
+            <div class="actions">
+              <a class="btn btn-primary" href="#">Hubungi kami melalui WhatsApp</a>
+              <a class="btn btn-secondary" href="#">Kirim email</a>
+            </div>
+            <p class="note">
+              Board note: buttons render only when the client provides the WhatsApp number
+              / email.
+            </p>
+            <address>
+              <span class="small muted">Alamat</span>
+              <span
+                >Klisat, Srihardono, Kecamatan Pundong<br />Kabupaten Bantul, Daerah
+                Istimewa Yogyakarta 55771</span
+              >
+              <a
+                class="link"
+                href="#"
+                style="
+                  justify-self: start;
+                  min-height: 2.75rem;
+                  display: inline-flex;
+                  align-items: center;
+                "
+                >Lihat lokasi di Google Maps</a
+              >
+            </address>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- 8. Footer -->
+    <footer class="wrap">
+      <div class="kop-rule" aria-hidden="true"><span></span><span></span></div>
+      <div class="cols">
+        <div>
+          <p class="serif" style="font-size: 1.25rem">CV. Latansa Jogjakarta</p>
+          <p class="small muted" style="margin-top: 0.5rem">
+            Kabupaten Bantul, Daerah Istimewa Yogyakarta
+          </p>
+        </div>
+        <nav aria-label="Navigasi bawah" class="small">
+          <a class="link" href="#profil">Profil</a>
+          <a class="link" href="#bidang">Bidang usaha</a>
+          <a class="link" href="#pengadaan">Pengadaan</a>
+          <a class="link" href="#data">Data perusahaan</a>
+          <a class="link" href="#kontak">Kontak</a>
+        </nav>
+      </div>
+      <p class="small muted" style="margin-top: 2rem">© 2026 CV. Latansa Jogjakarta</p>
+    </footer>
+
+    <!-- Board appendix: tokens -->
+    <section class="section tokens" id="tokens">
+      <div class="wrap">
+        <h2>Tokens</h2>
+        <div class="swatches">
+          <div class="sw">
+            <div style="background: #172b36"></div>
+            <p>Deep Ink #172B36<br />text 13.5:1 on porcelain</p>
+          </div>
+          <div class="sw">
+            <div style="background: #24404e"></div>
+            <p>Ink Soft #24404E<br />hover on ink buttons</p>
+          </div>
+          <div class="sw">
+            <div style="background: #f7f6f2"></div>
+            <p>Porcelain #F7F6F2<br />page ground</p>
+          </div>
+          <div class="sw">
+            <div style="background: #526b78"></div>
+            <p>Slate #526B78<br />5.2:1 on porcelain</p>
+          </div>
+          <div class="sw">
+            <div style="background: #46606c"></div>
+            <p>Slate Deep #46606C<br />4.9:1 on stone</p>
+          </div>
+          <div class="sw">
+            <div style="background: #b69a75"></div>
+            <p>Champagne #B69A75<br />5.5:1 on ink only</p>
+          </div>
+          <div class="sw">
+            <div style="background: #d9dfde"></div>
+            <p>Soft Stone #D9DFDE<br />10.8:1 on ink</p>
+          </div>
+        </div>
+        <div class="specimen" style="margin-top: 3rem">
+          <p class="small muted">Newsreader — display (opsz 72) / headings / lead</p>
+          <p
+            class="serif"
+            style="
+              font-size: var(--fs-display);
+              line-height: 1.02;
+              letter-spacing: -0.018em;
+            "
+          >
+            Pengadaan yang tertib
+          </p>
+          <p class="serif" style="font-size: var(--fs-h2); line-height: 1.08">
+            Bidang usaha
+          </p>
+          <p class="serif" style="font-size: var(--fs-h3); font-weight: 450">
+            Peralatan Umum Kelembagaan
+          </p>
+          <p class="lead">
+            Lead — kalimat pembuka dalam serif teks untuk ritme editorial.
+          </p>
+          <p class="small muted" style="margin-top: 2rem">
+            Plus Jakarta Sans — body / UI (Tokotype, Indonesia)
+          </p>
+          <p>
+            Body 16–17px / 1.6 — Perangkat komputer, perangkat pendukung, dan kebutuhan
+            teknologi informasi. 0123456789
+          </p>
+          <p class="small">Small 14px / 1.5 — label, metadata, keterangan.</p>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      // Board-only behaviour. Phase 4 implements these with IntersectionObserver in React.
+      const bar = document.getElementById("bar");
+      new IntersectionObserver(([e]) =>
+        bar.classList.toggle("show", !e.isIntersecting && e.boundingClientRect.top < 0),
+      ).observe(document.getElementById("kop-end"));
+      const q = new URLSearchParams(location.search);
+      if (q.has("clean")) document.body.classList.add("board-off");
+      if (q.has("still")) document.documentElement.classList.add("still");
+    </script>
+  </body>
+</html>

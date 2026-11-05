@@ -1,64 +1,100 @@
-# Image assets — AI pipeline and specification
+# Image assets: sourcing, grade and pipeline (binding)
 
-The client authorizes AI-generated **supporting imagery**. Requirements: zero additional cost,
-commercial-use rights, no paid APIs or subscriptions, and never presented as documentary
-evidence of real LATANSA operations.
+> **Approved with Concept C on 2026-11-05.** The site uses **photorealistic imagery** that looks
+> like professional commercial photography. Illustrated, isometric or flat SVG objects do not
+> satisfy this requirement.
+>
+> - Slots, crops, focal points, `sizes` and alt text: [art-direction.md §7](art-direction.md#7-imagery).
+> - Annotation anchors: [art-direction.md §8](art-direction.md#8-annotation-system).
+> - Sourcing tests and the asset rationale: [design/phase-3-photographic-direction.md](design/phase-3-photographic-direction.md).
 
-## Tool inventory (checked 2026-11-05, Phase 2)
+## Requirements
 
-| Option                                                                                | Cost                    | Commercial use                               | Status here                                                                                                                                                                                     |
-| ------------------------------------------------------------------------------------- | ----------------------- | -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Image-generation tools in this Claude Code session                                    | —                       | —                                            | **None available.** No connected tool or MCP server generates images.                                                                                                                           |
-| Anthropic directory plugins (Abracadabrax, CellCog, Hyper, Blueprint Asset Generator) | Credits / paid accounts | Varies                                       | **Rejected** — not zero-cost.                                                                                                                                                                   |
-| "image-generation" directory plugin                                                   | Free                    | n/a                                          | Prompting guide only; does not generate images.                                                                                                                                                 |
-| Local **SDXL 1.0** (CreativeML Open RAIL++-M) via ComfyUI or Fooocus                  | Free                    | Allowed under the license's use restrictions | **Possible but constrained**: this machine has an RTX 3050 Laptop GPU (4 GB VRAM) and ~7 GB RAM. SDXL needs low-VRAM mode, is slow, and may run out of system RAM. Python is not installed yet. |
-| Local FLUX.1 [schnell] (Apache-2.0)                                                   | Free                    | Allowed                                      | **Not practical** on 4 GB VRAM / 7 GB RAM.                                                                                                                                                      |
-| Free-tier web generators                                                              | Free tier               | Terms vary by service and change often       | Only after reading the current terms; generated manually by the owner.                                                                                                                          |
-| Free stock photography (Unsplash / Pexels licenses)                                   | Free                    | Allowed (no attribution required)            | Not AI; a fallback for neutral textures/objects.                                                                                                                                                |
+- **Quality:**
+  - realistic materials, textures, reflections and shadows;
+  - believable light and professional composition;
+  - natural depth of field and high-resolution sources.
+- **Defects to avoid:** AI artefacts, fake or real brand logos, unreadable labels, distorted
+  equipment and impossible geometry.
+- **Cost and rights:** zero additional cost, with commercial-use rights verified per image. No
+  paid APIs or subscriptions without the owner's approval.
+- **Honesty:** always **illustrative**. Never presented as documentary photographs of LATANSA's
+  premises, employees, inventory or completed projects.
 
-**Conclusion:** there is no ready, zero-cost, commercially licensed generator in this
-environment today. Phase 3 art direction must therefore produce a design that is complete and
-premium **without** photography (typography-, composition- and color-led), with clearly defined
-image slots that can be filled later. In Phase 4, images are generated only if a suitable tool
-is set up and approved (most likely local SDXL); otherwise slots stay as designed graphic
-compositions (CSS/SVG), never as fake photos.
+## Sourcing decision (tested 2026-11-05)
 
-Installing local generation tooling (Python, ComfyUI/Fooocus, model weights ~7 GB) is a
-separate decision for the owner — not done in Phase 2.
+| Source                           | Status                                                                                                                                                                  |
+| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Image tools in Claude Code       | None available (verified by tool search)                                                                                                                                |
+| Pollinations.ai, free            | Tested. It generated a file, but at low resolution (686×858), with a forced watermark and an unverified output license. Rejected                                        |
+| Paid generators and plugins      | Not activated                                                                                                                                                           |
+| Adobe Firefly free plan          | Free-plan commercial terms unverified; usable only after the owner verifies them                                                                                        |
+| Local SDXL / FLUX                | Needs approval for a heavy install on marginal hardware; not installed                                                                                                  |
+| **Unsplash License photography** | **Selected and approved.** The license page and every photo page were verified; provenance is in [design/concepts/photos/SOURCES.md](design/concepts/photos/SOURCES.md) |
+| Commissioned photography         | Optional future upgrade, at a cost. It would have to show genuine LATANSA subjects if presented as such                                                                 |
 
-## Usage rules
+## Selection rules
 
-- Illustrative only: abstract, conceptual, object and material studies.
-- **Never** depict or imply: LATANSA staff, office, warehouse, vehicles, deliveries, handovers
-  to government officials, events, clients, uniforms with logos, documents or certificates.
-- No real brand logos, government emblems, school/agency names, readable text or watermarks
-  in generated images.
-- No captions that state or suggest the image documents a real activity.
-- Keep the source prompt, model, license and generation date for every file in
-  `assets/images/README.md` (created when the first image is added).
+- **Subjects:** objects and spaces only. No identifiable people, and no hands where avoidable.
+- **Brands:** no visible brand logos or readable trademarks. Generic products are acceptable, but
+  the site never implies a brand partnership or authorized-reseller status.
+- **Implication risk:** no warehouses, classrooms, delivery vehicles or "handover" scenes. They
+  could imply LATANSA's own premises, stock or completed projects.
+- **License checks:** avoid Unsplash+ (paid) images. Re-verify every photo page before launch and
+  record the date in `SOURCES.md`.
 
-## Technical specification
+## Masters
 
-| Property        | Requirement                                                                                                                                         |
-| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Masters         | `assets/images/<slug>-master.png` (lossless, ≥ 2560 px long edge), never served                                                                     |
-| Web derivatives | `public/images/<slug>-{640,1080,1600,2400}.webp` (+ `.avif` optional) via a sharp script, like `brand:assets`                                       |
-| Mobile crops    | Separate 4:5 or 3:4 crop for ≤ 430 px when the composition needs it — art-directed, not just scaled                                                 |
-| Weight budget   | Hero ≤ 180 KB at 1080 px wide (WebP); others ≤ 120 KB                                                                                               |
-| Markup          | `<picture>` / `next/image` (unoptimized) with explicit `width`/`height` and `sizes`; only the hero is `priority`                                    |
-| Color           | Graded toward the palette: Deep Ink shadows, Porcelain highlights, muted Slate/Stone mid-tones, restrained Champagne warmth. No saturated red/blue. |
-| Style           | Photorealistic, calm, editorial; natural light; shallow depth of field; generous negative space for typography                                      |
-| Alt text        | Indonesian, descriptive of what is shown, never claims it is LATANSA's own premises/work                                                            |
+1. **Download** the largest original from each photo page listed in `SOURCES.md`. The review
+   copies came from the Unsplash CDN at 2600px wide.
+2. **Crop only:** no object removal, retouching or compositing.
+   - The hero is cropped to x 42–100% and y 0–80% of the frame. At 2600 × 1465 that is 1508 × 1172
+     from (1092, 0).
+   - All other images are uncropped; their crops come from `object-position` per slot.
+3. **Grade:** apply the family grade below with sharp, in this order:
+   1. `modulate({ saturation, brightness })`;
+   2. `linear(a, b)`;
+   3. a soft-light layer of `#12243A` at the cool opacity;
+   4. a soft-light layer of `#F6E8D2` at the warm opacity.
+4. **Store:** keep the graded masters, lossless or high quality, in `assets/images/`. They are not
+   served.
 
-## Candidate image list (to be finalized in Phase 3)
+### Family grade (exact values used for the approved board)
 
-| Slot                    | Concept                                                                                                                                 | Notes                                             |
-| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------- |
-| Hero                    | Ordered, architectural still life of institutional work materials (paper stock, a closed laptop, precise desk objects) in soft daylight | Must leave quiet space for the headline at 360 px |
-| Komputer & TI           | Detail of computer hardware / cabling in a clean, abstract composition                                                                  | No brand marks                                    |
-| Perlengkapan kantor     | Arranged stationery and office materials, top-down, rhythmic                                                                            |                                                   |
-| Elektronik & teknis     | Close-up of technical components, tools or measurement instruments                                                                      |                                                   |
-| Peralatan kelembagaan   | Abstracted institutional interior: furniture edges, light on surfaces, no people                                                        | No identifiable building                          |
-| Barang & jasa pendukung | Packaging / logistics materials as a neutral still life                                                                                 | No vehicles, no logos                             |
+| Image             | Saturation | Brightness | Linear (a, b) | Cool layer | Warm layer |
+| ----------------- | ---------- | ---------- | ------------- | ---------- | ---------- |
+| hero-desk         | 0.72       | 1.00       | 1.06, −5      | 16%        | —          |
+| it-keyboard       | 1.00       | 0.98       | 1.05, −4      | 10%        | —          |
+| office-ruler      | 0.42       | 1.00       | 1.03, −3      | —          | 12%        |
+| elec-board        | 0.62       | 1.00       | 1.06, −6      | 18%        | —          |
+| inst-chairs       | 0.70       | 1.00       | 1.04, −4      | 6%         | 6%         |
+| goods-boxes       | 0.74       | 1.00       | 1.03, −3      | —          | 8%         |
+| arch-atrium       | 0.60       | 0.99       | 1.04, −4      | 4%         | 8%         |
+| it-laptop (spare) | 0.70       | 1.00       | 1.03, −2      | —          | 10%        |
 
-Prompts, negative prompts and exact crops are written in Phase 3 together with the art direction.
+The review copies were graded after resizing to 2000px. For production, grade at master size;
+the values hold. `it-keyboard` keeps full saturation because it is already near-monochrome.
+
+## Derivatives (Phase 4 build step)
+
+- **Formats:** AVIF first, then WebP, through `<picture>`, with `sizes` from
+  [art-direction.md §7](art-direction.md#7-imagery).
+- **Widths:** 640, 960, 1280, 1600 and 2048, each capped at the master's width (never upscaled).
+  The hero master is 1508 wide, so its ladder is 640, 960, 1280 and 1508.
+- **Byte budgets:**
+  - hero ≤ 90 KB at 960w and ≤ 160 KB at its largest width;
+  - other images ≤ 110 KB at 960w;
+  - explicit `width` and `height` on every image.
+- **Priority:** only the hero is preloaded with `fetchpriority="high"`; the rest are lazy.
+
+## On-page rules
+
+- **Alt text** is in Indonesian, starts with "Foto ilustrasi:" and describes what is visible (texts
+  in [art-direction.md §7](art-direction.md#7-imagery)).
+- **Chip:** the hero photograph carries a "Foto ilustrasi" chip.
+- **Footer note:** "Foto pada situs ini bersifat ilustratif (Unsplash License) dan bukan
+  dokumentasi kegiatan perusahaan."
+- **Credit:** an optional photographer credit is appreciated by Unsplash, but not required. It can
+  live in a credits note in the footer.
+- **Annotations** appear only on the hero and must sit on a matching object
+  ([art-direction.md §8](art-direction.md#8-annotation-system)).

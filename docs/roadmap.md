@@ -3,29 +3,35 @@
 Each phase starts only after the user approves it. Work happens on feature branches and lands
 in `main` by Pull Request. Nothing is deployed and no DNS is changed without explicit approval.
 
-| Phase | Scope                                                                                                                             | Effort | Status      |
-| ----- | --------------------------------------------------------------------------------------------------------------------------------- | ------ | ----------- |
-| 1     | Repository foundation, Next.js static export, docs, conventions, content baseline                                                 | Medium | Done (PR 1) |
-| 2     | frontend-design plugin, Motion AI Kit, LATANSA skills, image pipeline research                                                    | Medium | Done (PR 1) |
-| 3     | Premium art direction and motion specification; image-asset plan                                                                  | High   | Next        |
-| 4     | Frontend implementation, mobile-first; generate images if a suitable free tool exists                                             | MAX    | —           |
-| 5     | Browser visual testing and intensive refinement (mobile first)                                                                    | MAX    | —           |
-| 6     | SEO, accessibility, performance, `content:check --strict` (required launch info only), production verification, set `launchReady` | High   | —           |
+| Phase | Scope                                                                                                                             | Effort | Status                                              |
+| ----- | --------------------------------------------------------------------------------------------------------------------------------- | ------ | --------------------------------------------------- |
+| 1     | Repository foundation, Next.js static export, docs, conventions, content baseline                                                 | Medium | Done (PR 1)                                         |
+| 2     | frontend-design plugin, Motion AI Kit, LATANSA skills, image pipeline research                                                    | Medium | Done (PR 1)                                         |
+| 3     | Premium art direction and motion specification; image-asset plan                                                                  | High   | Concept C approved 2026-11-05; binding spec in PR 2 |
+| 4     | Frontend implementation, mobile-first; generate images if a suitable free tool exists                                             | MAX    | —                                                   |
+| 5     | Browser visual testing and intensive refinement (mobile first)                                                                    | MAX    | —                                                   |
+| 6     | SEO, accessibility, performance, `content:check --strict` (required launch info only), production verification, set `launchReady` | High   | —                                                   |
 
 After Phase 6, deployment to Cloudflare Pages and the Hostinger DNS change are separate steps
 that each need explicit approval. See [deployment-cloudflare-pages.md](deployment-cloudflare-pages.md)
 and [domain-hostinger-dns.md](domain-hostinger-dns.md).
 
-## Phase 3 deliverables (planned)
+## Phase 3 deliverables (approved direction: Concept C · Presisi Terang)
 
-- `docs/art-direction.md`: final typography (display + text faces, scale, measure), grid and
-  composition system per breakpoint, color usage, logo placement (including whether a
-  monochrome treatment is approved), section-by-section layout for 360px first, then upward.
-- `docs/motion-spec.md`: every animation with purpose, trigger, duration, easing, mobile vs
-  desktop variant, and reduced-motion behavior.
-- `docs/image-assets.md` updated with the concrete image list and prompts.
+- [art-direction.md](art-direction.md): typography, color and contrast, grid, section-by-section
+  layout from 360px up, imagery slots, the annotation system, deltas from the board, acceptance
+  criteria, open owner items and Phase 4 build notes.
+- [motion-spec.md](motion-spec.md): every motion with trigger, timing, easing, mobile variant,
+  reduced-motion behavior and implementation.
+- [image-assets.md](image-assets.md): sourcing decision, selection rules, exact grade,
+  derivatives and on-page rules.
+- The approved board and its screenshots are in [design/concepts/](design/concepts/). Photo
+  provenance is in [design/concepts/photos/SOURCES.md](design/concepts/photos/SOURCES.md).
 
 ## Phase 4 constraints
 
-- Install `motion` (MIT) only now. No Lenis unless technically justified in the motion spec.
+- The motion spec needs no motion library. Install `motion` (MIT) only if its documented menu
+  fallback is needed, and record why. No Lenis.
 - Components read company facts from `src/content/` and render only publishable facts.
+- Follow the binding spec. Any further departure from the approved board needs the owner's
+  approval.

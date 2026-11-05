@@ -1,0 +1,1916 @@
+<!doctype html>
+<!--
+  Phase 3 · Concept C "Presisi Terang" — photographic high-fidelity design board.
+  Review mock, NOT production code. Fonts load from the Google Fonts CDN here only.
+  Photos: licensed under the Unsplash License — see photos/SOURCES.md.
+  Add ?still to render all animations in their final state (used for screenshots).
+-->
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>LATANSA — Konsep C · Presisi Terang</title>
+    <script>
+      if (/[?&]still\b/.test(location.search))
+        document.documentElement.classList.add("still");
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Newsreader:ital,opsz,wght@0,6..72,300..400;1,6..72,300..400&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="photos/hero-desk-crop.webp"
+      fetchpriority="high"
+    />
+    <style>
+      :root {
+        --ivory: #f2eee6;
+        --paper: #faf8f4;
+        --stone: #ded8cc;
+        --navy: #0e1d2d;
+        --midnight: #08131f;
+        --raised: #142a3f;
+        --brass: #c9a060;
+        --brass-hi: #ddb979;
+        --brass-deep: #7a5a28;
+        --slate: #4e6175;
+        --mist: #a9b6c4;
+        --hair: rgb(14 29 45 / 0.14);
+        --hair-d: rgb(242 238 230 / 0.14);
+        --pad: clamp(1.25rem, 0.2rem + 4.3vw, 4.5rem);
+        --max: 90rem;
+        --e-out: cubic-bezier(0.16, 1, 0.3, 1);
+        --e-snap: cubic-bezier(0.2, 0.8, 0.2, 1);
+        --serif: "Newsreader", Georgia, serif;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+      html {
+        -webkit-text-size-adjust: 100%;
+        scroll-behavior: smooth;
+        scroll-padding-top: 4.5rem;
+      }
+      body {
+        font-family: "Archivo", system-ui, sans-serif;
+        font-stretch: 100%;
+        font-size: 1rem;
+        line-height: 1.6;
+        color: var(--navy);
+        background: var(--ivory);
+        overflow-x: clip;
+        -webkit-font-smoothing: antialiased;
+      }
+      img,
+      svg {
+        display: block;
+        max-width: 100%;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      button {
+        font: inherit;
+        color: inherit;
+        background: none;
+        border: 0;
+        cursor: pointer;
+      }
+      .wrap {
+        width: 100%;
+        max-width: var(--max);
+        margin-inline: auto;
+        padding-inline: var(--pad);
+      }
+      .d {
+        font-stretch: 125%;
+        font-weight: 600;
+        letter-spacing: -0.032em;
+        line-height: 1.03;
+        text-wrap: balance;
+      }
+      .lbl {
+        font-stretch: 112%;
+        font-weight: 500;
+        font-size: 0.8125rem;
+        letter-spacing: 0.01em;
+        line-height: 1.35;
+      }
+      :focus-visible {
+        outline: 2px solid var(--brass);
+        outline-offset: 3px;
+      }
+
+      /* ───────── Buttons & links ───────── */
+      .btn {
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.625rem;
+        min-height: 3.375rem;
+        padding-inline: 1.375rem;
+        border-radius: 4px;
+        font-stretch: 112%;
+        font-weight: 600;
+        font-size: 0.9375rem;
+        white-space: nowrap;
+        transition:
+          color 0.35s var(--e-snap),
+          box-shadow 0.35s var(--e-snap),
+          transform 0.12s linear;
+      }
+      .btn::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.45s var(--e-out);
+      }
+      .btn:active {
+        transform: translateY(1px);
+      }
+      .btn svg {
+        width: 1.125rem;
+        height: 1.125rem;
+        flex: none;
+      }
+      .btn-brass {
+        background: var(--brass);
+        color: var(--navy);
+      }
+      .btn-brass::before {
+        background: var(--brass-hi);
+      }
+      .btn-navy {
+        background: var(--navy);
+        color: var(--ivory);
+      }
+      .btn-navy::before {
+        background: var(--raised);
+      }
+      .btn-ghost {
+        color: var(--ivory);
+        box-shadow: inset 0 0 0 1px rgb(242 238 230 / 0.42);
+        background: rgb(8 19 31 / 0.18);
+      }
+      .btn-ghost::before {
+        background: var(--ivory);
+      }
+      .btn-line {
+        color: var(--navy);
+        box-shadow: inset 0 0 0 1px rgb(14 29 45 / 0.4);
+      }
+      .btn-line::before {
+        background: var(--navy);
+      }
+      @media (hover: hover) {
+        .btn:hover::before {
+          transform: scaleX(1);
+        }
+        .btn-ghost:hover {
+          color: var(--navy);
+        }
+        .btn-line:hover {
+          color: var(--ivory);
+        }
+      }
+      .tlink {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        min-height: 3rem;
+        font-stretch: 112%;
+        font-weight: 600;
+        font-size: 0.9375rem;
+        background: linear-gradient(currentColor, currentColor) left calc(50% + 0.85em) /
+          100% 1px no-repeat;
+        transition: background-size 0.4s var(--e-out);
+      }
+      .tlink svg {
+        width: 1rem;
+        height: 1rem;
+      }
+      @media (hover: hover) {
+        .tlink:hover {
+          background-size: 0% 1px;
+          background-position: right calc(50% + 0.85em);
+        }
+      }
+
+      /* ───────── Header ───────── */
+      .hdr {
+        position: sticky;
+        top: 0;
+        z-index: 40;
+        background: var(--ivory);
+        transition: box-shadow 0.3s;
+      }
+      .hdr.scrolled {
+        box-shadow: 0 1px 0 var(--hair);
+      }
+      .hdr-in {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        height: 4rem;
+      }
+      .hdr-logo img {
+        width: 8.75rem;
+        height: auto;
+      }
+      .hdr-nav,
+      .hdr-cta {
+        display: none;
+      }
+      .menu {
+        margin-left: auto;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.625rem;
+        min-height: 2.75rem;
+        padding: 0 0.25rem 0 0.75rem;
+        font-stretch: 112%;
+        font-weight: 600;
+        font-size: 0.875rem;
+      }
+      .menu i {
+        position: relative;
+        display: block;
+        width: 2.75rem;
+        height: 2.75rem;
+        border-radius: 50%;
+        background: var(--navy);
+      }
+      .menu i::before,
+      .menu i::after {
+        content: "";
+        position: absolute;
+        left: 0.875rem;
+        right: 0.875rem;
+        height: 1.5px;
+        background: var(--ivory);
+        transition: transform 0.35s var(--e-out);
+      }
+      .menu i::before {
+        top: calc(50% - 3.5px);
+      }
+      .menu i::after {
+        top: calc(50% + 2.5px);
+      }
+      .menu[aria-expanded="true"] i::before {
+        transform: translateY(3px) rotate(45deg);
+      }
+      .menu[aria-expanded="true"] i::after {
+        transform: translateY(-3px) rotate(-45deg);
+      }
+      .sheet {
+        position: fixed;
+        inset: 4rem 0 0;
+        z-index: 39;
+        background: var(--navy);
+        color: var(--ivory);
+        display: flex;
+        flex-direction: column;
+        padding: 1.5rem var(--pad) 2rem;
+        clip-path: inset(0 0 100% 0);
+        visibility: hidden;
+        transition:
+          clip-path 0.55s var(--e-out),
+          visibility 0s 0.55s;
+      }
+      .sheet.open {
+        clip-path: inset(0 0 0 0);
+        visibility: visible;
+        transition:
+          clip-path 0.55s var(--e-out),
+          visibility 0s;
+      }
+      .sheet nav a {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-height: 4rem;
+        border-bottom: 1px solid var(--hair-d);
+        font-stretch: 125%;
+        font-weight: 600;
+        font-size: 1.75rem;
+        letter-spacing: -0.03em;
+        opacity: 0;
+        transform: translateY(14px);
+        transition:
+          opacity 0.4s var(--e-out),
+          transform 0.5s var(--e-out);
+      }
+      .sheet nav a small {
+        font-size: 0.75rem;
+        font-stretch: 112%;
+        font-weight: 500;
+        letter-spacing: 0.01em;
+        color: var(--mist);
+      }
+      .sheet.open nav a {
+        opacity: 1;
+        transform: none;
+      }
+      .sheet.open nav a:nth-child(2) {
+        transition-delay: 0.05s;
+      }
+      .sheet.open nav a:nth-child(3) {
+        transition-delay: 0.1s;
+      }
+      .sheet.open nav a:nth-child(4) {
+        transition-delay: 0.15s;
+      }
+      .sheet.open nav a:nth-child(5) {
+        transition-delay: 0.2s;
+      }
+      .sheet-foot {
+        margin-top: auto;
+        display: grid;
+        gap: 0.75rem;
+      }
+      .sheet-foot p {
+        color: var(--mist);
+        font-size: 0.875rem;
+        margin-top: 0.5rem;
+      }
+
+      /* ───────── Hero ───────── */
+      .hero {
+        position: relative;
+        background: var(--ivory);
+      }
+      .hero-grid {
+        display: grid;
+      }
+      .hero-copy {
+        padding-top: 1.75rem;
+      }
+      .hero-h {
+        font-size: clamp(2rem, 1.3rem + 2.9vw, 3.4rem);
+      }
+      .hero-h .w {
+        display: inline-block;
+        overflow: hidden;
+        vertical-align: top;
+        padding-bottom: 0.08em;
+        margin-bottom: -0.08em;
+      }
+      .hero-h .w > span {
+        display: inline-block;
+      }
+      .hero-sub {
+        margin-top: 0.875rem;
+        color: var(--slate);
+        font-size: 1rem;
+        max-width: 30rem;
+      }
+      .hero-cta {
+        display: none;
+      }
+      .hero-loc {
+        display: none;
+      }
+      .hero-fig {
+        position: relative;
+        margin: 1.5rem calc(var(--pad) * -1) 0;
+        aspect-ratio: 4 / 5;
+        overflow: hidden;
+        background: #121820;
+        --ax1: 77.5%;
+        --ay1: 25.6%;
+      }
+      .hero-fig img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 55% 50%;
+      }
+      .hero-fig::after {
+        content: "";
+        position: absolute;
+        inset: auto 0 0;
+        height: 46%;
+        background: linear-gradient(
+          to top,
+          rgb(8 19 31 / 0.92),
+          rgb(8 19 31 / 0.55) 55%,
+          transparent
+        );
+        pointer-events: none;
+      }
+      .hero-over {
+        position: absolute;
+        z-index: 2;
+        left: var(--pad);
+        right: var(--pad);
+        bottom: 1.25rem;
+        display: grid;
+        gap: 0.625rem;
+      }
+      .fig-tag {
+        position: absolute;
+        z-index: 2;
+        top: 0.875rem;
+        left: var(--pad);
+        color: rgb(242 238 230 / 0.9);
+        background: rgb(8 19 31 / 0.62);
+        padding: 0.3rem 0.55rem;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+      .fig-tag::before {
+        content: "";
+        width: 0.6875rem;
+        height: 0.6875rem;
+        background:
+          linear-gradient(var(--brass), var(--brass)) center / 100% 1px no-repeat,
+          linear-gradient(var(--brass), var(--brass)) center / 1px 100% no-repeat;
+      }
+      .ann {
+        position: absolute;
+        z-index: 2;
+        left: var(--x);
+        top: var(--y);
+        width: 0;
+        height: 0;
+      }
+      .ann i {
+        position: absolute;
+        left: -0.4375rem;
+        top: -0.4375rem;
+        width: 0.875rem;
+        height: 0.875rem;
+        border-radius: 50%;
+        border: 1.5px solid var(--brass);
+        background: rgb(201 160 96 / 0.25);
+        box-shadow: 0 0 0 4px rgb(201 160 96 / 0.12);
+      }
+      .ann i::after {
+        content: "";
+        position: absolute;
+        inset: 3px;
+        border-radius: 50%;
+        background: var(--brass);
+      }
+      .ann b {
+        position: absolute;
+        top: -1.0625rem;
+        right: 1.125rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        white-space: nowrap;
+        padding: 0.5rem 0.75rem;
+        background: rgb(8 19 31 / 0.82);
+        color: var(--ivory);
+        font-stretch: 112%;
+        font-weight: 600;
+        font-size: 0.75rem;
+        letter-spacing: 0.01em;
+        border-left: 2px solid var(--brass);
+      }
+      .ann.r b {
+        right: auto;
+        left: 1.125rem;
+      }
+      .ann b::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: -1.125rem;
+        width: 0.75rem;
+        height: 1px;
+        background: var(--brass);
+      }
+      .ann.r b::after {
+        right: auto;
+        left: -1.125rem;
+      }
+      .ann-2 {
+        display: none;
+      }
+      .ruler {
+        height: 0.875rem;
+        background:
+          repeating-linear-gradient(
+              to right,
+              rgb(14 29 45 / 0.55) 0 1px,
+              transparent 1px 48px
+            )
+            left bottom / 100% 0.875rem no-repeat,
+          repeating-linear-gradient(
+              to right,
+              rgb(14 29 45 / 0.28) 0 1px,
+              transparent 1px 8px
+            )
+            left bottom / 100% 0.4375rem no-repeat;
+      }
+      .hero-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        padding-block: 1rem 1.25rem;
+        color: var(--slate);
+      }
+      .hero-meta span {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+      .hero-meta svg {
+        width: 0.95rem;
+        height: 0.95rem;
+        color: var(--brass-deep);
+      }
+
+      @media (prefers-reduced-motion: no-preference) {
+        .hero-fig {
+          animation: reveal 1.25s var(--e-out) 0.15s both;
+        }
+        .hero-fig img {
+          animation: settle 2.2s var(--e-out) 0.15s both;
+        }
+        .hero-h .w > span {
+          animation: rise 0.9s var(--e-out) both;
+          animation-delay: calc(0.1s + var(--k) * 0.035s);
+        }
+        .hero-sub,
+        .hero-cta,
+        .hero-over,
+        .fig-tag,
+        .hero-meta {
+          animation: fadeUp 0.8s var(--e-out) 0.7s both;
+        }
+        .ann {
+          animation: pop 0.7s var(--e-out) both;
+          animation-delay: calc(1.05s + var(--i) * 0.14s);
+        }
+      }
+      @keyframes reveal {
+        from {
+          clip-path: inset(0 0 100% 0);
+        }
+      }
+      @keyframes settle {
+        from {
+          transform: scale(1.08);
+        }
+      }
+      @keyframes rise {
+        from {
+          transform: translateY(105%);
+        }
+      }
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+      }
+      @keyframes pop {
+        from {
+          opacity: 0;
+          transform: translateY(6px);
+        }
+      }
+
+      /* ───────── Sections ───────── */
+      .sec {
+        position: relative;
+        padding-block: clamp(4.75rem, 2.7rem + 8.4vw, 10rem);
+      }
+      .sec-tag {
+        display: flex;
+        align-items: center;
+        gap: 0.625rem;
+        color: var(--brass-deep);
+      }
+      .sec-tag::before {
+        content: "";
+        width: 1.5rem;
+        height: 1px;
+        background: currentColor;
+      }
+      .dark .sec-tag {
+        color: var(--brass);
+      }
+      .h2 {
+        font-size: clamp(1.875rem, 1.15rem + 2.9vw, 3.5rem);
+        margin-top: 1rem;
+      }
+      .lede {
+        margin-top: 1rem;
+        color: var(--slate);
+        max-width: 32rem;
+      }
+      .dark .lede {
+        color: var(--mist);
+      }
+      .photo {
+        position: relative;
+        overflow: hidden;
+        background: #d8d2c6;
+      }
+      .photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      /* Profil */
+      .statement {
+        font-family: var(--serif);
+        font-optical-sizing: auto;
+        font-weight: 300;
+        font-size: clamp(1.625rem, 1.1rem + 2.15vw, 3rem);
+        line-height: 1.18;
+        letter-spacing: -0.012em;
+        margin-top: 1.25rem;
+        text-wrap: pretty;
+      }
+      .profil-photo {
+        margin: 2.25rem calc(var(--pad) * -1) 0;
+        aspect-ratio: 3 / 2;
+      }
+      .profil-photo img {
+        object-position: 50% 30%;
+      }
+      .profil-body {
+        margin-top: 2rem;
+        color: var(--slate);
+        max-width: 34rem;
+      }
+      .facts {
+        display: grid;
+        margin-top: 2rem;
+        border-top: 1px solid var(--navy);
+      }
+      .facts > div {
+        padding-block: 1.125rem;
+        border-bottom: 1px solid var(--hair);
+        display: grid;
+        gap: 0.25rem;
+      }
+      .facts dt {
+        color: var(--slate);
+      }
+      .facts dd {
+        font-stretch: 118%;
+        font-weight: 600;
+        font-size: 1.0625rem;
+        letter-spacing: -0.01em;
+      }
+
+      /* Bidang usaha */
+      .katalog {
+        background: var(--paper);
+      }
+      .cards {
+        display: flex;
+        gap: 1rem;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-padding-inline: var(--pad);
+        margin: 2.5rem calc(var(--pad) * -1) 0;
+        padding: 0 var(--pad) 0.25rem;
+        scrollbar-width: none;
+      }
+      .cards::-webkit-scrollbar {
+        display: none;
+      }
+      .card {
+        flex: 0 0 80%;
+        scroll-snap-align: start;
+      }
+      .card .photo {
+        aspect-ratio: 4 / 5;
+      }
+      .card h3 {
+        margin-top: 1.125rem;
+        font-stretch: 118%;
+        font-weight: 600;
+        font-size: 1.25rem;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+      }
+      .card p {
+        margin-top: 0.5rem;
+        color: var(--slate);
+        font-size: 0.9375rem;
+      }
+      .meter {
+        display: flex;
+        gap: 0.375rem;
+        align-items: center;
+        margin-top: 1.75rem;
+      }
+      .meter i {
+        height: 2px;
+        flex: 0 0 1.5rem;
+        background: var(--hair);
+        transition:
+          background 0.3s,
+          flex-basis 0.4s var(--e-out);
+      }
+      .meter i.on {
+        background: var(--navy);
+        flex-basis: 3rem;
+      }
+      .meter span {
+        margin-left: auto;
+        color: var(--slate);
+      }
+
+      /* Pengadaan */
+      .dark {
+        background: var(--navy);
+        color: var(--ivory);
+      }
+      .flow {
+        list-style: none;
+        padding: 0;
+        margin-top: 2.5rem;
+        position: relative;
+        display: grid;
+        gap: 1.75rem;
+      }
+      .flow::before {
+        content: "";
+        position: absolute;
+        left: 0.4375rem;
+        top: 0.75rem;
+        bottom: 0.75rem;
+        width: 1px;
+        background: repeating-linear-gradient(
+          to bottom,
+          var(--brass) 0 6px,
+          transparent 6px 11px
+        );
+        transform-origin: top;
+      }
+      .flow li {
+        position: relative;
+        padding-left: 2.25rem;
+      }
+      .flow li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.3rem;
+        width: 0.9375rem;
+        height: 0.9375rem;
+        border: 1px solid var(--brass);
+        background: var(--navy);
+        transform: rotate(45deg);
+      }
+      .flow li.mid::before {
+        background: var(--brass);
+      }
+      .flow b {
+        display: block;
+        font-stretch: 118%;
+        font-weight: 600;
+        font-size: 1.1875rem;
+        letter-spacing: -0.015em;
+      }
+      .flow span {
+        color: var(--mist);
+      }
+      .peng-cta {
+        display: grid;
+        gap: 0.5rem;
+        margin-top: 2.5rem;
+        justify-items: start;
+      }
+      .peng-cta .btn {
+        width: 100%;
+      }
+      .dark .tlink {
+        color: var(--ivory);
+      }
+
+      /* Data */
+      .sheet-doc {
+        position: relative;
+        margin-top: 2.25rem;
+        background: var(--paper);
+        padding: 1.25rem 1.25rem 0.5rem;
+        border: 1px solid var(--hair);
+      }
+      .kop {
+        display: grid;
+        gap: 3px;
+        margin-bottom: 0.5rem;
+      }
+      .kop i {
+        display: block;
+        height: 3px;
+        background: var(--navy);
+      }
+      .kop i + i {
+        height: 1px;
+      }
+      .sheet-doc dl > div {
+        display: grid;
+        gap: 0.25rem;
+        padding-block: 1rem;
+        border-bottom: 1px solid var(--hair);
+      }
+      .sheet-doc dl > div:last-child {
+        border-bottom: 0;
+      }
+      .sheet-doc dt {
+        color: var(--slate);
+      }
+      .sheet-doc dd {
+        font-weight: 500;
+        font-size: 1.0625rem;
+        font-variant-numeric: tabular-nums;
+      }
+      .sheet-doc dd.em {
+        font-stretch: 118%;
+        font-weight: 600;
+      }
+      .corner {
+        position: absolute;
+        width: 0.625rem;
+        height: 0.625rem;
+        border: 0 solid var(--navy);
+      }
+      .c-tl {
+        top: -1px;
+        left: -1px;
+        border-top-width: 2px;
+        border-left-width: 2px;
+      }
+      .c-tr {
+        top: -1px;
+        right: -1px;
+        border-top-width: 2px;
+        border-right-width: 2px;
+      }
+      .c-bl {
+        bottom: -1px;
+        left: -1px;
+        border-bottom-width: 2px;
+        border-left-width: 2px;
+      }
+      .c-br {
+        bottom: -1px;
+        right: -1px;
+        border-bottom-width: 2px;
+        border-right-width: 2px;
+      }
+
+      /* Kontak */
+      .kontak {
+        background: var(--midnight);
+        color: var(--ivory);
+      }
+      .kontak .lede {
+        color: var(--mist);
+      }
+      .kontak-cta {
+        display: grid;
+        gap: 0.625rem;
+        margin-top: 2rem;
+      }
+      .addr {
+        margin-top: 2rem;
+        display: grid;
+        gap: 0.25rem;
+      }
+      .addr p:first-child {
+        color: var(--mist);
+      }
+      .addr address {
+        font-style: normal;
+        font-size: 1.0625rem;
+      }
+      .kontak .tlink {
+        color: var(--ivory);
+        justify-self: start;
+      }
+      .locator {
+        position: relative;
+        margin-top: 2.75rem;
+        background: var(--raised);
+        border: 1px solid var(--hair-d);
+        aspect-ratio: 4 / 3;
+        overflow: hidden;
+      }
+      .locator svg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .coord {
+        position: absolute;
+        left: 1rem;
+        bottom: 0.875rem;
+        right: 1rem;
+        display: grid;
+        gap: 0.125rem;
+        color: var(--mist);
+      }
+      .coord b {
+        color: var(--ivory);
+        font-weight: 600;
+        font-stretch: 112%;
+        font-variant-numeric: tabular-nums;
+      }
+
+      /* Footer */
+      .foot {
+        background: var(--ivory);
+        padding-block: 2.5rem 2rem;
+      }
+      .foot-top {
+        display: grid;
+        gap: 1.75rem;
+        margin-top: 1.75rem;
+      }
+      .foot-top img {
+        width: 9.5rem;
+        height: auto;
+      }
+      .foot-nav {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.25rem 1rem;
+      }
+      .foot-nav a {
+        min-height: 2.75rem;
+        display: flex;
+        align-items: center;
+        font-weight: 500;
+      }
+      .foot-legal {
+        margin-top: 2rem;
+        padding-top: 1.25rem;
+        border-top: 1px solid var(--hair);
+        display: grid;
+        gap: 0.5rem;
+        color: var(--slate);
+        font-size: 0.8125rem;
+      }
+
+      /* Scroll reveals */
+      @media (prefers-reduced-motion: no-preference) {
+        .rv {
+          opacity: 0;
+          transform: translateY(18px);
+          transition:
+            opacity 0.8s var(--e-out),
+            transform 0.9s var(--e-out);
+        }
+        .rv.in {
+          opacity: 1;
+          transform: none;
+        }
+        .reveal {
+          clip-path: inset(12% 8% 12% 8%);
+          transition: clip-path 1.2s var(--e-out);
+        }
+        .reveal img {
+          transform: scale(1.1);
+          transition: transform 1.6s var(--e-out);
+        }
+        .reveal.in {
+          clip-path: inset(0 0 0 0);
+        }
+        .reveal.in img {
+          transform: none;
+        }
+        .flow::before {
+          transform: scaleY(0);
+          transition: transform 1.2s var(--e-out) 0.2s;
+        }
+        .flow.in::before {
+          transform: none;
+        }
+        .loc-ring {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 1;
+          transition: stroke-dashoffset 1.6s var(--e-out);
+          transition-delay: calc(var(--i) * 0.04s);
+        }
+        .locator.in .loc-ring {
+          stroke-dashoffset: 0;
+        }
+      }
+      .still *,
+      .still *::before,
+      .still *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+      .still .rv,
+      .still .reveal,
+      .still .reveal img {
+        opacity: 1 !important;
+        transform: none !important;
+        clip-path: none !important;
+      }
+      .still .flow::before {
+        transform: none !important;
+      }
+      .still .loc-ring {
+        stroke-dashoffset: 0 !important;
+      }
+
+      /* ───────── ≥ 430 ───────── */
+      @media (min-width: 26.875rem) {
+        .hdr-logo img {
+          width: 9.25rem;
+        }
+        .card {
+          flex-basis: 74%;
+        }
+      }
+
+      /* ───────── ≥ 768 ───────── */
+      @media (min-width: 48rem) {
+        .hero-over {
+          grid-auto-flow: column;
+          justify-content: start;
+        }
+        .facts {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 0 2rem;
+        }
+        .card {
+          flex-basis: 44%;
+        }
+        .sheet-doc dl > div {
+          grid-template-columns: 14rem 1fr;
+          gap: 1.5rem;
+          align-items: baseline;
+        }
+        .peng-cta .btn {
+          width: auto;
+        }
+        .kontak-cta {
+          grid-auto-flow: column;
+          justify-content: start;
+        }
+      }
+
+      /* ───────── ≥ 1024 (desktop) ───────── */
+      @media (min-width: 64rem) {
+        .hdr-in {
+          height: 5rem;
+          gap: 2.5rem;
+        }
+        .hdr-logo img {
+          width: 10.5rem;
+        }
+        .hdr-nav {
+          display: flex;
+          gap: 2rem;
+          margin-left: auto;
+          font-stretch: 112%;
+          font-weight: 500;
+          font-size: 0.9375rem;
+        }
+        .hdr-nav a {
+          position: relative;
+          padding-block: 0.5rem;
+        }
+        .hdr-nav a::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 0.2rem;
+          height: 1px;
+          background: currentColor;
+          transform: scaleX(0);
+          transform-origin: right;
+          transition: transform 0.4s var(--e-out);
+        }
+        .hdr-nav a:hover::after {
+          transform: scaleX(1);
+          transform-origin: left;
+        }
+        .hdr-cta {
+          display: inline-flex;
+          min-height: 2.875rem;
+        }
+        .menu {
+          display: none;
+        }
+        .hero-grid {
+          grid-template-columns: repeat(12, minmax(0, 1fr));
+          column-gap: 2rem;
+          align-items: center;
+          padding-block: 2.5rem 3rem;
+        }
+        .hero-copy {
+          grid-column: 1 / 7;
+          padding-top: 0;
+          padding-right: 1rem;
+        }
+        .hero-sub {
+          margin-top: 1.25rem;
+          font-size: 1.0625rem;
+        }
+        .hero-cta {
+          display: flex;
+          gap: 0.75rem;
+          margin-top: 2.25rem;
+        }
+        .hero-loc {
+          display: flex;
+          gap: 2rem;
+          margin-top: 2.5rem;
+          padding-top: 1.25rem;
+          border-top: 1px solid var(--hair);
+          color: var(--slate);
+        }
+        .hero-loc b {
+          display: block;
+          color: var(--navy);
+          font-stretch: 118%;
+          font-weight: 600;
+          font-size: 0.9375rem;
+          margin-top: 0.125rem;
+        }
+        .hero-fig {
+          grid-column: 7 / 13;
+          margin: 0 calc(var(--pad) * -1) 0 0;
+          aspect-ratio: 6 / 5.4;
+          --ax1: 66.7%;
+          --ay1: 25.6%;
+        }
+        .hero-fig img {
+          object-position: 100% 50%;
+        }
+        .hero-fig::after {
+          display: none;
+        }
+        .hero-over {
+          display: none;
+        }
+        .ann-2 {
+          display: block;
+        }
+        .fig-tag {
+          left: 1.25rem;
+        }
+        .hero-meta {
+          display: none;
+        }
+        .profil-grid {
+          display: grid;
+          grid-template-columns: repeat(12, minmax(0, 1fr));
+          grid-template-rows: auto auto 1fr;
+          column-gap: 2rem;
+          align-items: start;
+        }
+        .profil-copy {
+          grid-column: 1 / 7;
+        }
+        .profil-photo {
+          grid-column: 8 / 13;
+          grid-row: 1 / 4;
+          margin: 4.5rem calc(var(--pad) * -1) 0 0;
+          aspect-ratio: 4 / 5;
+        }
+        .profil-photo img {
+          object-position: 40% 50%;
+        }
+        .profil-more {
+          grid-column: 1 / 7;
+          grid-row: 2;
+        }
+        .katalog-head {
+          display: grid;
+          grid-template-columns: repeat(12, minmax(0, 1fr));
+          column-gap: 2rem;
+          align-items: end;
+        }
+        .katalog-head > div {
+          grid-column: 1 / 8;
+        }
+        .katalog-head .lede {
+          grid-column: 9 / 13;
+          margin-bottom: 0.5rem;
+        }
+        .cards {
+          display: grid;
+          grid-template-columns: repeat(12, minmax(0, 1fr));
+          column-gap: 2rem;
+          row-gap: 4.5rem;
+          overflow: visible;
+          margin: 4rem 0 0;
+          padding: 0;
+        }
+        .card:nth-child(1) {
+          grid-column: 1 / 8;
+        }
+        .card:nth-child(1) .photo {
+          aspect-ratio: 3 / 2;
+        }
+        .card:nth-child(2) {
+          grid-column: 8 / 13;
+          margin-top: 6rem;
+        }
+        .card:nth-child(2) .photo {
+          aspect-ratio: 1 / 1;
+        }
+        .card:nth-child(3) {
+          grid-column: 1 / 5;
+        }
+        .card:nth-child(3) .photo {
+          aspect-ratio: 4 / 5;
+        }
+        .card:nth-child(4) {
+          grid-column: 5 / 10;
+          margin-top: 5rem;
+        }
+        .card:nth-child(4) .photo {
+          aspect-ratio: 4 / 3;
+        }
+        .card:nth-child(5) {
+          grid-column: 10 / 13;
+          margin-top: 1.5rem;
+        }
+        .card:nth-child(5) .photo {
+          aspect-ratio: 3 / 4;
+        }
+        .card h3 {
+          font-size: 1.5rem;
+          margin-top: 1.25rem;
+        }
+        .card p {
+          font-size: 1rem;
+          max-width: 30rem;
+        }
+        .meter {
+          display: none;
+        }
+        .peng-grid,
+        .data-grid,
+        .kontak-grid {
+          display: grid;
+          grid-template-columns: repeat(12, minmax(0, 1fr));
+          column-gap: 2rem;
+        }
+        .peng-grid > .peng-copy {
+          grid-column: 1 / 6;
+          grid-row: 1;
+        }
+        .peng-grid > .peng-cta {
+          grid-column: 1 / 6;
+          grid-row: 2;
+        }
+        .peng-grid > .peng-flow {
+          grid-column: 7 / 13;
+          grid-row: 1 / 3;
+          align-self: center;
+          border: 1px solid var(--hair-d);
+          padding: 2.5rem 2.25rem 2.75rem;
+          position: relative;
+        }
+        .peng-flow::before {
+          content: "Alur pengadaan";
+          position: absolute;
+          top: -0.65rem;
+          left: 1.75rem;
+          padding: 0 0.5rem;
+          background: var(--navy);
+          color: var(--mist);
+          font-size: 0.8125rem;
+          font-stretch: 112%;
+          font-weight: 500;
+        }
+        .flow {
+          margin-top: 0;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 1.5rem;
+          padding-top: 2.5rem;
+        }
+        .flow::before {
+          left: 0.5rem;
+          right: 0.5rem;
+          top: 0.45rem;
+          bottom: auto;
+          width: auto;
+          height: 1px;
+          background: repeating-linear-gradient(
+            to right,
+            var(--brass) 0 6px,
+            transparent 6px 11px
+          );
+          transform-origin: left;
+        }
+        .flow li {
+          padding: 1.75rem 0 0;
+        }
+        .flow li::before {
+          top: 0;
+        }
+        .data-grid > .data-copy {
+          grid-column: 1 / 5;
+        }
+        .data-grid > .sheet-doc {
+          grid-column: 6 / 13;
+          margin-top: 0;
+          padding: 2rem 2.5rem 1rem;
+        }
+        .kontak-grid > .kontak-copy {
+          grid-column: 1 / 6;
+        }
+        .kontak-grid > .kontak-map {
+          grid-column: 7 / 13;
+        }
+        .locator {
+          margin-top: 0;
+        }
+        .foot-top {
+          grid-template-columns: auto 1fr;
+          align-items: center;
+        }
+        .foot-nav {
+          display: flex;
+          justify-content: flex-end;
+          gap: 2.25rem;
+        }
+        .foot-legal {
+          grid-template-columns: 1fr auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="hdr" id="hdr">
+      <div class="wrap hdr-in">
+        <a class="hdr-logo" href="#top" aria-label="LATANSA, ke beranda">
+          <img
+            src="../../../public/brand/latansa-logo-horizontal-480.png"
+            width="480"
+            height="113"
+            alt="LATANSA — CV Latansa Jogjakarta"
+          />
+        </a>
+        <nav class="hdr-nav" aria-label="Utama">
+          <a href="#profil">Profil</a><a href="#bidang">Bidang usaha</a
+          ><a href="#pengadaan">Pengadaan</a><a href="#data">Data perusahaan</a>
+        </nav>
+        <a class="btn btn-navy hdr-cta" href="#kontak">Hubungi kami</a>
+        <button class="menu" type="button" aria-expanded="false" aria-controls="sheet">
+          <span>Menu</span><i aria-hidden="true"></i>
+        </button>
+      </div>
+    </header>
+
+    <div class="sheet" id="sheet" aria-label="Menu">
+      <nav>
+        <a href="#profil">Profil <small>Tentang kami</small></a>
+        <a href="#bidang">Bidang usaha <small>Lima kategori</small></a>
+        <a href="#pengadaan">Pengadaan <small>SIPLah</small></a>
+        <a href="#data">Data perusahaan <small>Legalitas</small></a>
+        <a href="#kontak">Kontak <small>Bantul, DIY</small></a>
+      </nav>
+      <div class="sheet-foot">
+        <a class="btn btn-brass" href="#kontak">Hubungi via WhatsApp</a>
+        <p>
+          Klisat, Srihardono, Pundong, Kabupaten Bantul, Daerah Istimewa Yogyakarta 55771
+        </p>
+      </div>
+    </div>
+
+    <main>
+      <!-- HERO -->
+      <section class="hero" id="top" aria-labelledby="hero-h">
+        <div class="wrap hero-grid">
+          <div class="hero-copy">
+            <h1 class="d hero-h" id="hero-h" data-split>
+              Perangkat dan perlengkapan kerja untuk instansi dan lembaga.
+            </h1>
+            <p class="hero-sub">
+              CV. Latansa Jogjakarta memasok komputer, perlengkapan kantor, elektronik,
+              peralatan kelembagaan, dan layanan pendukung terpilih.
+            </p>
+            <div class="hero-cta">
+              <a class="btn btn-navy" href="#kontak"
+                ><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path
+                    d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3 1 2.6 1.1 2.8.1.2 1.9 2.9 4.6 4 1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"
+                  /></svg
+                >Hubungi via WhatsApp</a
+              >
+              <a
+                class="btn btn-line"
+                href="https://siplah.tokoladang.co.id/m/cv-latansa-jogjakarta.21163?page=1&amp;etalase=&amp;keyword="
+                target="_blank"
+                rel="noopener noreferrer"
+                >Buka toko SIPLah<svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  aria-hidden="true"
+                >
+                  <path d="M8 16 16 8M9.5 8H16v6.5" /></svg
+              ></a>
+            </div>
+            <div class="hero-loc lbl">
+              <span>Berkedudukan di<b>Kabupaten Bantul, DIY</b></span>
+              <span>Kanal pengadaan<b>SIPLah Toko Ladang</b></span>
+            </div>
+          </div>
+
+          <figure
+            class="hero-fig"
+            aria-label="Foto ilustrasi meja kerja dengan laptop dan alat tulis"
+          >
+            <img
+              src="photos/hero-desk-crop.webp"
+              width="1508"
+              height="1172"
+              alt="Foto ilustrasi: laptop, cangkir, buku catatan, dan pensil di atas meja kerja gelap."
+              fetchpriority="high"
+            />
+            <p class="fig-tag lbl">Foto ilustrasi</p>
+            <span class="ann ann-1" style="--x: var(--ax1); --y: var(--ay1); --i: 0"
+              ><i></i><b>Komputer &amp; TI</b></span
+            >
+            <span class="ann ann-2 r" style="--x: 43.6%; --y: 74.3%; --i: 1"
+              ><i></i><b>Alat tulis &amp; kantor</b></span
+            >
+            <div class="hero-over">
+              <a class="btn btn-brass" href="#kontak"
+                ><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path
+                    d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3 1 2.6 1.1 2.8.1.2 1.9 2.9 4.6 4 1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"
+                  /></svg
+                >Hubungi via WhatsApp</a
+              >
+              <a
+                class="btn btn-ghost"
+                href="https://siplah.tokoladang.co.id/m/cv-latansa-jogjakarta.21163?page=1&amp;etalase=&amp;keyword="
+                target="_blank"
+                rel="noopener noreferrer"
+                >Buka toko SIPLah<svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  aria-hidden="true"
+                >
+                  <path d="M8 16 16 8M9.5 8H16v6.5" /></svg
+              ></a>
+            </div>
+          </figure>
+        </div>
+        <div class="wrap hero-meta lbl">
+          <span
+            ><svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.6"
+              aria-hidden="true"
+            >
+              <path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11Z" />
+              <circle cx="12" cy="10" r="2.3" /></svg
+            >Kabupaten Bantul, DIY</span
+          >
+          <span>SIPLah Toko Ladang</span>
+        </div>
+        <div class="ruler" aria-hidden="true"></div>
+      </section>
+
+      <!-- PROFIL -->
+      <section class="sec" id="profil" aria-labelledby="profil-h">
+        <div class="wrap profil-grid">
+          <div class="profil-copy">
+            <p class="sec-tag lbl rv">Profil perusahaan</p>
+            <h2 class="statement rv" id="profil-h">
+              CV. Latansa Jogjakarta menyediakan beragam kategori barang serta layanan
+              pendukung terpilih untuk menunjang kebutuhan operasional instansi, lembaga,
+              dan organisasi.
+            </h2>
+          </div>
+          <figure class="photo profil-photo reveal">
+            <img
+              src="photos/arch-atrium.webp"
+              width="2000"
+              height="1333"
+              alt="Foto ilustrasi: atrium kaca modern dengan cahaya alami."
+              loading="lazy"
+            />
+          </figure>
+          <div class="profil-more">
+            <p class="profil-body rv">
+              Kami melayani pengadaan melalui kanal resmi yang tersedia, dengan komunikasi
+              yang jelas mengenai spesifikasi, ketersediaan, dan proses pengiriman sesuai
+              kesepakatan.
+            </p>
+            <dl class="facts rv">
+              <div>
+                <dt class="lbl">Berkedudukan di</dt>
+                <dd>Kabupaten Bantul, D.I. Yogyakarta</dd>
+              </div>
+              <div>
+                <dt class="lbl">Bentuk usaha</dt>
+                <dd>Persekutuan Komanditer (CV)</dd>
+              </div>
+              <div>
+                <dt class="lbl">Kanal pengadaan</dt>
+                <dd>SIPLah Toko Ladang</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <!-- BIDANG USAHA -->
+      <section class="sec katalog" id="bidang" aria-labelledby="bidang-h">
+        <div class="wrap">
+          <div class="katalog-head">
+            <div>
+              <p class="sec-tag lbl rv">Bidang usaha</p>
+              <h2 class="d h2 rv" id="bidang-h">
+                Lima kategori untuk kebutuhan kerja instansi.
+              </h2>
+            </div>
+            <p class="lede rv">
+              Kategori barang dan layanan yang kami sediakan untuk instansi dan lembaga.
+            </p>
+          </div>
+          <div
+            class="cards"
+            id="cards"
+            tabindex="0"
+            aria-label="Kategori bidang usaha, geser untuk melihat"
+          >
+            <article class="card">
+              <figure class="photo reveal">
+                <img
+                  src="photos/it-keyboard.webp"
+                  width="2000"
+                  height="1333"
+                  alt="Foto ilustrasi: papan ketik putih di atas permukaan hitam."
+                  loading="lazy"
+                  style="object-position: 50% 50%"
+                />
+              </figure>
+              <h3>Komputer &amp; Teknologi Informasi</h3>
+              <p>
+                Perangkat komputer, perangkat pendukung, dan kebutuhan teknologi informasi
+                untuk menunjang administrasi dan pelayanan.
+              </p>
+            </article>
+            <article class="card">
+              <figure class="photo reveal">
+                <img
+                  src="photos/office-ruler.webp"
+                  width="2000"
+                  height="1334"
+                  alt="Foto ilustrasi: buku catatan, pena, penggaris baja, dan papan ketik."
+                  loading="lazy"
+                  style="object-position: 55% 40%"
+                />
+              </figure>
+              <h3>Alat Tulis &amp; Perlengkapan Kantor</h3>
+              <p>
+                Alat tulis, perlengkapan, dan peralatan kantor untuk kebutuhan operasional
+                sehari-hari.
+              </p>
+            </article>
+            <article class="card">
+              <figure class="photo reveal">
+                <img
+                  src="photos/elec-board.webp"
+                  width="2000"
+                  height="1333"
+                  alt="Foto ilustrasi: detail papan sirkuit elektronik."
+                  loading="lazy"
+                  style="object-position: 62% 50%"
+                />
+              </figure>
+              <h3>Elektronik &amp; Perlengkapan Teknis</h3>
+              <p>
+                Perangkat elektronik dan perlengkapan teknis sesuai spesifikasi kebutuhan.
+              </p>
+            </article>
+            <article class="card">
+              <figure class="photo reveal">
+                <img
+                  src="photos/inst-chairs.webp"
+                  width="2000"
+                  height="1126"
+                  alt="Foto ilustrasi: kursi rapat di sisi meja konferensi."
+                  loading="lazy"
+                  style="object-position: 38% 50%"
+                />
+              </figure>
+              <h3>Peralatan Umum Kelembagaan</h3>
+              <p>
+                Peralatan umum untuk menunjang fungsi dan fasilitas instansi maupun
+                lembaga.
+              </p>
+            </article>
+            <article class="card">
+              <figure class="photo reveal">
+                <img
+                  src="photos/goods-boxes.webp"
+                  width="2000"
+                  height="1333"
+                  alt="Foto ilustrasi: dua kotak kardus polos bertumpuk."
+                  loading="lazy"
+                  style="object-position: 45% 50%"
+                />
+              </figure>
+              <h3>Barang &amp; Jasa Pendukung Terpilih</h3>
+              <p>
+                Barang dan layanan pendukung lainnya yang disediakan berdasarkan kebutuhan
+                dan ketersediaan.
+              </p>
+            </article>
+          </div>
+          <div class="meter" id="meter" aria-hidden="true">
+            <i class="on"></i><i></i><i></i><i></i><i></i><span class="lbl">Geser</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- PENGADAAN -->
+      <section class="sec dark" id="pengadaan" aria-labelledby="peng-h">
+        <div class="wrap peng-grid">
+          <div class="peng-copy">
+            <p class="sec-tag lbl rv">Kanal pengadaan</p>
+            <h2 class="d h2 rv" id="peng-h">Pengadaan melalui SIPLah Toko Ladang.</h2>
+            <p class="lede rv">
+              Satuan pendidikan dapat melakukan pengadaan melalui toko CV. Latansa
+              Jogjakarta di SIPLah Toko Ladang. Untuk kebutuhan lain, hubungi kami secara
+              langsung.
+            </p>
+          </div>
+          <div class="peng-flow">
+            <ol class="flow rv" id="flow" aria-label="Alur pengadaan melalui SIPLah">
+              <li><b>CV. Latansa Jogjakarta</b><span class="lbl">Pemasok</span></li>
+              <li class="mid">
+                <b>SIPLah Toko Ladang</b><span class="lbl">Toko resmi kami</span>
+              </li>
+              <li>
+                <b>Satuan pendidikan</b><span class="lbl">Pengadaan barang dan jasa</span>
+              </li>
+            </ol>
+          </div>
+          <div class="peng-cta rv">
+            <a
+              class="btn btn-brass"
+              href="https://siplah.tokoladang.co.id/m/cv-latansa-jogjakarta.21163?page=1&amp;etalase=&amp;keyword="
+              target="_blank"
+              rel="noopener noreferrer"
+              >Buka toko di SIPLah Toko Ladang<svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                aria-hidden="true"
+              >
+                <path d="M8 16 16 8M9.5 8H16v6.5" /></svg
+            ></a>
+            <a class="tlink" href="#kontak">Diskusikan kebutuhan lain</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- DATA -->
+      <section class="sec" id="data" aria-labelledby="data-h">
+        <div class="wrap data-grid">
+          <div class="data-copy">
+            <p class="sec-tag lbl rv">Data perusahaan</p>
+            <h2 class="d h2 rv" id="data-h">Identitas usaha.</h2>
+            <p class="lede rv">
+              Informasi identitas perusahaan untuk keperluan administrasi pengadaan.
+            </p>
+          </div>
+          <div class="sheet-doc rv">
+            <span class="corner c-tl"></span><span class="corner c-tr"></span
+            ><span class="corner c-bl"></span><span class="corner c-br"></span>
+            <div class="kop" aria-hidden="true"><i></i><i></i></div>
+            <dl>
+              <div>
+                <dt class="lbl">Nama perusahaan</dt>
+                <dd class="em">CV. Latansa Jogjakarta</dd>
+              </div>
+              <div>
+                <dt class="lbl">Bentuk usaha</dt>
+                <dd>Persekutuan Komanditer (CV)</dd>
+              </div>
+              <div>
+                <dt class="lbl">Status Perpajakan</dt>
+                <dd class="em">Pengusaha Kena Pajak (PKP)</dd>
+              </div>
+              <div>
+                <dt class="lbl">Alamat</dt>
+                <dd>
+                  Klisat, Srihardono, Kecamatan Pundong, Kabupaten Bantul, Daerah Istimewa
+                  Yogyakarta 55771
+                </dd>
+              </div>
+              <div>
+                <dt class="lbl">Kanal pengadaan</dt>
+                <dd>SIPLah Toko Ladang</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <!-- KONTAK -->
+      <section class="sec kontak" id="kontak" aria-labelledby="kontak-h">
+        <div class="wrap kontak-grid">
+          <div class="kontak-copy">
+            <p class="sec-tag lbl rv" style="color: var(--brass)">Kontak</p>
+            <h2 class="d h2 rv" id="kontak-h">Diskusikan kebutuhan pengadaan Anda.</h2>
+            <p class="lede rv">
+              Sampaikan spesifikasi barang yang dibutuhkan. Kami akan membantu menjelaskan
+              ketersediaan dan proses pengadaannya.
+            </p>
+            <div class="kontak-cta rv">
+              <a class="btn btn-brass" href="#">Hubungi via WhatsApp</a>
+              <a class="btn btn-ghost" href="#">Kirim email</a>
+            </div>
+            <div class="addr rv">
+              <p class="lbl">Alamat kantor</p>
+              <address>
+                Klisat, Srihardono, Kecamatan Pundong<br />Kabupaten Bantul, Daerah
+                Istimewa Yogyakarta 55771
+              </address>
+              <a class="tlink" href="#" rel="noopener noreferrer"
+                >Buka di Google Maps<svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  aria-hidden="true"
+                >
+                  <path d="M8 16 16 8M9.5 8H16v6.5" /></svg
+              ></a>
+            </div>
+          </div>
+          <div class="kontak-map">
+            <div class="locator rv" id="locator" aria-hidden="true">
+              <svg
+                id="topo"
+                viewBox="0 0 400 300"
+                preserveAspectRatio="xMidYMid slice"
+              ></svg>
+              <p class="coord lbl">
+                <span>Penanda lokasi (diagram)</span><b>7°57′41″ LS, 110°20′58″ BT</b>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <div class="wrap">
+        <div class="kop" aria-hidden="true"><i></i><i></i></div>
+        <div class="foot-top">
+          <img
+            src="../../../public/brand/latansa-logo-horizontal-480.png"
+            width="480"
+            height="113"
+            alt="LATANSA — CV Latansa Jogjakarta"
+          />
+          <nav class="foot-nav" aria-label="Navigasi bawah">
+            <a href="#profil">Profil</a><a href="#bidang">Bidang usaha</a
+            ><a href="#pengadaan">Pengadaan</a><a href="#data">Data perusahaan</a
+            ><a href="#kontak">Kontak</a>
+          </nav>
+        </div>
+        <div class="foot-legal">
+          <p>
+            © 2026 CV. Latansa Jogjakarta. Kabupaten Bantul, Daerah Istimewa Yogyakarta.
+          </p>
+          <p>
+            Foto pada situs ini bersifat ilustratif (Unsplash License) dan bukan
+            dokumentasi kegiatan perusahaan.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const f2 = (n) => n.toFixed(2);
+      function renderTopo() {
+        const svg = document.getElementById("topo");
+        let s = "";
+        for (let i = 0; i <= 8; i++)
+          s += `<line x1="${i * 50}" y1="0" x2="${i * 50}" y2="300" stroke="rgba(242,238,230,.05)"/>`;
+        for (let j = 0; j <= 6; j++)
+          s += `<line x1="0" y1="${j * 50}" x2="400" y2="${j * 50}" stroke="rgba(242,238,230,.05)"/>`;
+        const cx = 200,
+          cy = 150;
+        for (let r = 1; r <= 16; r++) {
+          let d = "";
+          for (let a = 0; a <= 72; a++) {
+            const t = (a / 72) * Math.PI * 2;
+            const rr =
+              r *
+              15 *
+              (1 +
+                0.16 * Math.sin(3 * t + r * 0.35) +
+                0.09 * Math.sin(5 * t - r * 0.2) +
+                0.05 * Math.cos(7 * t + 1));
+            const x = cx + 30 * Math.sin(r * 0.25) + rr * Math.cos(t) * 1.15,
+              y = cy + 14 * Math.cos(r * 0.3) + rr * Math.sin(t) * 0.82;
+            d += (a ? "L" : "M") + f2(x) + " " + f2(y);
+          }
+          s += `<path class="loc-ring" pathLength="1" style="--i:${r}" d="${d}Z" fill="none" stroke="rgba(169,182,196,${r % 4 === 0 ? 0.42 : 0.2})" stroke-width="${r % 4 === 0 ? 1.1 : 0.8}"/>`;
+        }
+        s += `<g stroke="#C9A060" fill="none" stroke-width="1.2"><circle cx="${cx}" cy="${cy}" r="10"/><circle cx="${cx}" cy="${cy}" r="2.5" fill="#C9A060"/><line x1="${cx - 26}" y1="${cy}" x2="${cx - 14}" y2="${cy}"/><line x1="${cx + 14}" y1="${cy}" x2="${cx + 26}" y2="${cy}"/><line x1="${cx}" y1="${cy - 26}" x2="${cx}" y2="${cy - 14}"/><line x1="${cx}" y1="${cy + 14}" x2="${cx}" y2="${cy + 26}"/></g>`;
+        svg.innerHTML = s;
+      }
+      document.querySelectorAll("[data-split]").forEach((el) => {
+        let k = 0;
+        el.innerHTML = el.textContent
+          .trim()
+          .split(/\s+/)
+          .map((w) => `<span class="w"><span style="--k:${k++}">${w}</span></span>`)
+          .join(" ");
+      });
+      renderTopo();
+      /* Screenshot mode: load every image immediately. */
+      if (document.documentElement.classList.contains("still"))
+        document
+          .querySelectorAll('img[loading="lazy"]')
+          .forEach((i) => (i.loading = "eager"));
+
+      const hdr = document.getElementById("hdr");
+      addEventListener("scroll", () => hdr.classList.toggle("scrolled", scrollY > 8), {
+        passive: true,
+      });
+      const btn = document.querySelector(".menu"),
+        sheet = document.getElementById("sheet");
+      const setMenu = (open) => {
+        btn.setAttribute("aria-expanded", open);
+        sheet.classList.toggle("open", open);
+        btn.querySelector("span").textContent = open ? "Tutup" : "Menu";
+        document.body.style.overflow = open ? "hidden" : "";
+      };
+      btn.addEventListener("click", () =>
+        setMenu(btn.getAttribute("aria-expanded") !== "true"),
+      );
+      sheet
+        .querySelectorAll("a")
+        .forEach((a) => a.addEventListener("click", () => setMenu(false)));
+      addEventListener("keydown", (e) => e.key === "Escape" && setMenu(false));
+      if (/[?&]menu\b/.test(location.search)) setMenu(true);
+
+      const io = new IntersectionObserver(
+        (es) =>
+          es.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("in");
+              io.unobserve(e.target);
+            }
+          }),
+        { threshold: 0.16 },
+      );
+      document
+        .querySelectorAll(".rv, .reveal, #flow, #locator")
+        .forEach((el) => io.observe(el));
+
+      const cards = document.getElementById("cards"),
+        meter = [...document.querySelectorAll("#meter i")];
+      cards.addEventListener(
+        "scroll",
+        () => {
+          const i = Math.round(
+            cards.scrollLeft / (cards.firstElementChild.offsetWidth + 16),
+          );
+          meter.forEach((m, j) => m.classList.toggle("on", j === i));
+        },
+        { passive: true },
+      );
+    </script>
+  </body>
+</html>

@@ -81,13 +81,20 @@ wrap well in Indonesian (no orphaned single words where avoidable).
 - Mobile uses the lighter variant (shorter distance, fewer staggered items, no parallax).
 - Emulate `prefers-reduced-motion: reduce` (DevTools rendering setting, or Playwright
   `emulateMedia({ reducedMotion: "reduce" })`): content is fully visible with no transforms.
-- Animations use only `transform`/`opacity`.
+- Final-state screenshots: capture with reduced motion emulated (Chromium
+  `--force-prefers-reduced-motion`). This is the production equivalent of the board's `?still`.
+- Only the properties in `docs/motion-spec.md` §1 animate (`transform`, `opacity`, `clip-path`,
+  plus the two contained exceptions). There are no `scroll` event listeners.
 
 ## 5. Brand and content checks
 
 - Logo: correct variant (horizontal in navbar), proportional, sharp, on a light surface, never
   recolored or cropped.
-- Colors: only palette tokens; no champagne text on porcelain.
+- Colors: only palette tokens (`docs/art-direction.md` §4). Brass text appears only on navy or
+  midnight. Focus rings are brass-deep on light surfaces and brass on dark ones.
+- Annotations: each hero marker sits on its object at every width (art-direction §8).
+- Imagery: the "Foto ilustrasi" chip and the footer imagery note are present. Photos are sharp,
+  with no upscaling, and match the slot crops.
 - No prices, stock, cart/checkout or pricing language visible.
 - PKP line reads exactly "Status Perpajakan: Pengusaha Kena Pajak (PKP)"; no NPWP visible.
 - No placeholder text; hidden facts (contacts, office hours, Mbizmarket) are absent until

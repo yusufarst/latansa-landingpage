@@ -8,6 +8,12 @@
       "port": 4173
     },
     {
+      "name": "design-board",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["--yes", "serve@14", ".", "-l", "4174"],
+      "port": 4174
+    },
+    {
       "name": "dev",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev"],
