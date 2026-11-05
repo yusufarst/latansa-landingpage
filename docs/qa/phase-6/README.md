@@ -135,6 +135,24 @@ the same simulated Lighthouse, before the domain goes live.
 - **Quality gate:** `npm run check` passes: lint, typecheck, format, 43 tests, `content:check`,
   build and `verify:export` (SEO, headers and contact checks).
 
+## Launch PR: indexing on (`launchReady: true`)
+
+The launch PR changes only `src/config/site.ts`, its notes and this record. It is meant to be
+merged after PR 5. Verified on its build:
+
+- **robots.txt:** `Allow: /` with `Sitemap: https://latansajogja.co.id/sitemap.xml`; the sitemap
+  lists the domain root.
+- **Robots meta:** the homepage is `index, follow`; the 404 page stays `noindex`.
+- **Lighthouse SEO:** 100 on phone and desktop. All ten SEO audits pass, including
+  `is-crawlable`, `robots-txt` and `canonical`. Accessibility and best practices stay 100.
+- **`npm run check`** passes (44 tests), and `content:check --strict` passes.
+- **Guard:** with the headline set back to pending, `verify:export` failed and named
+  `company.positioning.headline`. Restored, it passes.
+- **Out of scope:**
+  - nothing is deployed, and DNS and Cloudflare Email Routing are unchanged;
+  - Search Console verification is not set up; it needs either a DNS record or a file from the
+    owner's account, so it is a later, separate step.
+
 ## Not verified
 
 - **Lighthouse on Cloudflare:** the deployed preview is not deployed. That is a separate step
