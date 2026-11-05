@@ -67,7 +67,7 @@ to what LATANSA supplies, adds the precision voice, and is honest: the photo is 
 
 | Element        | Specification                                                                                                                                               |
 | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Header         | 64px ivory; logo 136px; "Menu" with a 44px navy round button                                                                                                |
+| Header         | 64px ivory; logo 140px (navbar minimum); "Menu" with a 44px navy round button                                                                               |
 | Headline       | Archivo Expanded 600, `clamp(2rem, 1.3rem + 2.9vw, 3.4rem)`, 4 lines at 390                                                                                 |
 | Company line   | 16px slate, 3 lines; names the categories                                                                                                                   |
 | Hero photo     | Full bleed, 4:5 (390×488); one brass annotation; "Foto ilustrasi" chip on a dark plate                                                                      |

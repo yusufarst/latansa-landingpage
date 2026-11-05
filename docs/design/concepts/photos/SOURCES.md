@@ -18,8 +18,8 @@ license page, unsplash.com/license, was reviewed the same day.
 | File                  | Use                               | Photo page                                                                           | Photographer      |
 | --------------------- | --------------------------------- | ------------------------------------------------------------------------------------ | ----------------- |
 | `hero-desk-crop.webp` | Hero                              | https://unsplash.com/photos/laptop-mug-and-notebooks-on-a-dark-workspace-uxxGF7g754U | Dhony Koswara     |
-| `it-laptop.webp`      | Komputer & TI                     | https://unsplash.com/photos/macbook-air-on-white-table-fpTVkXjxL_Y                   | Markus Spiske     |
-| `it-keyboard.webp`    | Alternate (Komputer & TI detail)  | https://unsplash.com/photos/apple-magic-keyboard-FNhyekndnSM                         | Wesley Tingey     |
+| `it-laptop.webp`      | Spare (Komputer & TI alternate)   | https://unsplash.com/photos/macbook-air-on-white-table-fpTVkXjxL_Y                   | Markus Spiske     |
+| `it-keyboard.webp`    | Komputer & TI                     | https://unsplash.com/photos/apple-magic-keyboard-FNhyekndnSM                         | Wesley Tingey     |
 | `office-ruler.webp`   | Alat tulis & perlengkapan kantor  | https://unsplash.com/photos/notebook-ruler-and-keyboard-on-white-surface-OXQVfxXORJ0 | Jess Bailey       |
 | `elec-board.webp`     | Elektronik & perlengkapan teknis  | https://unsplash.com/photos/macro-photography-of-black-circuit-board-FO7JIlwjOtU     | Alexandre Debiève |
 | `inst-chairs.webp`    | Peralatan umum kelembagaan        | https://unsplash.com/photos/office-chairs-at-conference-table-RNsKphkdBTk            | Michael Fousert   |
