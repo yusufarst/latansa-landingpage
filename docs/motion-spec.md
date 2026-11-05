@@ -6,6 +6,22 @@ Status: **approved with the art direction on 2026-11-05.** This is the companion
 reference for feel and timing. Where this spec differs from the board, this spec wins; see
 deltas D10, D11, D12 and D14 in [art-direction.md §12](art-direction.md#12-deltas-from-the-approved-board).
 
+> **Owner refinement brief (2026-11-05, second pass).** Binding; it supersedes the rows named here.
+>
+> - **M1/M2 (hero photograph):** the full-bleed photo settles from a 1.07 scale (1.04 on phones)
+>   while a midnight veil fades out (1300ms, +100ms). There is no clip-path reveal, and the image
+>   itself never animates opacity, which keeps LCP clean.
+> - **M3/M4:** the headline words rise from +250ms, 40ms apart. The line, the actions and the
+>   overview strip fade up at 750, 850 and 1000ms.
+> - **M5 (annotations):** retired with the annotation markers.
+> - **M17 (carousel):** previous/next buttons scroll one card smoothly (instantly under reduced
+>   motion). Native swipe and snap are unchanged.
+> - **M19 (new), section highlighting:** an IntersectionObserver on the viewport's middle line
+>   marks the header and menu link of the section in view (`data-current`). The underline draws
+>   in brass-deep.
+> - **M20 (new), category hover:** on hover-capable devices the photo scales to 1.04 over 900ms.
+> - **Locator:** on hover the marker scales to 1.18 and the frame warms to brass.
+
 ## 1. Principles
 
 1. **One orchestrated moment.** The hero entrance runs once on load. The photograph opens, the
