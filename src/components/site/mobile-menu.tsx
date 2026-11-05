@@ -144,7 +144,7 @@ export function MobileMenu({
           <ul>
             {links.map((link) => (
               <li key={link.href}>
-                <a href={link.href} className="menu-link">
+                <a href={link.href} className="menu-link" data-spy>
                   {link.label}
                   <small>{link.hint}</small>
                 </a>

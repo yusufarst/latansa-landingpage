@@ -303,6 +303,26 @@ describe("project content", () => {
     ]);
   });
 
+  it("publishes the owner-confirmed Google Maps listing", async () => {
+    const { company } = await import("../../src/content/company.ts");
+    assert.equal(company.mapsUrl.status, "client-confirmed");
+    assert.equal(isPublishableFact(company.mapsUrl), true);
+    assert.match(
+      company.mapsUrl.value,
+      /^https:\/\/www\.google\.com\/maps\/place\/Latansa\+Jogjakarta\//,
+    );
+  });
+
+  it("shows no public photo disclaimer (owner decision, 2026-11-05)", async () => {
+    const { copy } = await import("../../src/content/copy.ts");
+    const disclaimer = /foto ilustrasi|ilustratif|unsplash license|stock photo/i;
+    assert.doesNotMatch(JSON.stringify(copy), disclaimer);
+    const images = readFileSync(join(root, "src", "content", "images.ts"), "utf8");
+    const alts = [...images.matchAll(/alt: "([^"]+)"/g)].map((m) => m[1]);
+    assert.ok(alts.length >= 7, "every photo has alt text");
+    for (const alt of alts) assert.doesNotMatch(alt, disclaimer);
+  });
+
   it("keeps the exact PKP wording and no NPWP field", async () => {
     const { company } = await import("../../src/content/company.ts");
     assert.equal(company.taxStatus.value.label, "Status Perpajakan");

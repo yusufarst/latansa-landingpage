@@ -41,7 +41,7 @@ export function SiteHeader() {
               .filter((link) => link.href !== "#kontak")
               .map((link) => (
                 <li key={link.href}>
-                  <a href={link.href} className="navlink">
+                  <a href={link.href} className="navlink" data-spy>
                     {link.label}
                   </a>
                 </li>

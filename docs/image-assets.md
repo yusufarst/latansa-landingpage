@@ -94,12 +94,14 @@ the values hold. `it-keyboard` keeps full saturation because it is already near-
 
 ## On-page rules
 
-- **Alt text** is in Indonesian, starts with "Foto ilustrasi:" and describes what is visible (texts
-  in [art-direction.md §7](art-direction.md#7-imagery)).
-- **Chip:** the hero photograph carries a "Foto ilustrasi" chip.
-- **Footer note:** "Foto pada situs ini bersifat ilustratif (Unsplash License) dan bukan
-  dokumentasi kegiatan perusahaan."
+- **No visible labels (owner decision, 2026-11-05):** photographs appear as editorial imagery,
+  with no "Foto ilustrasi" chip, caption or footer disclaimer. Provenance and licenses stay in
+  `SOURCES.md` and `src/content/images.ts`.
+- **No false claims:** no caption, alt text or copy may present a photo as LATANSA's own office,
+  staff, inventory, deliveries, customers or projects.
+- **Alt text** is in Indonesian and describes what is visible, without a "Foto ilustrasi:" prefix.
+- **Hero crops:** `hero` (1508 × 1465, phones) and `hero-wide` (2600 × 1201, 768px up), served
+  through one `<picture>` with a media query.
 - **Credit:** an optional photographer credit is appreciated by Unsplash, but not required. It can
   live in a credits note in the footer.
-- **Annotations** appear only on the hero and must sit on a matching object
-  ([art-direction.md §8](art-direction.md#8-annotation-system)).
+- **Annotations** are retired (owner refinement brief, 2026-11-05).

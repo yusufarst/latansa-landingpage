@@ -2,16 +2,15 @@ import { company } from "@/content/company";
 import { copy } from "@/content/copy";
 import { publishedValue } from "@/content/facts";
 import { addressLines, formatPhoneId } from "@/lib/format";
-import { contactActions, mapsSearchHref } from "@/lib/links";
+import { contactActions, whatsappHref } from "@/lib/links";
 import { ContactButton, ExternalTextLink } from "./actions";
 import { Locator } from "./locator";
 import { SectionHeading } from "./section-heading";
 
 /**
  * Kontak (art-direction §6.7): the midnight band. Every action comes from a
- * publishable fact (WhatsApp first); the planned email stays hidden until it
- * is activated. The map link uses the company's own listing once the client
- * confirms it, and a search for the client-provided address until then.
+ * publishable fact: WhatsApp now; the planned email only once it is activated.
+ * Location links open the owner-confirmed Google Maps listing.
  */
 export function Contact() {
   const actions = contactActions();
@@ -19,8 +18,7 @@ export function Contact() {
   const email = publishedValue(company.contact.email);
   const hours = publishedValue(company.officeHours);
   const coordinates = publishedValue(company.coordinates);
-  const mapsHref =
-    publishedValue(company.mapsUrl) ?? mapsSearchHref(company.address.value);
+  const mapsHref = publishedValue(company.mapsUrl);
   const [line1, line2] = addressLines(company.address.value);
 
   return (
@@ -29,7 +27,7 @@ export function Contact() {
       aria-labelledby="kontak-heading"
       className="on-dark bg-midnight py-section text-white"
     >
-      <div className="frame lg:grid lg:grid-cols-12 lg:gap-x-8">
+      <div className="frame lg:grid lg:grid-cols-12 lg:items-center lg:gap-x-8">
         <div className="lg:col-span-5">
           <SectionHeading
             id="kontak-heading"
@@ -40,7 +38,7 @@ export function Contact() {
           />
 
           {actions.length > 0 && (
-            <div className="mt-9 grid gap-2.5 md:flex md:flex-wrap md:gap-3">
+            <div className="mt-9 grid gap-2.5 sm:flex sm:flex-wrap sm:gap-3">
               {actions.map((action, i) => (
                 <ContactButton
                   key={action.kind}
@@ -51,7 +49,7 @@ export function Contact() {
             </div>
           )}
 
-          <dl className="mt-11 grid gap-7">
+          <dl className="mt-11 grid gap-8 border-t border-hair-inverse pt-8 sm:grid-cols-2 lg:grid-cols-1">
             <div>
               <dt className="text-label text-mist">{copy.contact.addressLabel}</dt>
               <dd className="mt-2">
@@ -60,23 +58,37 @@ export function Contact() {
                   <br />
                   {line2}
                 </address>
-                <ExternalTextLink href={mapsHref} className="mt-1">
-                  {copy.actions.maps}
-                </ExternalTextLink>
+                {mapsHref && (
+                  <ExternalTextLink href={mapsHref} className="mt-1">
+                    {copy.actions.maps}
+                  </ExternalTextLink>
+                )}
               </dd>
             </div>
             {whatsapp && (
               <div>
                 <dt className="text-label text-mist">{copy.contact.whatsappLabel}</dt>
-                <dd className="mt-2 text-[1.0625rem] font-medium tabular-nums">
-                  {formatPhoneId(whatsapp)}
+                <dd className="mt-1">
+                  <a
+                    href={whatsappHref(whatsapp)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="tlink text-[1.0625rem] tabular-nums"
+                  >
+                    {formatPhoneId(whatsapp)}
+                    <span className="sr-only"> {copy.externalHint}</span>
+                  </a>
                 </dd>
               </div>
             )}
             {email && (
               <div>
                 <dt className="text-label text-mist">{copy.contact.emailLabel}</dt>
-                <dd className="mt-2 text-[1.0625rem] font-medium">{email}</dd>
+                <dd className="mt-1">
+                  <a href={`mailto:${email}`} className="tlink text-[1.0625rem]">
+                    {email}
+                  </a>
+                </dd>
               </div>
             )}
             {hours && (
@@ -100,6 +112,8 @@ export function Contact() {
 
         <div className="mt-12 lg:col-span-6 lg:col-start-7 lg:mt-0">
           <Locator
+            href={mapsHref}
+            label={`${copy.actions.maps}: ${company.legalName.value}`}
             caption={copy.contact.locatorCaption}
             coordinates={coordinates?.display}
           />

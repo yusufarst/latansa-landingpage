@@ -29,6 +29,49 @@ wins.** Every difference is listed with its reason in [§12](#12-deltas-from-the
 >
 > The implemented build is the reference for these changes; see §12 (D16–D24).
 
+> **Owner refinement brief, Phase 4 (2026-11-05, second pass).** Binding; it supersedes the
+> matching parts of §2, §6, §7 and §8. The implemented build is the reference (D25–D35).
+>
+> - **Hero (§6.2):** a full-bleed photograph. The headline, line and both actions sit on its
+>   navy-graded quiet side: the bottom on phones, the left from 768px. Phones use a tall crop
+>   (`hero`, 1508 × 1465), and 768px up uses the wide crop (`hero-wide`, 2600 × 1201).
+>   - The chip, the annotation markers and the ruler are removed: the hero carries only what
+>     strengthens it. The annotation system (§8) is retired.
+>   - On phones the hero is `clamp(33rem, 100svh − 4rem, 40rem)` tall, so the headline, the line
+>     and both actions fit the first screen at 320×568, 375×667 and 390×844.
+> - **Overview strip (new §6.2a):** under the hero, three entries: categories, the SIPLah channel,
+>   WhatsApp. Each links to its section. From 1024px it is a white panel overlapping the
+>   photograph's lower edge by 96px.
+> - **Profile (§6.3):** the statement, body and atrium photograph only; the facts row moved into
+>   the identity sheet.
+> - **Categories (§6.4):** the phone and tablet carousel adds previous/next buttons, a "1 dari 5"
+>   position and the meter; the cards are 82% wide (76% from 430). Desktop keeps the mosaic with
+>   a 1.04 photo zoom on hover.
+> - **Procurement (§6.5):** the page's one centered, symmetrical composition. The flow is
+>   centered from 768px, with the line joining the three diamond centers.
+> - **Identity (§6.6):** the legal name is the sheet's title; the particulars sit in two columns
+>   (form and PKP status, channel and domicile), with the address full width.
+> - **Contact (§6.7):** the Maps listing is owner-confirmed, so every Maps link opens it.
+>   - The locator diagram is a link with a visible "Buka di Google Maps" label and shows the
+>     coordinates.
+>   - The WhatsApp number is a link.
+> - **Footer (§6.8):** the letterhead rule, then identity (logo and the factual descriptor),
+>   navigation, contact and location, and procurement, then © and "Kembali ke atas". There is no
+>   imagery note. Email appears only once activated.
+> - **Imagery (§7):** no visible photo label or disclaimer anywhere, by the owner's decision. Alt
+>   text describes the scene without a "Foto ilustrasi:" prefix. Provenance stays in
+>   `SOURCES.md` and `src/content/images.ts`, and no copy may present a photo as LATANSA's own
+>   premises, staff, stock, deliveries, customers or projects.
+> - **Phone calibration:**
+>   - section padding `clamp(4.5rem, 2.6rem + 8vw, 10rem)`;
+>   - display 30px at 320px, rising to 40px on phones;
+>   - body 16px on phones;
+>   - `h2` from 28px.
+> - **Navigation:** the header and menu links mark the section in view (`data-current`, M19).
+> - **Phone testing:** `next.config.ts` allows LAN origins for `next dev`. Next.js blocks dev
+>   assets for other hosts, so a phone saw an unstyled, zoomed-out page. Sign-off uses the export
+>   (`npm run build && npm run preview`, then the Network URL).
+
 The rejected "Kop" direction is archived at
 [design/archive/kop-board-rejected.html](design/archive/kop-board-rejected.html). Its spec lives
 only in git history.
@@ -734,6 +777,17 @@ rule or replaces a stand-in.
 | D22 | Locator at 4:3 when stacked                                                      | 16:9 on tablets                                                                                                               | A 546px-tall diagram at 768                                                 |
 | D23 | Maps link only with a confirmed listing                                          | A search for the client-provided address until the listing is confirmed                                                       | Useful without claiming a listing                                           |
 | D24 | —                                                                                | The WhatsApp number shown under the address                                                                                   | A client-provided public fact that procurement officers often note          |
+| D25 | White hero with the photograph beside the copy                                   | Full-bleed photographic hero; text on its navy-graded quiet side                                                              | Owner brief: an integrated, premium first impression                        |
+| D26 | Hero chip, annotation markers and ruler                                          | Removed                                                                                                                       | Owner brief: no labels or decoration that do not strengthen the hero        |
+| D27 | Copy, photo and both actions overflowed short phones                             | Hero height clamped to the phone screen; headline, line and actions fit at 320–430px                                          | Mobile first screens failed at 375×667 and 320×568                          |
+| D28 | —                                                                                | Overview strip of three entries, overlapping the hero from 1024px                                                             | Who, what, where to buy and how to reach, in seconds                        |
+| D29 | Profile facts row                                                                | Moved into the identity sheet                                                                                                 | One home per fact; a calmer profile                                         |
+| D30 | Swipe only, meter only                                                           | Previous/next buttons and a "1 dari 5" position; desktop hover zoom                                                           | A non-swipe alternative and clear progress                                  |
+| D31 | Procurement split left/right                                                     | Centered, symmetrical composition                                                                                             | The section must feel distinctive and important                             |
+| D32 | Identity rows like a table                                                       | Legal name as the title; particulars in two columns                                                                           | A corporate document, not an HTML table                                     |
+| D33 | Maps search link; locator not a link                                             | Owner-confirmed listing everywhere; the locator links to it with a visible label                                              | The owner confirmed the listing                                             |
+| D34 | Footer with an imagery note                                                      | Four groups plus a bottom line; no photo disclaimer                                                                           | Owner brief                                                                 |
+| D35 | Phone section padding 88px; display 34px                                         | 72px; 30px at 320px                                                                                                           | Phone-specific calibration                                                  |
 
 ## 13. Content model (implemented in Phase 4)
 
@@ -747,7 +801,8 @@ rule or replaces a stand-in.
   or published.
 - **`positioning.headline`:** confirmable copy with `confirmation: "pending"`. It is shown
   provisionally, and `content:check --strict` blocks launch until the client confirms it.
-- **Address and location:** `address.regionShort`; `mapsUrl` and `coordinates` (both
+- **Address and location (updated):** `mapsUrl` and `coordinates` are now `client-confirmed`
+  (owner, 2026-11-05) and published. Previously: `address.regionShort`; `mapsUrl` and `coordinates` (both
   `needs-confirmation`, hidden); `officeHours` as day-group rows (`needs-confirmation`, hidden).
 
 **Other content:**
@@ -762,7 +817,6 @@ rule or replaces a stand-in.
 | ----------------------------------------------------------------------------------- | -------------------------------------------------- |
 | Confirm the headline "Perangkat dan perlengkapan kerja untuk instansi dan lembaga." | **Launch** (blocks `--strict`)                     |
 | Activate `info@latansajogja.co.id`, test delivery, then mark it client-confirmed    | Optional (WhatsApp already meets the contact rule) |
-| Confirm the Google Maps listing and its coordinates                                 | Optional                                           |
 | Confirm the office hours                                                            | Optional                                           |
 | Verify the Mbizmarket profile                                                       | Optional                                           |
 | Re-verify every Unsplash photo page                                                 | Phase 6                                            |

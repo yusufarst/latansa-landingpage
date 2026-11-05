@@ -1,8 +1,6 @@
 import { company } from "@/content/company";
 import { copy } from "@/content/copy";
 import { publishedValue } from "@/content/facts";
-import type { Address } from "@/content/types";
-import { addressLine } from "./format";
 
 export interface ContactAction {
   kind: "whatsapp" | "email";
@@ -15,13 +13,9 @@ export interface ContactAction {
 export const whatsappHref = (number: string) => `https://wa.me/${number}`;
 
 /**
- * Google Maps search for the client-provided address. Used until the client
- * confirms the company's own listing (`company.mapsUrl`).
+ * Every publishable contact action, WhatsApp first (art-direction §6.9). The
+ * planned email joins automatically once its status allows publishing.
  */
-export const mapsSearchHref = (address: Address) =>
-  `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addressLine(address))}`;
-
-/** Every publishable contact action, WhatsApp first (art-direction §6.9). */
 export function contactActions(): ContactAction[] {
   const actions: ContactAction[] = [];
   const whatsapp = publishedValue(company.contact.whatsapp);

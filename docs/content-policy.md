@@ -91,10 +91,11 @@ Link out with `rel="noopener noreferrer"`; describe the channel neutrally.
 ## Imagery
 
 Licensed photography (currently the Unsplash License) and AI-generated imagery are allowed as
-**illustrative** supporting visuals only (see
-[image-assets.md](image-assets.md)). It must never depict or imply real LATANSA staff,
-premises, vehicles, deliveries, events, clients or government handovers, and must never be
-captioned or positioned as documentary evidence. No fake logos of real brands or agencies.
+**editorial** supporting visuals (see [image-assets.md](image-assets.md)). By the owner's decision
+(2026-11-05) the site shows no visible photo disclaimer, so the copy itself must stay honest: no
+caption, alt text or claim may present a photo as LATANSA's real staff, premises, vehicles,
+inventory, deliveries, events, clients or government handovers. No fake logos of real brands or
+agencies. Provenance and licenses stay recorded in the repository.
 
 ## Language and tone
 

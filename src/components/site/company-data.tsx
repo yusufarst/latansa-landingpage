@@ -6,23 +6,24 @@ import { SectionHeading } from "./section-heading";
 
 /**
  * Data perusahaan (art-direction §6.6): the company's identity set like a
- * document — letterhead rule, crop-mark corners, defined terms. The PKP line
- * uses the exact approved wording. There is no NPWP row and no badge.
+ * formal document — letterhead rule, crop-mark corners, the legal name as its
+ * title and the particulars below. The PKP line uses the exact approved
+ * wording. There is no NPWP field and no badge.
  */
 export function CompanyData() {
   const channels = publishedChannels().map((c) => c.name);
-  const rows = [
-    { term: copy.data.terms.name, value: company.legalName.value, strong: true },
+  const particulars = [
     { term: copy.data.terms.legalForm, value: company.legalForm.value },
-    {
-      term: company.taxStatus.value.label,
-      value: company.taxStatus.value.value,
-      strong: true,
-    },
-    { term: copy.data.terms.address, value: addressLine(company.address.value) },
+    { term: company.taxStatus.value.label, value: company.taxStatus.value.value },
     ...(channels.length
       ? [{ term: copy.data.terms.channels, value: channels.join(", ") }]
       : []),
+    { term: copy.data.terms.domicile, value: company.address.value.regionShort },
+    {
+      term: copy.data.terms.address,
+      value: addressLine(company.address.value),
+      wide: true,
+    },
   ];
 
   return (
@@ -36,30 +37,36 @@ export function CompanyData() {
           className="lg:col-span-4 lg:pr-4"
         />
 
-        <div className="doc-sheet mt-10 px-5 pt-5 pb-2 md:px-8 md:pt-7 md:pb-3 lg:col-span-8 lg:col-start-5 lg:mt-0 lg:px-10 lg:pt-9 lg:pb-4 xl:col-span-7 xl:col-start-6">
+        <div className="doc-sheet mt-10 px-5 pt-6 pb-3 md:px-10 md:pt-9 md:pb-5 lg:col-span-8 lg:mt-0 lg:px-12 lg:pt-11 lg:pb-7">
           <span className="corner corner-tl" aria-hidden="true" />
           <span className="corner corner-tr" aria-hidden="true" />
           <span className="corner corner-bl" aria-hidden="true" />
           <span className="corner corner-br" aria-hidden="true" />
           <div className="kop" aria-hidden="true" />
-          <dl className="mt-2">
-            {rows.map((row) => (
-              <div
-                key={row.term}
-                className="grid gap-1 border-b border-hair py-4 last:border-b-0 md:grid-cols-[13rem_1fr] md:items-baseline md:gap-6 md:py-[1.125rem] lg:grid-cols-[10.5rem_1fr] xl:grid-cols-[13rem_1fr]"
-              >
-                <dt className="text-label text-slate">{row.term}</dt>
-                <dd
+
+          <dl className="mt-7 md:mt-9">
+            <div>
+              <dt className="text-label text-slate">{copy.data.terms.name}</dt>
+              <dd className="mt-1.5 text-[1.5rem] leading-tight font-semibold tracking-[-0.02em] md:text-[1.875rem]">
+                {company.legalName.value}
+              </dd>
+            </div>
+            <div className="mt-6 grid border-t border-hair md:mt-8 md:grid-cols-2 md:gap-x-10">
+              {particulars.map((item) => (
+                <div
+                  key={item.term}
                   className={
-                    row.strong
-                      ? "text-[1.0625rem] leading-snug font-semibold tracking-[-0.01em]"
-                      : "text-[1.0625rem] leading-snug font-medium tabular-nums"
+                    "grid gap-1 border-b border-hair py-5 last:border-b-0 md:py-6 " +
+                    (item.wide ? "md:col-span-2" : "")
                   }
                 >
-                  {row.value}
-                </dd>
-              </div>
-            ))}
+                  <dt className="text-label text-slate">{item.term}</dt>
+                  <dd className="text-[1.0625rem] leading-snug font-semibold tracking-[-0.01em] md:text-[1.125rem]">
+                    {item.value}
+                  </dd>
+                </div>
+              ))}
+            </div>
           </dl>
         </div>
       </div>

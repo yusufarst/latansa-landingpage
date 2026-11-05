@@ -1,4 +1,6 @@
 import type { CSSProperties } from "react";
+import { copy } from "@/content/copy";
+import { ExternalIcon } from "./icons";
 
 const W = 400;
 const H = 300;
@@ -34,19 +36,21 @@ function ringPath(ring: number): string {
 const RING_PATHS = Array.from({ length: RINGS }, (_, i) => ringPath(i + 1));
 
 interface LocatorProps {
+  /** The confirmed Google Maps listing. Without it the diagram is not a link. */
+  href?: string | null;
+  label: string;
   caption: string;
-  /** Shown only when the coordinates fact is publishable. */
   coordinates?: string | null;
 }
 
 /**
- * Contact locator (art-direction §6.7): a labelled diagram, not a map. It is
- * decorative; the address is the accessible location. The rings draw once
- * when it enters the viewport (motion M16).
+ * Contact locator (art-direction §6.7): a labelled diagram, not a map. With
+ * the confirmed listing it is a link that opens Google Maps, and says so.
+ * The rings draw once when it enters the viewport (motion M16).
  */
-export function Locator({ caption, coordinates }: LocatorProps) {
-  return (
-    <div className="locator md:aspect-[16/9] lg:aspect-[4/3]" data-reveal="rings">
+export function Locator({ href, label, caption, coordinates }: LocatorProps) {
+  const diagram = (
+    <>
       <svg
         viewBox={`0 0 ${W} ${H}`}
         preserveAspectRatio="xMidYMid slice"
@@ -76,7 +80,7 @@ export function Locator({ caption, coordinates }: LocatorProps) {
             );
           })}
         </g>
-        <g stroke="#c9a060" fill="none" strokeWidth="1.2">
+        <g className="locator-mark" stroke="#c9a060" fill="none" strokeWidth="1.2">
           <circle cx={CX} cy={CY} r="10" />
           <circle cx={CX} cy={CY} r="2.5" fill="#c9a060" />
           <path
@@ -84,12 +88,40 @@ export function Locator({ caption, coordinates }: LocatorProps) {
           />
         </g>
       </svg>
-      <p className="absolute right-4 bottom-3.5 left-4 grid gap-0.5 text-label text-mist">
-        <span>{caption}</span>
-        {coordinates && (
-          <span className="font-semibold text-white tabular-nums">{coordinates}</span>
+      <span className="absolute right-4 bottom-3.5 left-4 flex flex-wrap items-end justify-between gap-x-6 gap-y-2 text-label">
+        <span className="grid gap-0.5 text-mist">
+          <span>{caption}</span>
+          {coordinates && (
+            <span className="font-semibold text-white tabular-nums">{coordinates}</span>
+          )}
+        </span>
+        {href && (
+          <span className="inline-flex items-center gap-1.5 font-semibold text-brass">
+            {copy.actions.maps}
+            <ExternalIcon className="size-4" />
+          </span>
         )}
-      </p>
-    </div>
+      </span>
+    </>
+  );
+
+  if (!href) {
+    return (
+      <div className="locator md:aspect-[16/9] lg:aspect-[4/3]" data-reveal="rings">
+        {diagram}
+      </div>
+    );
+  }
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`${label} ${copy.externalHint}`}
+      className="locator md:aspect-[16/9] lg:aspect-[4/3]"
+      data-reveal="rings"
+    >
+      {diagram}
+    </a>
   );
 }

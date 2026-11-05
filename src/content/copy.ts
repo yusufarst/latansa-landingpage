@@ -4,7 +4,8 @@
  *
  * Copy labels, describes and directs. It never asserts a company fact: facts
  * (names, address, status, contact details, channels) live in company.ts with
- * provenance and are rendered from there.
+ * provenance and are rendered from there. `{name}` placeholders are filled
+ * from facts or counts at render time.
  */
 export const copy = {
   skipLink: "Langsung ke konten utama",
@@ -38,22 +39,29 @@ export const copy = {
 
   hero: {
     line: "CV. Latansa Jogjakarta memasok komputer, perlengkapan kantor, elektronik, peralatan kelembagaan, dan layanan pendukung terpilih.",
-    photoTag: "Foto ilustrasi",
-    annotations: {
-      computers: "Komputer & TI",
-      office: "Alat tulis & kantor",
+  },
+
+  /** The at-a-glance strip under the hero: what, where to buy, how to reach. */
+  overview: {
+    label: "Sekilas perusahaan",
+    categories: {
+      term: "Bidang usaha",
+      value: "{count} kategori barang dan jasa",
+      link: "Lihat kategori",
     },
-    locationLabel: "Berkedudukan di",
-    channelLabel: "Kanal pengadaan",
+    procurement: {
+      term: "Kanal pengadaan",
+      link: "Lihat alur pengadaan",
+    },
+    contact: {
+      term: "Konsultasi",
+      value: "WhatsApp {number}",
+      link: "Lihat kontak dan lokasi",
+    },
   },
 
   profile: {
     label: "Profil perusahaan",
-    facts: {
-      location: "Berkedudukan di",
-      legalForm: "Bentuk usaha",
-      channels: "Kanal pengadaan",
-    },
   },
 
   categories: {
@@ -61,8 +69,10 @@ export const copy = {
     /** `{count}` becomes the number word for the number of categories. */
     heading: "{count} kategori untuk kebutuhan kerja instansi.",
     lede: "Kategori barang dan layanan yang kami sediakan untuk instansi dan lembaga.",
-    scrollerLabel: "Kategori bidang usaha, geser untuk melihat",
-    swipeHint: "Geser",
+    scrollerLabel: "Kategori bidang usaha",
+    previous: "Kategori sebelumnya",
+    next: "Kategori berikutnya",
+    position: "{current} dari {total}",
   },
 
   procurement: {
@@ -77,7 +87,6 @@ export const copy = {
       buyer: "Satuan pendidikan",
       buyerNote: "Pengadaan barang dan jasa",
     },
-    otherChannel: "Lihat profil di {channel}",
   },
 
   data: {
@@ -89,6 +98,7 @@ export const copy = {
       legalForm: "Bentuk usaha",
       address: "Alamat",
       channels: "Kanal pengadaan",
+      domicile: "Berkedudukan di",
     },
   },
 
@@ -104,8 +114,11 @@ export const copy = {
   },
 
   footer: {
-    imageryNote:
-      "Foto pada situs ini bersifat ilustratif (Unsplash License) dan bukan dokumentasi kegiatan perusahaan.",
+    contactHeading: "Kontak dan lokasi",
+    navHeading: "Navigasi",
+    procurementHeading: "Pengadaan",
+    storeNote: "Toko resmi CV. Latansa Jogjakarta",
+    backToTop: "Kembali ke atas",
   },
 
   notFound: {

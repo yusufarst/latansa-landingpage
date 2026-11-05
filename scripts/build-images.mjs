@@ -27,11 +27,21 @@ const LADDER = [640, 960, 1280, 1600, 2048];
 
 /** Slot name → original, optional crop and the exact approved grade. */
 const PHOTOS = {
+  // Phones and small tablets: x 42–100% at full height, so the tall hero has
+  // the most vertical resolution. The decorative house model (bottom left of
+  // the frame) stays outside the visible window.
   hero: {
     file: "hero-desk.jpg",
-    // x 42–100%, y 0–80% of the 2600 × 1465 frame (removes a distracting prop).
-    crop: { left: 1092, top: 0, width: 1508, height: 1172 },
+    crop: { left: 1092, top: 0, width: 1508, height: 1465 },
     grade: { saturation: 0.72, brightness: 1.0, linear: [1.06, -5], cool: 0.16, warm: 0 },
+  },
+  // Tablets and desktop: the full width, y 0–82% (drops the house model). The
+  // empty leather at the upper left carries the headline.
+  "hero-wide": {
+    file: "hero-desk.jpg",
+    crop: { left: 0, top: 0, width: 2600, height: 1201 },
+    grade: { saturation: 0.72, brightness: 1.0, linear: [1.06, -5], cool: 0.16, warm: 0 },
+    ladder: [960, 1280, 1600, 2048, 2600],
   },
   profile: {
     file: "arch-atrium.jpg",
@@ -97,8 +107,10 @@ mkdirSync(OUT, { recursive: true });
 const manifest = {};
 for (const [name, spec] of Object.entries(PHOTOS)) {
   const { master, width, height } = await gradedMaster(spec);
-  const widths = LADDER.filter((w) => w < width);
-  if (!widths.includes(Math.min(width, 2048))) widths.push(Math.min(width, 2048));
+  const ladder = spec.ladder ?? LADDER;
+  const cap = Math.min(width, ladder.at(-1));
+  const widths = ladder.filter((w) => w < cap);
+  widths.push(cap);
   for (const w of widths) {
     const resized = sharp(master).resize({ width: w, withoutEnlargement: true });
     await resized

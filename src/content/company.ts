@@ -73,10 +73,10 @@ export const company = {
   mapsUrl: {
     value:
       "https://www.google.com/maps/place/Latansa+Jogjakarta/@-7.9615341,110.3495675,17z/data=!4m6!3m5!1s0x2e7a551bac26733d:0xc5bd5460133408a8!8m2!3d-7.9615341!4d110.3495675!16s%2Fg%2F11t4gybf5_",
-    status: "needs-confirmation",
-    source: "Found by search on Google Maps (listing “Latansa Jogjakarta”), 2026-11-05",
+    status: "client-confirmed",
+    source:
+      "Google Maps listing “Latansa Jogjakarta”, confirmed by the owner in chat as the company's official location, 2026-11-05",
     launch: "optional",
-    note: "Ask the client to confirm this listing is theirs. Until then the site links only to a search for the client-provided address.",
   },
   coordinates: {
     value: {
@@ -84,10 +84,10 @@ export const company = {
       longitude: 110.3495675,
       display: "7°57′41″ LS, 110°20′58″ BT",
     },
-    status: "needs-confirmation",
-    source: "Pin of the Google Maps listing “Latansa Jogjakarta”, read 2026-11-05",
+    status: "client-confirmed",
+    source:
+      "Pin of the Google Maps listing the owner confirmed as the official location, 2026-11-05 (the coordinates are part of the listing URL)",
     launch: "optional",
-    note: "Shown in the contact locator caption only after the client confirms the listing.",
   },
   contact: {
     whatsapp: {

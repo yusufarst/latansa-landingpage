@@ -2,6 +2,7 @@ import { Categories } from "@/components/site/categories";
 import { CompanyData } from "@/components/site/company-data";
 import { Contact } from "@/components/site/contact";
 import { Hero } from "@/components/site/hero";
+import { Overview } from "@/components/site/overview";
 import { Procurement } from "@/components/site/procurement";
 import { Profile } from "@/components/site/profile";
 import { RevealObserver } from "@/components/site/reveal-observer";
@@ -12,7 +13,7 @@ import { copy } from "@/content/copy";
 /**
  * The single-page site — Concept C · Presisi Terang (docs/art-direction.md).
  * Everything is rendered at build time; the only client components are the
- * menu, the category meter and the reveal observer.
+ * menu, the category carousel and the reveal observer.
  */
 export default function Home() {
   return (
@@ -28,6 +29,7 @@ export default function Home() {
       <SiteHeader />
       <main id="konten" tabIndex={-1} className="outline-none">
         <Hero />
+        <Overview />
         <Profile />
         <Categories />
         <Procurement />

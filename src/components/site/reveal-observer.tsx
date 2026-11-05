@@ -3,13 +3,15 @@
 import { useEffect } from "react";
 
 /**
- * Scroll reveals (motion M13–M16) and the header line (M6), each with one
- * IntersectionObserver and no scroll listeners.
+ * Page-level observers, each an IntersectionObserver (no scroll listeners):
  *
- * The server HTML never hides content. After hydration this marks only the
- * elements entirely below the viewport as pending (CSS hides those), then
- * reveals each once it is 16% visible. Elements already in view, and
- * everything under reduced motion, are left untouched.
+ * - Header line (motion M6): shows once the page leaves the top.
+ * - Section highlighting (M19): marks the navigation link of the section that
+ *   crosses the middle of the viewport with `data-current`.
+ * - Scroll reveals (M13–M16): the server HTML never hides content. After
+ *   hydration this marks only elements entirely below the viewport as pending
+ *   (CSS hides those) and reveals each once it is 16% visible. Elements already
+ *   in view, and everything under reduced motion, are left untouched.
  */
 export function RevealObserver() {
   useEffect(() => {
@@ -23,6 +25,34 @@ export function RevealObserver() {
       });
       lineObserver.observe(sentinel);
       observers.push(lineObserver);
+    }
+
+    const spyLinks = Array.from(
+      document.querySelectorAll<HTMLAnchorElement>("a[data-spy]"),
+    );
+    const sections = Array.from(
+      new Set(spyLinks.map((a) => a.getAttribute("href"))),
+      (href) => (href ? document.querySelector<HTMLElement>(href) : null),
+    ).filter((el): el is HTMLElement => el !== null);
+    if (sections.length) {
+      const setCurrent = (href: string | null) => {
+        for (const link of spyLinks) {
+          link.dataset.current = String(link.getAttribute("href") === href);
+        }
+      };
+      const spy = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) setCurrent(`#${entry.target.id}`);
+            // Back above the first section (the hero): no link is current.
+            else if (entry.target === sections[0] && entry.boundingClientRect.top > 0)
+              setCurrent(null);
+          }
+        },
+        { rootMargin: "-50% 0px -50% 0px" },
+      );
+      sections.forEach((section) => spy.observe(section));
+      observers.push(spy);
     }
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;

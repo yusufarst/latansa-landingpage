@@ -72,7 +72,11 @@ export function Categories() {
 
         <CategoryScroller
           label={copy.categories.scrollerLabel}
-          swipeHint={copy.categories.swipeHint}
+          labels={{
+            previous: copy.categories.previous,
+            next: copy.categories.next,
+            position: copy.categories.position,
+          }}
           className="-mx-page mt-10 flex snap-x snap-mandatory scroll-px-page [scrollbar-width:none] gap-4 overflow-x-auto px-page pb-1 md:mt-12 lg:mx-0 lg:mt-16 lg:grid lg:grid-cols-12 lg:gap-x-8 lg:gap-y-[4.5rem] lg:overflow-visible lg:px-0 lg:pb-0 [&::-webkit-scrollbar]:hidden"
         >
           {categories.map((category, i) => {
@@ -82,7 +86,7 @@ export function Categories() {
               <article
                 key={category.id}
                 className={cx(
-                  "shrink-0 grow-0 basis-[80%] snap-start xs:basis-[74%] md:basis-[44%] lg:basis-auto",
+                  "cat-card shrink-0 grow-0 basis-[82%] snap-start xs:basis-[76%] md:basis-[44%] lg:basis-auto",
                   place.card,
                 )}
               >

@@ -1,19 +1,17 @@
 import { company } from "@/content/company";
 import { copy } from "@/content/copy";
-import { fill } from "@/lib/format";
-import { publishedChannels, siplahStore } from "@/lib/links";
-import { ExternalButton, ExternalTextLink } from "./actions";
-import { SectionHeading } from "./section-heading";
+import { siplahStore } from "@/lib/links";
+import { ExternalButton } from "./actions";
 
 /**
- * Pengadaan (art-direction §6.5): the navy band. Renders only while the SIPLah
- * store is publishable; the flow describes SIPLah only, and any other verified
- * channel appears as a plain external link.
+ * Pengadaan (art-direction §6.5): the navy band, the page's one centered,
+ * symmetrical composition — heading, the three-step flow and the store
+ * action on one axis. Renders only while the SIPLah store is publishable;
+ * unverified channels (Mbizmarket) never appear.
  */
 export function Procurement() {
   const store = siplahStore();
   if (!store) return null;
-  const others = publishedChannels().filter((c) => c.id !== "siplah-toko-ladang");
   const { steps } = copy.procurement;
   const flow = [
     { title: company.legalName.value, note: steps.supplier },
@@ -27,18 +25,19 @@ export function Procurement() {
       aria-labelledby="pengadaan-heading"
       className="on-dark bg-navy py-section text-white"
     >
-      <div className="frame lg:grid lg:grid-cols-12 lg:gap-x-8">
-        <SectionHeading
-          id="pengadaan-heading"
-          label={copy.procurement.label}
-          heading={copy.procurement.heading}
-          lede={copy.procurement.lede}
-          dark
-          className="lg:col-span-5 lg:row-start-1"
-        />
+      <div className="frame">
+        <div data-reveal="group" className="mx-auto max-w-[46rem] text-center">
+          <p className="tag tag-center">{copy.procurement.label}</p>
+          <h2 id="pengadaan-heading" className="mt-5 text-h2 font-semibold">
+            {copy.procurement.heading}
+          </h2>
+          <p className="mx-auto mt-5 max-w-[38rem] text-body text-mist lg:text-lead">
+            {copy.procurement.lede}
+          </p>
+        </div>
 
-        <div className="relative mt-11 lg:col-span-6 lg:col-start-7 lg:row-span-2 lg:row-start-1 lg:mt-0 lg:self-center lg:border lg:border-hair-inverse lg:px-9 lg:pt-11 lg:pb-12">
-          <p className="absolute -top-[0.7rem] left-7 hidden bg-navy px-2 text-label text-mist lg:block">
+        <div className="relative mx-auto mt-12 w-fit md:w-full md:max-w-[52rem] md:border md:border-hair-inverse md:px-8 md:pt-12 md:pb-11 lg:mt-16 lg:px-12">
+          <p className="absolute -top-[0.7rem] left-1/2 hidden -translate-x-1/2 bg-navy px-3 text-label whitespace-nowrap text-mist md:block">
             {copy.procurement.flowCaption}
           </p>
           <ol data-reveal="flow" aria-label={copy.procurement.flowLabel} className="flow">
@@ -53,18 +52,13 @@ export function Procurement() {
           </ol>
         </div>
 
-        <div className="mt-11 grid justify-items-start gap-2 lg:col-span-5 lg:row-start-2 lg:mt-10">
-          <ExternalButton href={store.url} variant="brass" className="w-full md:w-auto">
+        <div className="mt-12 flex flex-col items-center gap-2 lg:mt-14">
+          <ExternalButton href={store.url} variant="brass" className="w-full sm:w-auto">
             {copy.actions.siplahLong}
           </ExternalButton>
           <a href="#kontak" className="tlink">
             {copy.actions.otherNeeds}
           </a>
-          {others.map((channel) => (
-            <ExternalTextLink key={channel.id} href={channel.url}>
-              {fill(copy.procurement.otherChannel, { channel: channel.name })}
-            </ExternalTextLink>
-          ))}
         </div>
       </div>
     </section>

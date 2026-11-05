@@ -1,8 +1,13 @@
 {
   "hero": {
     "width": 1508,
-    "height": 1172,
+    "height": 1465,
     "widths": [640, 960, 1280, 1508]
+  },
+  "hero-wide": {
+    "width": 2600,
+    "height": 1201,
+    "widths": [960, 1280, 1600, 2048, 2600]
   },
   "profile": {
     "width": 2048,

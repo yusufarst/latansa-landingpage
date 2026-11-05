@@ -42,6 +42,8 @@ officers more than a missing section. Full policy: `docs/content-policy.md`.
   Teknis; Peralatan Umum Kelembagaan; Barang & Jasa Pendukung Terpilih.
 - SIPLah Toko Ladang store URL — client-provided, publishable.
 - Mbizmarket — unverified; hidden.
+- Google Maps listing "Latansa Jogjakarta" and its coordinates — client-confirmed (owner,
+  2026-11-05); every Maps link opens the listing.
 - Office hours (from Google Maps) — needs confirmation; hidden.
 - WhatsApp 081802681183 — client-provided; every WhatsApp action links to
   `https://wa.me/6281802681183`.
