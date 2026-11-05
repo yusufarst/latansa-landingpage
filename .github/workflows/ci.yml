@@ -1,0 +1,34 @@
+# Pull-request checks only. Deploys are handled by Cloudflare Pages, not by Actions.
+# Budget: ~2–3 min per run on ubuntu-latest, well inside the GitHub Free 2,000 min/month
+# for private repos. Without a payment method GitHub blocks runs at the limit — it never bills.
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run format:check
+      - run: npm test
+      - run: npm run content:check
+      - run: npm run build
+      - run: npm run verify:export

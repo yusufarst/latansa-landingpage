@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+/*
+ * LATANSA design tokens — Modern Institutional Elegance.
+ * Mobile-first: write base (unprefixed) utilities for 360px, then layer
+ * xs → sm → md → lg → xl → 2xl → 3xl upward. Never design desktop first.
+ *
+ * Contrast (WCAG 2.x, measured on the hex values below):
+ *   ink on porcelain        ≈ 13.5:1  → all text
+ *   slate on porcelain      ≈ 5.2:1   → body + secondary text
+ *   champagne on ink        ≈ 5.5:1   → text on dark surfaces
+ *   champagne on porcelain  ≈ 2.5:1   → NOT for text; rules, hairlines, details only
+ */
+@theme {
+  /* Palette */
+  --color-ink: #172b36;
+  --color-porcelain: #f7f6f2;
+  --color-slate: #526b78;
+  --color-champagne: #b69a75;
+  --color-stone: #d9dfde;
+
+  /* Semantic aliases — prefer these in components */
+  --color-surface: var(--color-porcelain);
+  --color-surface-inverse: var(--color-ink);
+  --color-text: var(--color-ink);
+  --color-text-muted: var(--color-slate);
+  --color-text-inverse: var(--color-porcelain);
+  --color-accent: var(--color-champagne);
+  --color-line: var(--color-stone);
+
+  /* Typography (provisional — finalized in Phase 3 art direction) */
+  --font-display: var(--font-newsreader), ui-serif, Georgia, serif;
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+
+  /* Mobile-first breakpoints matching the QA viewport ladder:
+     360/390 (base) → 430 → 768 → 1024 → 1440 → 1920 */
+  --breakpoint-xs: 26.875rem; /* 430px */
+  --breakpoint-sm: 40rem; /* 640px */
+  --breakpoint-md: 48rem; /* 768px */
+  --breakpoint-lg: 64rem; /* 1024px */
+  --breakpoint-xl: 80rem; /* 1280px */
+  --breakpoint-2xl: 90rem; /* 1440px */
+  --breakpoint-3xl: 120rem; /* 1920px */
+
+  /* Motion — restrained, purposeful */
+  --ease-institutional: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-quick: 180ms;
+  --duration-base: 320ms;
+  --duration-slow: 640ms;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background-color: var(--color-ink);
+    color: var(--color-porcelain);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
