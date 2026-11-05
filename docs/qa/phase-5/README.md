@@ -1,5 +1,7 @@
 # Phase 5 QA record
 
+**Status:** approved by the owner on 2026-11-06 (PR 4), including the email update.
+
 Browser visual testing and refinement of the merged Phase 4 site, mobile first. Dates:
 2026-11-05, with the final run on 2026-11-06. Everything below was measured on the **static
 export** (`npm run build`, `out/`) served by the `static-export` launch config on port 4173.

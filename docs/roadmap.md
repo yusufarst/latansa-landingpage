@@ -9,7 +9,7 @@ in `main` by Pull Request. Nothing is deployed and no DNS is changed without exp
 | 2     | frontend-design plugin, Motion AI Kit, LATANSA skills, image pipeline research                                                    | Medium | Done (PR 1) |
 | 3     | Premium art direction and motion specification; image-asset plan                                                                  | High   | Done (PR 2) |
 | 4     | Frontend implementation, mobile-first; generate images if a suitable free tool exists                                             | MAX    | Done (PR 3) |
-| 5     | Browser visual testing and intensive refinement (mobile first)                                                                    | MAX    | In review   |
+| 5     | Browser visual testing and intensive refinement (mobile first)                                                                    | MAX    | Done (PR 4) |
 | 6     | SEO, accessibility, performance, `content:check --strict` (required launch info only), production verification, set `launchReady` | High   | —           |
 
 After Phase 6, deployment to Cloudflare Pages and the Hostinger DNS change are separate steps
