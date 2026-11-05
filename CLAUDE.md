@@ -5,14 +5,15 @@
 Single-page corporate website for **CV. Latansa Jogjakarta** at **latansajogja.co.id**.
 Purpose: establish credibility with government and institutional procurement audiences.
 Indonesian only. Design direction: **Concept C · Presisi Terang** (Modern Precision Corporate),
-approved by the owner on 2026-11-05.
+approved by the owner on 2026-11-05, with the Phase 4 owner amendments: a pristine white canvas
+and Plus Jakarta Sans.
 
 Read before working: [docs/project-brief.md](docs/project-brief.md),
 [docs/roadmap.md](docs/roadmap.md), [docs/content-policy.md](docs/content-policy.md),
 [docs/design-standards.md](docs/design-standards.md). Before any UI work, also read the binding
 spec: [docs/art-direction.md](docs/art-direction.md), [docs/motion-spec.md](docs/motion-spec.md)
-and [docs/image-assets.md](docs/image-assets.md). Photorealistic imagery is mandatory. Phase 4
-(frontend build) starts only with the owner's explicit authorization.
+and [docs/image-assets.md](docs/image-assets.md). Photorealistic imagery is mandatory. Each phase starts only
+with the owner's explicit authorization (see the roadmap).
 
 ## Hard rules
 

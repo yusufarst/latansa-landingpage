@@ -55,7 +55,7 @@ deltas D10, D11, D12 and D14 in [art-direction.md §12](art-direction.md#12-delt
 | M4  | Hero support            | Load, once                                | `opacity 0 → 1`, `translateY(10px → 0)`: line, actions, chip, meta or location row                                        | 800ms, ease-out, +700ms                                        | `translateY(8px)`             | Visible                 |
 | M5  | Annotations             | Load, once                                | `opacity 0 → 1`, `translateY(6px → 0)`                                                                                    | 700ms, ease-out, +1050ms + 140ms × marker                      | Same (A1 only)                | Visible                 |
 | M6  | Header line             | Top sentinel leaves the viewport          | 1px `hair` line (`box-shadow`) fades in                                                                                   | 300ms                                                          | Same                          | Instant                 |
-| M7  | Menu sheet              | Menu, Tutup, Esc, link activation         | `clip-path: inset(0 0 100% 0)` ↔ `inset(0)`; `visibility` flips after closing                                             | 550ms, ease-out, both ways                                     | Mobile and tablet only        | 150ms opacity, no clip  |
+| M7  | Menu sheet              | Menu, Tutup, Esc, link activation         | `clip-path: inset(0 0 100% 0)` ↔ `inset(0)`; `visibility` flips after closing                                             | 550ms, ease-out, both ways                                     | Mobile and tablet only        | Instant, no clip        |
 | M8  | Menu links              | Sheet opens                               | `opacity 0 → 1` (400ms), `translateY(14px → 0)` (500ms); +50ms per link from the second                                   | Ease-out; reset with the sheet on close                        | —                             | Visible                 |
 | M9  | Menu icon               | Same as M7                                | Bars `translateY(±3px) rotate(±45°)` into a cross                                                                         | 350ms, ease-out                                                | —                             | Instant                 |
 | M10 | Buttons                 | Hover (hover-capable devices only); press | Fill sweeps from the left (`scaleX(0 → 1)` on a `::before` layer); text and outline color change; press `translateY(1px)` | Fill 450ms ease-out; color 350ms ease-snap; press 120ms linear | Press only                    | Color only, ≤ 150ms     |
@@ -126,7 +126,7 @@ Under `@media (prefers-reduced-motion: reduce)`:
 - **Final states:** no keyframes and no `clip-path` or transform transitions. Every element renders
   in its final state: photographs uncropped, lines and rings drawn, words in place.
 - **Hover:** feedback is limited to color and opacity changes of 150ms or less.
-- **Menu:** the sheet opens with a 150ms opacity fade, without the clip.
+- **Menu:** the sheet opens and closes instantly, without the clip.
 - **Scrolling:** `scroll-behavior: auto`.
 - **Reveals:** `RevealObserver` marks nothing as pending.
 

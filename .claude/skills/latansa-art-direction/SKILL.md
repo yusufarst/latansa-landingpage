@@ -12,6 +12,9 @@ description: Art direction for the LATANSA JOGJAKARTA corporate website ("Modern
   - Terang's ivory breathing room;
   - licensed professional photography graded as one family;
   - brass annotation markers on the hero photograph as the signature.
+- **Phase 4 owner amendments (2026-11-05):** a pristine white `#FFFFFF` canvas dominates (navy
+  and brass are controlled accents), and one readable sans-serif, **Plus Jakarta Sans**,
+  replaces Archivo and Newsreader.
 - **The binding spec wins over this skill:**
   - `docs/art-direction.md`: tokens, type, grid, sections, imagery slots, annotations, deltas
     from the board, acceptance criteria;

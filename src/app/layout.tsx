@@ -1,19 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Newsreader } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import { site } from "@/config/site";
 import { company } from "@/content/company";
 import "./globals.css";
 
-// Fonts are downloaded at build time and self-hosted from /_next/static —
-// no runtime requests to Google. Typography is provisional until Phase 3.
-const newsreader = Newsreader({
-  variable: "--font-newsreader",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const geist = Geist({
-  variable: "--font-geist",
+// Plus Jakarta Sans (OFL; Tokotype, Indonesia): one variable family for
+// display, text, UI and data. Downloaded at build time and self-hosted from
+// /_next/static, so visitors never request Google Fonts.
+const jakarta = Plus_Jakarta_Sans({
+  variable: "--font-jakarta",
   subsets: ["latin"],
   display: "swap",
 });
@@ -40,16 +35,13 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#172b36",
+  themeColor: "#ffffff",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang={site.lang}
-      className={`${newsreader.variable} ${geist.variable} h-full antialiased`}
-    >
-      <body className="flex min-h-full flex-col">{children}</body>
+    <html lang={site.lang} className={jakarta.variable}>
+      <body>{children}</body>
     </html>
   );
 }

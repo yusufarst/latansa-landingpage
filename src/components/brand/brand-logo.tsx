@@ -13,6 +13,8 @@ interface BrandLogoProps {
   variant: Variant;
   className?: string;
   priority?: boolean;
+  /** Above-the-fold logos load eagerly without competing for priority. */
+  loading?: "eager" | "lazy";
 }
 
 /**
@@ -24,7 +26,7 @@ interface BrandLogoProps {
  * - vertical: selected corporate-identity compositions
  * - symbol: favicon/app icon contexts only
  */
-export function BrandLogo({ variant, className, priority }: BrandLogoProps) {
+export function BrandLogo({ variant, className, priority, loading }: BrandLogoProps) {
   const src = SOURCES[variant];
   return (
     <Image
@@ -33,6 +35,7 @@ export function BrandLogo({ variant, className, priority }: BrandLogoProps) {
       height={src.height}
       alt="LATANSA — CV Latansa Jogjakarta"
       priority={priority}
+      loading={priority ? undefined : loading}
       className={className}
     />
   );

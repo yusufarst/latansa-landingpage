@@ -62,6 +62,19 @@ check(
 );
 check(!/\/_next\/image\?/.test(index), "no runtime image optimizer URLs");
 
+// Every responsive photo derivative listed in the manifest is exported.
+const photos = JSON.parse(
+  readFileSync(new URL("../src/config/image-assets.json", import.meta.url), "utf8"),
+);
+const expected = Object.entries(photos).flatMap(([name, photo]) =>
+  photo.widths.flatMap((w) => [`images/${name}-${w}.avif`, `images/${name}-${w}.webp`]),
+);
+const missing = expected.filter((rel) => !existsSync(join(out, rel)));
+check(
+  missing.length === 0,
+  `${expected.length} photo derivatives exported${missing.length ? `; missing: ${missing.join(", ")}` : ""}`,
+);
+
 if (failures.length) {
   console.error("\nStatic export verification FAILED:");
   for (const f of failures) console.error(`  ✗ ${f}`);

@@ -17,10 +17,13 @@ import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import {
+  collectCopy,
   collectFacts,
   evaluateLaunch,
+  pendingCopy,
   scanForbidden,
   scanUnguardedAccess,
+  validateCopy,
   validateFacts,
 } from "./lib/content-rules.mjs";
 
@@ -36,6 +39,15 @@ const contentUrl = contentArg
 
 const { company } = await import(contentUrl);
 const facts = collectFacts(company);
+const copyItems = collectCopy(company);
+const pending = pendingCopy(copyItems);
+
+// The UI in src/ always reads the real content model, so its fact access is
+// checked against the real facts, even when --content loads a test fixture.
+const projectContentUrl = new URL("../src/content/company.ts", import.meta.url).href;
+const uiFacts = contentArg
+  ? collectFacts((await import(projectContentUrl)).company)
+  : facts;
 
 // ── Source scans ────────────────────────────────────────────────────────────
 const SCAN_EXT = /\.(tsx?|mdx?|json|css)$/;
@@ -59,11 +71,11 @@ for (const file of walk(join(root, "src"))) {
   const text = readFileSync(file, "utf8");
   forbidden.push(...scanForbidden(text, rel));
   if (UI_DIRS.some((d) => rel.startsWith(d)))
-    unguarded.push(...scanUnguardedAccess(text, rel, facts));
+    unguarded.push(...scanUnguardedAccess(text, rel, uiFacts));
 }
 
 // ── Report ──────────────────────────────────────────────────────────────────
-const modelErrors = validateFacts(facts);
+const modelErrors = [...validateFacts(facts), ...validateCopy(copyItems)];
 const { blocking, deferred } = evaluateLaunch(facts);
 const publishable = facts.length - new Set(deferred.map((d) => d.path)).size;
 
@@ -73,6 +85,14 @@ if (blocking.length) {
   for (const b of blocking) {
     const note = b.fact?.note ? `  ${b.fact.note}` : "";
     console.log(`  ! ${b.path}  [${b.fact?.status ?? b.reason}]${note}`);
+  }
+  console.log("");
+}
+if (pending.length) {
+  console.log("Copy shown on the site, pending client confirmation (blocks --strict):");
+  for (const p of pending) {
+    const note = p.copy.note ? `  ${p.copy.note}` : "";
+    console.log(`  ! ${p.path}  "${p.copy.text}"${note}`);
   }
   console.log("");
 }
@@ -100,11 +120,12 @@ if (failed) process.exit(1);
 
 console.log("Content model valid. Forbidden-content scan clean. UI fact access guarded.");
 if (strict) {
-  if (blocking.length) {
+  const blockers = blocking.length + pending.length;
+  if (blockers) {
     console.error(
-      `\n--strict: ${blocking.length} launch blocker(s). Resolve them before production.`,
+      `\n--strict: ${blockers} launch blocker(s). Resolve them before production.`,
     );
     process.exit(1);
   }
-  console.log("--strict: launch-ready (no required facts unresolved).");
+  console.log("--strict: launch-ready (no required facts or pending copy).");
 }

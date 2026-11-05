@@ -13,7 +13,9 @@ officers more than a missing section. Full policy: `docs/content-policy.md`.
 - All facts live in `src/content/company.ts` as `Fact<T>` with `status` + `source`
   (types in `src/content/types.ts`).
 - Publishable statuses: `client-confirmed`, `client-provided`. Not publishable:
-  `needs-confirmation`, `unverified`, `missing`.
+  `needs-confirmation`, `pending-activation`, `unverified`, `missing`.
+- Copy shown provisionally (the hero headline) is `ConfirmableCopy` with
+  `confirmation: "pending"`; `--strict` blocks launch until the client confirms it.
 - Every fact declares `launch`: `"required"` (must be publishable to launch),
   `"optional"` (may stay unresolved), or `{ atLeastOneOf: "contact" }` (one member of the
   group must be resolved). New facts are `"optional"` unless the site cannot credibly launch
@@ -41,7 +43,10 @@ officers more than a missing section. Full policy: `docs/content-policy.md`.
 - SIPLah Toko Ladang store URL — client-provided, publishable.
 - Mbizmarket — unverified; hidden.
 - Office hours (from Google Maps) — needs confirmation; hidden.
-- WhatsApp and email — missing; contact links hidden until provided.
+- WhatsApp 081802681183 — client-provided; every WhatsApp action links to
+  `https://wa.me/6281802681183`.
+- Email `info@latansajogja.co.id` — `pending-activation` (Cloudflare Email Routing not set up).
+  Never rendered until it receives mail; never publish the personal forwarding inbox.
 
 ## PKP rules
 

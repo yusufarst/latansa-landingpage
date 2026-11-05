@@ -1,22 +1,41 @@
-import { BrandLogo } from "@/components/brand/brand-logo";
-import { company } from "@/content/company";
+import { Categories } from "@/components/site/categories";
+import { CompanyData } from "@/components/site/company-data";
+import { Contact } from "@/components/site/contact";
+import { Hero } from "@/components/site/hero";
+import { Procurement } from "@/components/site/procurement";
+import { Profile } from "@/components/site/profile";
+import { RevealObserver } from "@/components/site/reveal-observer";
+import { SiteFooter } from "@/components/site/site-footer";
+import { SiteHeader } from "@/components/site/site-header";
+import { copy } from "@/content/copy";
 
 /**
- * Phase 1 placeholder. The premium landing page is built in Phase 4.
+ * The single-page site — Concept C · Presisi Terang (docs/art-direction.md).
+ * Everything is rendered at build time; the only client components are the
+ * menu, the category meter and the reveal observer.
  */
 export default function Home() {
   return (
-    <main className="flex flex-1 flex-col justify-between gap-16 px-6 py-10 xs:px-8 md:px-16 md:py-16">
-      <BrandLogo variant="horizontal" priority className="h-auto w-44 md:w-56" />
-      <div className="max-w-xl">
-        <p className="text-sm tracking-[0.2em] text-text-muted uppercase">
-          Dalam pengembangan
-        </p>
-        <h1 className="mt-4 font-display text-4xl leading-tight text-balance md:text-5xl">
-          Situs resmi {company.legalName.value} sedang disiapkan.
-        </h1>
-      </div>
-      <p className="text-sm text-text-muted">latansajogja.co.id</p>
-    </main>
+    <>
+      <a href="#konten" className="btn btn-navy skip-link">
+        {copy.skipLink}
+      </a>
+      <div
+        id="top-sentinel"
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 h-2"
+      />
+      <SiteHeader />
+      <main id="konten" tabIndex={-1} className="outline-none">
+        <Hero />
+        <Profile />
+        <Categories />
+        <Procurement />
+        <CompanyData />
+        <Contact />
+      </main>
+      <SiteFooter />
+      <RevealObserver />
+    </>
   );
 }
