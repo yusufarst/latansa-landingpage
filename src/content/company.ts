@@ -52,6 +52,7 @@ export const company = {
       province: "Daerah Istimewa Yogyakarta",
       postalCode: "55771",
       country: "Indonesia",
+      regionShort: "Kabupaten Bantul, DIY",
     },
     status: "client-provided",
     source:
@@ -59,30 +60,59 @@ export const company = {
     launch: "required",
   },
   officeHours: {
-    value: "Senin–Jumat 09.00–17.00 WIB · Sabtu 09.00–15.00 WIB · Minggu tutup",
+    value: [
+      { days: "Senin–Jumat", hours: "09.00–17.00 WIB" },
+      { days: "Sabtu", hours: "09.00–15.00 WIB" },
+      { days: "Minggu", hours: "Tutup" },
+    ],
     status: "needs-confirmation",
     source: "Google Maps listing “Latansa Jogjakarta”, read 2026-11-05",
     launch: "optional",
     note: "Confirm with the client before publishing (set status to client-confirmed).",
   },
+  mapsUrl: {
+    value:
+      "https://www.google.com/maps/place/Latansa+Jogjakarta/@-7.9615341,110.3495675,17z/data=!4m6!3m5!1s0x2e7a551bac26733d:0xc5bd5460133408a8!8m2!3d-7.9615341!4d110.3495675!16s%2Fg%2F11t4gybf5_",
+    status: "client-confirmed",
+    source:
+      "Google Maps listing “Latansa Jogjakarta”, confirmed by the owner in chat as the company's official location, 2026-11-05",
+    launch: "optional",
+  },
+  coordinates: {
+    value: {
+      latitude: -7.9615341,
+      longitude: 110.3495675,
+      display: "7°57′41″ LS, 110°20′58″ BT",
+    },
+    status: "client-confirmed",
+    source:
+      "Pin of the Google Maps listing the owner confirmed as the official location, 2026-11-05 (the coordinates are part of the listing URL)",
+    launch: "optional",
+  },
   contact: {
     whatsapp: {
-      value: null,
-      status: "missing",
-      source: "Not provided",
+      value: "6281802681183",
+      status: "client-provided",
+      source:
+        "Official WhatsApp 081802681183, supplied by the client in chat, 2026-11-05",
       launch: { atLeastOneOf: "contact" },
-      note: "Needs the official WhatsApp number in international format (62…). Contact links are hidden until provided.",
     },
     email: {
-      value: null,
-      status: "missing",
-      source: "Not provided",
+      value: "info@latansajogja.co.id",
+      status: "pending-activation",
+      source: "Planned domain address, supplied by the client in chat, 2026-11-05",
       launch: { atLeastOneOf: "contact" },
-      note: "Needs the official email address. Contact links are hidden until provided.",
+      note: "Cloudflare Email Routing is not configured yet. Publish (status client-confirmed) only after the address receives email successfully. Never publish the personal forwarding inbox.",
     },
   },
   positioning: {
-    headline: "Pemasok barang dan jasa pendukung untuk instansi dan lembaga.",
+    headline: {
+      text: "Perangkat dan perlengkapan kerja untuk instansi dan lembaga.",
+      confirmation: "pending",
+      source:
+        "Concept C headline, approved by the owner for provisional use in Phase 4, 2026-11-05",
+      note: "Final client confirmation pending (docs/art-direction.md §14). A replacement must stay ≤ 62 characters.",
+    },
     summary:
       "CV. Latansa Jogjakarta adalah perusahaan perdagangan dan pemasok yang berkedudukan di Kabupaten Bantul, Daerah Istimewa Yogyakarta.",
     profile: [

@@ -19,14 +19,17 @@ npm run content:check
 ```
 
 Then serve `out/` with the `static-export` config in `.claude/launch.json` (port 4173) via the
-built-in browser's `preview_start`. Use `dev` (port 3000) only for quick iteration, never for
+built-in browser's `preview_start`. On a real phone, open the Network URL that
+`npm run preview` prints (same Wi-Fi); `next dev` over the LAN needs `allowedDevOrigins`. Use `dev` (port 3000) only for quick iteration, never for
 sign-off.
 
 ## 2. Viewport ladder — in this order
 
 | Step | Size (w×h) | Notes                                                         |
 | ---- | ---------- | ------------------------------------------------------------- |
+| 0    | 320×568    | Stress test. Content must fit; the primary action visible.    |
 | 1    | 360×780    | Primary. Smallest common Android.                             |
+| 1b   | 375×667    | Short iPhone (SE). Headline, line and both actions visible.   |
 | 2    | 390×844    | Primary. Common iPhone.                                       |
 | 3    | 430×932    | Large phone (`xs:`).                                          |
 | 4    | 768×1024   | Tablet (`md:`), check portrait.                               |

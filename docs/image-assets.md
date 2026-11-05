@@ -45,8 +45,11 @@
 
 ## Masters
 
-1. **Download** the largest original from each photo page listed in `SOURCES.md`. The review
-   copies came from the Unsplash CDN at 2600px wide.
+The pipeline is `npm run images:build` (`scripts/build-images.mjs`). It runs these steps and
+writes the derivatives plus `src/config/image-assets.json`; commit its output.
+
+1. **Originals:** the licensed originals are kept, ungraded, in `assets/images/originals/`
+   (2600px wide, from the Unsplash CDN; IDs in `SOURCES.md`). They are not served.
 2. **Crop only:** no object removal, retouching or compositing.
    - The hero is cropped to x 42–100% and y 0–80% of the frame. At 2600 × 1465 that is 1508 × 1172
      from (1092, 0).
@@ -56,10 +59,9 @@
    2. `linear(a, b)`;
    3. a soft-light layer of `#12243A` at the cool opacity;
    4. a soft-light layer of `#F6E8D2` at the warm opacity.
-4. **Store:** keep the graded masters, lossless or high quality, in `assets/images/`. They are not
-   served.
+4. **Master:** the graded result stays lossless in memory; every derivative is encoded from it.
 
-### Family grade (exact values used for the approved board)
+### Family grade (exact values, used by the board and the build)
 
 | Image             | Saturation | Brightness | Linear (a, b) | Cool layer | Warm layer |
 | ----------------- | ---------- | ---------- | ------------- | ---------- | ---------- |
@@ -75,26 +77,31 @@
 The review copies were graded after resizing to 2000px. For production, grade at master size;
 the values hold. `it-keyboard` keeps full saturation because it is already near-monochrome.
 
-## Derivatives (Phase 4 build step)
+## Derivatives (implemented in Phase 4)
 
-- **Formats:** AVIF first, then WebP, through `<picture>`, with `sizes` from
-  [art-direction.md §7](art-direction.md#7-imagery).
+- **Formats:** AVIF (quality 60, 4:4:4) first, then WebP (quality 82), through `<picture>`, with
+  `sizes` from [art-direction.md §7](art-direction.md#7-imagery). Output: `public/images/`.
 - **Widths:** 640, 960, 1280, 1600 and 2048, each capped at the master's width (never upscaled).
   The hero master is 1508 wide, so its ladder is 640, 960, 1280 and 1508.
 - **Byte budgets:**
   - hero ≤ 90 KB at 960w and ≤ 160 KB at its largest width;
   - other images ≤ 110 KB at 960w;
   - explicit `width` and `height` on every image.
+  - Measured at 960w (AVIF): hero 49 KB, profile 46 KB, cards 13–51 KB. All within budget.
+- **Export check:** `npm run verify:export` fails if any derivative listed in the manifest is
+  missing from `out/`.
 - **Priority:** only the hero is preloaded with `fetchpriority="high"`; the rest are lazy.
 
 ## On-page rules
 
-- **Alt text** is in Indonesian, starts with "Foto ilustrasi:" and describes what is visible (texts
-  in [art-direction.md §7](art-direction.md#7-imagery)).
-- **Chip:** the hero photograph carries a "Foto ilustrasi" chip.
-- **Footer note:** "Foto pada situs ini bersifat ilustratif (Unsplash License) dan bukan
-  dokumentasi kegiatan perusahaan."
+- **No visible labels (owner decision, 2026-11-05):** photographs appear as editorial imagery,
+  with no "Foto ilustrasi" chip, caption or footer disclaimer. Provenance and licenses stay in
+  `SOURCES.md` and `src/content/images.ts`.
+- **No false claims:** no caption, alt text or copy may present a photo as LATANSA's own office,
+  staff, inventory, deliveries, customers or projects.
+- **Alt text** is in Indonesian and describes what is visible, without a "Foto ilustrasi:" prefix.
+- **Hero crops:** `hero` (1508 × 1465, phones) and `hero-wide` (2600 × 1201, 768px up), served
+  through one `<picture>` with a media query.
 - **Credit:** an optional photographer credit is appreciated by Unsplash, but not required. It can
   live in a credits note in the footer.
-- **Annotations** appear only on the hero and must sit on a matching object
-  ([art-direction.md §8](art-direction.md#8-annotation-system)).
+- **Annotations** are retired (owner refinement brief, 2026-11-05).

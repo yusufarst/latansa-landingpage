@@ -5,10 +5,14 @@ import { join, relative } from "node:path";
 import { describe, it } from "node:test";
 import { fileURLToPath } from "node:url";
 import {
+  collectCopy,
   collectFacts,
   evaluateLaunch,
+  isPublishableFact,
+  pendingCopy,
   scanForbidden,
   scanUnguardedAccess,
+  validateCopy,
   validateFacts,
 } from "../lib/content-rules.mjs";
 
@@ -102,6 +106,48 @@ describe("evaluateLaunch", () => {
     );
     assert.equal(one.blocking.length, 0);
     assert.deepEqual(paths(one.deferred), ["company.email"]);
+  });
+
+  it("never treats a pending-activation fact as publishable", () => {
+    const group = { atLeastOneOf: "contact" };
+    const planned = fact("pending-activation", "info@contoh.co.id", group);
+    assert.equal(isPublishableFact(planned), false);
+
+    const onlyPlanned = evaluateLaunch(collectFacts({ email: planned }));
+    assert.equal(onlyPlanned.blocking.length, 1);
+
+    const withWhatsapp = evaluateLaunch(
+      collectFacts({ wa: fact("client-provided", "62812", group), email: planned }),
+    );
+    assert.equal(withWhatsapp.blocking.length, 0);
+    assert.deepEqual(paths(withWhatsapp.deferred), ["company.email"]);
+  });
+});
+
+describe("confirmable copy", () => {
+  const copy = (confirmation, text = "Judul") => ({ text, confirmation, source: "test" });
+
+  it("collects copy items but not facts, and lists only pending ones", () => {
+    const items = collectCopy({
+      positioning: { headline: copy("pending"), tagline: copy("confirmed") },
+      legalName: fact("client-confirmed", "CV", "required"),
+    });
+    assert.deepEqual(paths(items), [
+      "company.positioning.headline",
+      "company.positioning.tagline",
+    ]);
+    assert.deepEqual(paths(pendingCopy(items)), ["company.positioning.headline"]);
+  });
+
+  it("rejects unknown confirmation states, empty sources and empty text", () => {
+    const errors = validateCopy(
+      collectCopy({
+        a: copy("maybe"),
+        b: { text: "x", confirmation: "pending", source: "" },
+        c: copy("confirmed", " "),
+      }),
+    );
+    assert.equal(errors.length, 3);
   });
 });
 
@@ -211,6 +257,19 @@ describe("content-check CLI", () => {
     assert.equal(r.code, 0, r.out);
   });
 
+  it("--strict fails while copy shown on the site awaits confirmation", () => {
+    const r = runCli("--strict", "--content", fixture("pending-copy"));
+    assert.equal(r.code, 1, r.out);
+    assert.match(r.out, /pending client confirmation/);
+    assert.match(r.out, /company\.positioning\.headline/);
+  });
+
+  it("non-strict mode lists pending copy without failing", () => {
+    const r = runCli("--content", fixture("pending-copy"));
+    assert.equal(r.code, 0, r.out);
+    assert.match(r.out, /company\.positioning\.headline/);
+  });
+
   it("fails in any mode on an invalid content model", () => {
     const r = runCli("--content", fixture("invalid-model"));
     assert.equal(r.code, 1, r.out);
@@ -223,12 +282,45 @@ describe("project content", () => {
     const { company } = await import("../../src/content/company.ts");
     const facts = collectFacts(company);
     assert.deepEqual(validateFacts(facts), []);
+    assert.deepEqual(validateCopy(collectCopy(company)), []);
     const { blocking } = evaluateLaunch(facts);
-    // Only the contact group may still block (awaiting the client's WhatsApp/email).
-    assert.deepEqual(
-      blocking.filter((b) => !b.path.startsWith('group "contact"')),
-      [],
+    assert.deepEqual(blocking, []);
+  });
+
+  it("publishes the client's WhatsApp and keeps the planned email unpublished", async () => {
+    const { company } = await import("../../src/content/company.ts");
+    const { whatsapp, email } = company.contact;
+    assert.equal(isPublishableFact(whatsapp), true);
+    assert.match(whatsapp.value, /^62\d{8,13}$/);
+    assert.equal(email.status, "pending-activation");
+    assert.equal(isPublishableFact(email), false);
+  });
+
+  it("marks the provisional headline as pending client confirmation", async () => {
+    const { company } = await import("../../src/content/company.ts");
+    assert.deepEqual(paths(pendingCopy(collectCopy(company))), [
+      "company.positioning.headline",
+    ]);
+  });
+
+  it("publishes the owner-confirmed Google Maps listing", async () => {
+    const { company } = await import("../../src/content/company.ts");
+    assert.equal(company.mapsUrl.status, "client-confirmed");
+    assert.equal(isPublishableFact(company.mapsUrl), true);
+    assert.match(
+      company.mapsUrl.value,
+      /^https:\/\/www\.google\.com\/maps\/place\/Latansa\+Jogjakarta\//,
     );
+  });
+
+  it("shows no public photo disclaimer (owner decision, 2026-11-05)", async () => {
+    const { copy } = await import("../../src/content/copy.ts");
+    const disclaimer = /foto ilustrasi|ilustratif|unsplash license|stock photo/i;
+    assert.doesNotMatch(JSON.stringify(copy), disclaimer);
+    const images = readFileSync(join(root, "src", "content", "images.ts"), "utf8");
+    const alts = [...images.matchAll(/alt: "([^"]+)"/g)].map((m) => m[1]);
+    assert.ok(alts.length >= 7, "every photo has alt text");
+    for (const alt of alts) assert.doesNotMatch(alt, disclaimer);
   });
 
   it("keeps the exact PKP wording and no NPWP field", async () => {

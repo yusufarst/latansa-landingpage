@@ -1,0 +1,42 @@
+{
+  "hero": {
+    "width": 1508,
+    "height": 1465,
+    "widths": [640, 960, 1280, 1508]
+  },
+  "hero-wide": {
+    "width": 2600,
+    "height": 1201,
+    "widths": [960, 1280, 1600, 2048, 2600]
+  },
+  "profile": {
+    "width": 2048,
+    "height": 1365,
+    "widths": [640, 960, 1280, 1600, 2048]
+  },
+  "computers": {
+    "width": 2048,
+    "height": 1365,
+    "widths": [640, 960, 1280, 1600, 2048]
+  },
+  "office": {
+    "width": 2048,
+    "height": 1366,
+    "widths": [640, 960, 1280, 1600, 2048]
+  },
+  "electronics": {
+    "width": 2048,
+    "height": 1365,
+    "widths": [640, 960, 1280, 1600, 2048]
+  },
+  "institutional": {
+    "width": 2048,
+    "height": 1152,
+    "widths": [640, 960, 1280, 1600, 2048]
+  },
+  "supporting": {
+    "width": 2048,
+    "height": 1365,
+    "widths": [640, 960, 1280, 1600, 2048]
+  }
+}

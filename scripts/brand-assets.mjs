@@ -26,7 +26,8 @@ const pub = `${root}public/brand/`;
 const app = `${root}src/app/`;
 mkdirSync(pub, { recursive: true });
 
-const PORCELAIN = { r: 0xf7, g: 0xf6, b: 0xf2, alpha: 1 };
+// The site canvas is white (owner amendment, Phase 4).
+const WHITE = { r: 0xff, g: 0xff, b: 0xff, alpha: 1 };
 const manifest = {};
 
 async function trimmed(file) {
@@ -147,7 +148,7 @@ await writeSizes("latansa-symbol", symbol.data, [256, 512]);
 writeFileSync(`${app}icon.png`, await square(symbol.data, 512, { marginRatio: 0.06 }));
 writeFileSync(
   `${app}apple-icon.png`,
-  await square(symbol.data, 180, { marginRatio: 0.16, background: PORCELAIN }),
+  await square(symbol.data, 180, { marginRatio: 0.16, background: WHITE }),
 );
 const icoSizes = [16, 32, 48];
 writeFileSync(

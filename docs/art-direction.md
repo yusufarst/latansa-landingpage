@@ -14,6 +14,64 @@ guidance in [design-standards.md](design-standards.md) and the project skills.
 The board is a reference, not production code. **Where this spec and the board differ, this spec
 wins.** Every difference is listed with its reason in [§12](#12-deltas-from-the-approved-board).
 
+> **Owner amendments, Phase 4 (2026-11-05).** These override the approved board and earlier
+> versions of this spec:
+>
+> - **White canvas:** pristine white `#FFFFFF` replaces ivory for the main light sections and
+>   dominates the composition. Navy and brass stay as controlled accents; the navy procurement
+>   band and the midnight contact band remain for contrast and rhythm.
+> - **Typography:** readability first. One refined modern sans-serif, **Plus Jakarta Sans**,
+>   replaces Archivo and Newsreader.
+> - **Contact:** the official WhatsApp is client-provided and live. The planned address
+>   `info@latansajogja.co.id` is recorded as `pending-activation` and is not published until it
+>   receives email.
+> - **Headline:** used provisionally, still pending the client's final confirmation.
+>
+> The implemented build is the reference for these changes; see §12 (D16–D24).
+
+> **Owner refinement brief, Phase 4 (2026-11-05, second pass).** Binding; it supersedes the
+> matching parts of §2, §6, §7 and §8. The implemented build is the reference (D25–D35).
+>
+> - **Hero (§6.2):** a full-bleed photograph. The headline, line and both actions sit on its
+>   navy-graded quiet side: the bottom on phones, the left from 768px. Phones use a tall crop
+>   (`hero`, 1508 × 1465), and 768px up uses the wide crop (`hero-wide`, 2600 × 1201).
+>   - The chip, the annotation markers and the ruler are removed: the hero carries only what
+>     strengthens it. The annotation system (§8) is retired.
+>   - On phones the hero is `clamp(33rem, 100svh − 4rem, 40rem)` tall, so the headline, the line
+>     and both actions fit the first screen at 320×568, 375×667 and 390×844.
+> - **Overview strip (new §6.2a):** under the hero, three entries: categories, the SIPLah channel,
+>   WhatsApp. Each links to its section. From 1024px it is a white panel overlapping the
+>   photograph's lower edge by 96px.
+> - **Profile (§6.3):** the statement, body and atrium photograph only; the facts row moved into
+>   the identity sheet.
+> - **Categories (§6.4):** the phone and tablet carousel adds previous/next buttons, a "1 dari 5"
+>   position and the meter; the cards are 82% wide (76% from 430). Desktop keeps the mosaic with
+>   a 1.04 photo zoom on hover.
+> - **Procurement (§6.5):** the page's one centered, symmetrical composition. The flow is
+>   centered from 768px, with the line joining the three diamond centers.
+> - **Identity (§6.6):** the legal name is the sheet's title; the particulars sit in two columns
+>   (form and PKP status, channel and domicile), with the address full width.
+> - **Contact (§6.7):** the Maps listing is owner-confirmed, so every Maps link opens it.
+>   - The locator diagram is a link with a visible "Buka di Google Maps" label and shows the
+>     coordinates.
+>   - The WhatsApp number is a link.
+> - **Footer (§6.8):** the letterhead rule, then identity (logo and the factual descriptor),
+>   navigation, contact and location, and procurement, then © and "Kembali ke atas". There is no
+>   imagery note. Email appears only once activated.
+> - **Imagery (§7):** no visible photo label or disclaimer anywhere, by the owner's decision. Alt
+>   text describes the scene without a "Foto ilustrasi:" prefix. Provenance stays in
+>   `SOURCES.md` and `src/content/images.ts`, and no copy may present a photo as LATANSA's own
+>   premises, staff, stock, deliveries, customers or projects.
+> - **Phone calibration:**
+>   - section padding `clamp(4.5rem, 2.6rem + 8vw, 10rem)`;
+>   - display 30px at 320px, rising to 40px on phones;
+>   - body 16px on phones;
+>   - `h2` from 28px.
+> - **Navigation:** the header and menu links mark the section in view (`data-current`, M19).
+> - **Phone testing:** `next.config.ts` allows LAN origins for `next dev`. Next.js blocks dev
+>   assets for other hosts, so a phone saw an unstyled, zoomed-out page. Sign-off uses the export
+>   (`npm run build && npm run preview`, then the Network URL).
+
 The rejected "Kop" direction is archived at
 [design/archive/kop-board-rejected.html](design/archive/kop-board-rejected.html). Its spec lives
 only in git history.
@@ -30,13 +88,13 @@ It draws on two sources:
 
 - **Presisi (precision):**
   - navy and brass;
-  - Archivo Expanded headlines;
+  - confident, tightly set headlines;
   - measuring details: annotation markers, a ruler, crop marks, a letterhead rule, a flow
     diagram and a contour locator.
 - **Terang (bright):**
-  - an ivory canvas;
+  - a pristine white canvas;
   - generous, purposeful negative space;
-  - a Newsreader editorial statement;
+  - a light editorial statement;
   - a calm rhythm.
 
 **The signature is annotated photography.** Thin brass markers on the hero photograph name what
@@ -63,13 +121,13 @@ cannot substantiate.
 
 **Color mass, top to bottom:**
 
-1. ivory header and hero;
-2. ivory profile;
-3. paper catalogue;
+1. white header and hero;
+2. white profile;
+3. cloud catalogue band (a whisper of grey);
 4. navy procurement band;
-5. ivory data sheet section;
+5. white data section;
 6. midnight contact band;
-7. ivory footer.
+7. white footer.
 
 There are exactly two dark bands.
 
@@ -78,7 +136,7 @@ There are exactly two dark bands.
 - **Brass** is an accent: buttons, markers, the flow line, and labels on dark. As text it appears
   only on navy or midnight. On light surfaces use **brass-deep** for labels, icons and the focus
   ring.
-- **Logo:** the official full-color artwork only, on ivory (header and footer). Never on navy,
+- **Logo:** the official full-color artwork only, on white (header and footer). Never on navy,
   midnight or a photograph. No monochrome variant is needed.
 - **Shape:**
   - a 4px radius on buttons only; photographs and panels are square;
@@ -103,76 +161,59 @@ There are exactly two dark bands.
 
 ## 3. Typography
 
-| Family     | Designer and license | Axes used                     | Role                                 |
-| ---------- | -------------------- | ----------------------------- | ------------------------------------ |
-| Archivo    | Omnibus-Type, OFL    | `wdth` 62–125, `wght` 100–900 | Display, headings, text, UI and data |
-| Newsreader | Production Type, OFL | `opsz` 6–72, `wght`           | The profile statement only           |
+**One family: Plus Jakarta Sans** (Tokotype, Indonesia; OFL), variable weight 200–800. It was
+designed in Indonesia for Jakarta's civic identity. Its open apertures and comfortable
+proportions read well at 16–18px, and it stays polished at display sizes. One family keeps the
+system calm and the page fast (one 27 KB font file for the latin subset).
 
-Width is part of the voice: **125%** (Expanded) for display and section headings, **118%** for
-titles and values, **112%** for labels, buttons and navigation, and **100%** for running text.
-
-**Loading (Phase 4):** `next/font/google`, self-hosted at build, `latin` subset, `display: "swap"`.
-
-```ts
-const archivo = Archivo({
-  subsets: ["latin"],
-  axes: ["wdth"],
-  variable: "--font-archivo",
-  display: "swap",
-});
-const newsreader = Newsreader({
-  subsets: ["latin"],
-  axes: ["opsz"],
-  style: ["normal"],
-  variable: "--font-newsreader",
-  display: "swap",
-  preload: false, // below the fold
-});
-```
-
-Geist (provisional since Phase 1) is removed.
+**Loading:** `next/font/google`, self-hosted at build, `latin` subset, `display: "swap"`,
+exposed as `--font-jakarta`.
 
 ### Type scale
 
-Fluid sizes run from 360px to their cap. The line height is 1.6 unless stated.
+Fluid sizes run from 360px to their cap. Tokens live in `src/app/globals.css`.
 
-| Token       | Family, width, weight              | Size at 360 → cap           | CSS                                        | Line height | Tracking |
-| ----------- | ---------------------------------- | --------------------------- | ------------------------------------------ | ----------- | -------- |
-| `display`   | Archivo 125% 600                   | 32 → 54px                   | `clamp(2rem, 1.3rem + 2.9vw, 3.4rem)`      | 1.03        | −0.032em |
-| `h2`        | Archivo 125% 600                   | 30 → 56px                   | `clamp(1.875rem, 1.15rem + 2.9vw, 3.5rem)` | 1.03        | −0.032em |
-| `statement` | Newsreader 300, optical size auto  | 26 → 48px                   | `clamp(1.625rem, 1.1rem + 2.15vw, 3rem)`   | 1.18        | −0.012em |
-| `menu`      | Archivo 125% 600                   | 28px                        | `1.75rem`                                  | 1.2         | −0.03em  |
-| `title`     | Archivo 118% 600                   | 20px; 24px ≥ 1024           | `1.25rem` / `1.5rem`                       | 1.15        | −0.02em  |
-| `step`      | Archivo 118% 600                   | 19px                        | `1.1875rem`                                | 1.25        | −0.015em |
-| `value`     | Archivo 118% 600                   | 17px                        | `1.0625rem`                                | 1.4         | −0.01em  |
-| `data`      | Archivo 100% 500, tabular figures  | 17px                        | `1.0625rem`                                | 1.5         | 0        |
-| `body`      | Archivo 100% 400                   | 16px; hero line 17px ≥ 1024 | `1rem` / `1.0625rem`                       | 1.6         | 0        |
-| `ui`        | Archivo 112% 600 (desktop nav 500) | 15px; menu button 14px      | `0.9375rem` / `0.875rem`                   | 1.2         | 0        |
-| `label`     | Archivo 112% 500                   | 13px                        | `0.8125rem`                                | 1.35        | +0.01em  |
-
-`display` reaches its cap at about 1160px and `h2` at about 1300px.
+| Token       | Weight                | Size at 360 → cap           | CSS                                                                                               | Line height | Tracking |
+| ----------- | --------------------- | --------------------------- | ------------------------------------------------------------------------------------------------- | ----------- | -------- |
+| `display`   | 600                   | 34 → 60px                   | `clamp(2.125rem, 1.42rem + 3vw, 3.75rem)`; from 1024 `clamp(2.875rem, 0.72rem + 3.37vw, 3.75rem)` | 1.06        | −0.024em |
+| `h2`        | 600                   | 30 → 48px                   | `clamp(1.875rem, 1.32rem + 2.25vw, 3rem)`                                                         | 1.1         | −0.022em |
+| `statement` | 400; 300 from 1024    | 24 → 36px                   | `clamp(1.5rem, 1.15rem + 1.5vw, 2.25rem)`                                                         | 1.32        | −0.014em |
+| `menu`      | 600                   | 26px                        | `1.625rem`                                                                                        | 1.2         | −0.025em |
+| `title`     | 600                   | 20px; 22px from 1024        | `1.25rem` / `1.375rem`                                                                            | 1.3         | −0.015em |
+| `step`      | 600                   | 19px                        | `1.1875rem`                                                                                       | 1.25        | −0.015em |
+| `value`     | 600                   | 17px                        | `1.0625rem`                                                                                       | 1.375       | −0.01em  |
+| `data`      | 500, tabular figures  | 17px                        | `1.0625rem`                                                                                       | 1.375       | 0        |
+| `lead`      | 400                   | 18px (from 1024)            | `1.125rem`                                                                                        | 1.65        | 0        |
+| `body`      | 400                   | 17px; hero line 16px phones | `1.0625rem`                                                                                       | 1.7         | 0        |
+| `ui`        | 600 (desktop nav 500) | 16px; header 15px           | `1rem`                                                                                            | 1.25        | 0        |
+| `label`     | 500–600               | 14px                        | `0.875rem`                                                                                        | 1.4         | +0.01em  |
+| `small`     | 400                   | 13px (footer legal only)    | `0.8125rem`                                                                                       | 1.55        | 0        |
 
 **Rules:**
 
 - **Wrapping:** headings use `text-wrap: balance`; paragraphs use `text-wrap: pretty`.
   Hyphenation stays manual, because browser hyphenation for Indonesian is unreliable.
-- **Headline lines:** the hero headline sets in 5 lines at 360px, 4 lines at 390–430px, 3 lines
-  at 768px, 5 lines at 1024px and 4 lines at 1440px. A replacement headline must stay at or under
-  62 characters and at or under 5 lines at 360px.
-- **Measure:** running text ≤ 34rem; hero line ≤ 30rem; ledes ≤ 32rem.
+- **Headline lines:** the hero headline sets in 4 lines at 360–430px and 1024–1920px, and in 2
+  lines at 768px. A replacement headline must stay at or under 62 characters and at or under 5
+  lines at 360px.
+- **Measure:** running text ≤ 34rem; hero line ≤ 30rem; ledes ≤ 34rem.
 - **Headings:** there is one `h1` (hero). Each section has one `h2`; the profile statement is that
   section's `h2`. Category titles are `h3`.
 - **No emphasis tricks:** no italics or color accents inside headings.
 - **Labels:** sentence case, never uppercase.
-- **Minimums:** the smallest running text on mobile is 16px; labels are 13px.
+- **Minimums:** running text is 16px on phones and 17px elsewhere; labels are 14px; only the
+  footer's legal lines are 13px.
 
 ## 4. Color
 
+White dominates. Navy and brass are controlled accents; the two dark bands carry contrast and
+rhythm. Tailwind's default colors are removed (`--color-*: initial`), so only these tokens exist.
+
 | Token          | Hex       | Role                                                               |
 | -------------- | --------- | ------------------------------------------------------------------ |
-| `ivory`        | `#F2EEE6` | Page ground: header, hero, profile, data section, footer           |
-| `paper`        | `#FAF8F4` | Catalogue band; the data sheet                                     |
-| `stone`        | `#DED8CC` | Loading tone behind light photographs                              |
+| `white`        | `#FFFFFF` | Page ground: header, hero, profile, data section, footer           |
+| `cloud`        | `#F4F6F8` | Catalogue band; the data sheet panel                               |
+| `stone`        | `#E7EBEF` | Loading tone behind light photographs                              |
 | `navy`         | `#0E1D2D` | Text; procurement band; primary buttons on light; letterhead rule  |
 | `midnight`     | `#08131F` | Contact band; photo plates and scrim; loading tone behind the hero |
 | `raised`       | `#142A3F` | Navy-button hover; locator panel                                   |
@@ -181,8 +222,8 @@ Fluid sizes run from 360px to their cap. The line height is 1.6 unless stated.
 | `brass-deep`   | `#7A5A28` | Section labels, icons and focus ring on light                      |
 | `slate`        | `#4E6175` | Secondary text and labels on light                                 |
 | `mist`         | `#A9B6C4` | Secondary text and labels on dark                                  |
-| `hair`         | navy 14%  | Dividers on light (decorative)                                     |
-| `hair-inverse` | ivory 14% | Dividers on dark (decorative)                                      |
+| `hair`         | navy 12%  | Dividers on light (decorative)                                     |
+| `hair-inverse` | white 14% | Dividers on dark (decorative)                                      |
 
 **Overlays on photographs**, always midnight:
 
@@ -193,44 +234,31 @@ Fluid sizes run from 360px to their cap. The line height is 1.6 unless stated.
 | Scrim       | midnight 92% → 55% (at 55% height) → 0, over the bottom 46% | Mobile and tablet hero actions |
 | Ghost fill  | midnight 18%                                                | Ghost button at rest           |
 
-**Semantic aliases for `src/app/globals.css` (Phase 4).** These replace the Phase 1 tokens
-(`ink`, `porcelain`, `champagne`, and so on):
-
-| Alias             | Value        | Alias                     | Value              |
-| ----------------- | ------------ | ------------------------- | ------------------ |
-| `surface`         | ivory        | `text`                    | navy               |
-| `surface-alt`     | paper        | `text-muted`              | slate              |
-| `surface-inverse` | navy         | `text-inverse`            | ivory              |
-| `surface-deep`    | midnight     | `text-muted-inverse`      | mist               |
-| `surface-raised`  | raised       | `accent`                  | brass              |
-| `line`            | hair         | `accent-text`             | brass-deep         |
-| `line-inverse`    | hair-inverse | `focus` / `focus-inverse` | brass-deep / brass |
-
 ### Contrast (measured, WCAG 2.x)
 
-| Pair                                           | Ratio  | Use                                        |
-| ---------------------------------------------- | ------ | ------------------------------------------ |
-| navy on ivory                                  | 14.7:1 | Headings, body                             |
-| navy on paper                                  | 16.1:1 | Catalogue, data sheet                      |
-| slate on ivory                                 | 5.5:1  | Secondary text, labels                     |
-| slate on paper                                 | 6.0:1  | Card summaries, data labels                |
-| brass-deep on ivory                            | 5.5:1  | Section labels, focus ring                 |
-| brass-deep on paper                            | 6.0:1  | Section labels, focus ring                 |
-| navy on brass                                  | 7.0:1  | Brass button                               |
-| navy on brass-hi                               | 9.2:1  | Brass button, hovered                      |
-| ivory on navy                                  | 14.7:1 | Navy band, navy button                     |
-| ivory on raised                                | 12.7:1 | Navy button hovered, locator caption       |
-| ivory on midnight                              | 16.2:1 | Contact band                               |
-| mist on navy                                   | 8.3:1  | Ledes and labels on navy                   |
-| mist on midnight                               | 9.1:1  | Ledes and labels on midnight               |
-| mist on raised                                 | 7.1:1  | Locator caption                            |
-| brass on navy                                  | 7.0:1  | Section labels, focus ring on dark         |
-| brass on midnight                              | 7.7:1  | Section labels, focus ring on dark         |
-| ivory on label plate (worst case: white photo) | 9.5:1  | Annotation labels                          |
-| ivory on chip plate (worst case: white photo)  | 7.3:1  | "Foto ilustrasi" chip                      |
-| Line-button outline (navy 55%) on ivory        | 3.7:1  | Non-text boundary                          |
-| Ghost-button outline (ivory 42%) on midnight   | 3.7:1  | Non-text boundary                          |
-| ~~brass on ivory~~                             | 2.1:1  | **Never** for text, focus or meaningful UI |
+| Pair                                                | Ratio  | Use                                        |
+| --------------------------------------------------- | ------ | ------------------------------------------ |
+| navy on white                                       | 17.0:1 | Headings, body                             |
+| navy on cloud                                       | 15.7:1 | Catalogue, data sheet                      |
+| slate on white                                      | 6.4:1  | Secondary text, labels                     |
+| slate on cloud                                      | 5.9:1  | Card summaries, data labels                |
+| brass-deep on white                                 | 6.3:1  | Section labels, focus ring                 |
+| brass-deep on cloud                                 | 5.8:1  | Section labels on the catalogue band       |
+| navy on brass                                       | 7.0:1  | Brass button                               |
+| navy on brass-hi                                    | 9.2:1  | Brass button, hovered                      |
+| white on navy                                       | 17.0:1 | Navy band, navy button                     |
+| white on raised                                     | 14.7:1 | Navy button hovered, locator caption       |
+| white on midnight                                   | 18.7:1 | Contact band                               |
+| mist on navy                                        | 8.3:1  | Ledes and labels on navy                   |
+| mist on midnight                                    | 9.1:1  | Ledes and labels on midnight               |
+| mist on raised                                      | 7.1:1  | Locator caption                            |
+| brass on navy                                       | 7.0:1  | Section labels, focus ring on dark         |
+| brass on midnight                                   | 7.7:1  | Section labels, focus ring on dark         |
+| white on label plate (worst case: white photo)      | 10.9:1 | Annotation labels                          |
+| white on chip plate (worst case: white photo)       | 8.4:1  | "Foto ilustrasi" chip                      |
+| Line-button outline (navy 55%) on white             | 3.9:1  | Non-text boundary                          |
+| Ghost-button outline (white 45%) on midnight / navy | 4.5:1  | Non-text boundary                          |
+| ~~brass on white~~                                  | 2.4:1  | **Never** for text, focus or meaningful UI |
 
 ## 5. Layout, spacing and grid
 
@@ -259,7 +287,7 @@ The page margin is 20px at 390, 36px at 768, 47px at 1024 and 65px at 1440.
   Hero and profile photographs bleed to the right edge of the frame.
 
 - **At 1920:** the frame stays 1440px wide and centered. The hero photograph ends at the frame
-  edge, leaving ivory beyond it, as approved.
+  edge, leaving white beyond it, as approved.
 
 **Other rules:**
 
@@ -280,12 +308,12 @@ Copy keys refer to `src/content/` as it will be after Phase 4 (§13).
 
 **Header:**
 
-- **Bar:** sticky, ivory, 64px tall (80px from 1024). A 1px `hair` line appears once the page
+- **Bar:** sticky, white, 64px tall (80px from 1024). A 1px `hair` line appears once the page
   has scrolled (motion M6).
 - **Logo:** official horizontal artwork linking to the top, with the label "LATANSA, ke beranda".
   It is 140px wide from 360, 148px from 430 and 168px from 1024.
 - **Below 1024:** a "Menu" button: a `ui` 14px label, then a 44px navy circle with two 1.5px
-  ivory bars. It toggles to "Tutup".
+  white bars. It toggles to "Tutup".
 - **From 1024:** an inline nav (Profil, Bidang usaha, Pengadaan, Data perusahaan), `ui` 500, 32px
   apart, with an underline that draws on hover. It is followed by a 46px navy "Hubungi kami"
   button that scrolls to `#kontak`. The menu button is hidden.
@@ -325,7 +353,7 @@ Copy keys refer to `src/content/` as it will be after Phase 4 (§13).
    - midnight loading tone.
 3. **Overlays on the photo:**
    - **Chip:** "Foto ilustrasi", 14px from the top, at the page margin. It uses `label` type in
-     ivory on the chip plate (5px × 9px padding) with an 11px brass crosshair glyph.
+     white on the chip plate (5px × 10px padding) with an 11px brass crosshair glyph.
    - **Annotation A1:** "Komputer & TI" (§8).
    - **Scrim:** over the bottom 46%.
    - **Actions:** on the scrim, 20px from the bottom, inset by the page margin. They stack with a
@@ -353,15 +381,15 @@ Copy keys refer to `src/content/` as it will be after Phase 4 (§13).
 **Desktop (≥ 1024):**
 
 - **Grid:** 12 columns, items vertically centered, 40px top and 48px bottom padding.
-- **Copy (columns 1–6, 16px right padding):**
+- **Copy (columns 1–7 at 1024–1279, then 1–6; 24px right padding):**
   - the headline;
   - the hero line in 17px, 20px below;
   - the actions 36px below, 12px apart: the primary contact action in navy, then the outlined
     "Buka toko SIPLah" (external);
   - a location row 40px below: a `hair` top rule, 20px top padding and two pairs 32px apart.
-    Each pair is a `label` slate caption over a 15px Archivo 118% 600 navy value:
+    Each pair is a `label` slate caption over a 15px semibold navy value:
     "Berkedudukan di / Kabupaten Bantul, DIY" and "Kanal pengadaan / SIPLah Toko Ladang".
-- **Photo H (columns 7–12):** bleeds to the frame's right edge at 6:5.4, focal point 100% 50%.
+- **Photo H (columns 8–12 at 1024–1279, then 7–12):** bleeds to the frame's right edge at 6:5.4, focal point 100% 50%.
   There is no scrim and no actions on the photo. The chip sits 20px from the left, and both
   annotations, A1 and A2, show.
 - **Below the hero:** the meta row is hidden, because the location row replaces it. The ruler
@@ -395,7 +423,7 @@ Copy keys refer to `src/content/` as it will be after Phase 4 (§13).
 
 ### 6.4 Bidang usaha
 
-The band is paper.
+The band is cloud, the page's only light-grey band.
 
 **Mobile:**
 
@@ -483,19 +511,19 @@ there are five categories; if the count changes, the heading copy changes with i
   - `h2` "Identitas usaha.";
   - lede "Informasi identitas perusahaan untuk keperluan administrasi pengadaan."
 - **Sheet:** 36px below.
-  - A paper panel with a 1px `hair` frame and 10px crop-mark corners (2px navy).
+  - A cloud panel with a 1px `hair` frame and 10px crop-mark corners (2px navy).
   - Padding is 20px at the top and sides and 8px at the bottom.
   - The letterhead rule runs along its top.
 - **Rows:** a `<dl>` with 16px row padding and `hair` dividers. Each row is a `label` slate term
   over a `data` description.
 
-  | Term              | Description                                             | Emphasis         |
-  | ----------------- | ------------------------------------------------------- | ---------------- |
-  | Nama perusahaan   | `legalName`                                             | Archivo 118% 600 |
-  | Bentuk usaha      | `legalForm`                                             | —                |
-  | Status Perpajakan | `taxStatus` value: exactly "Pengusaha Kena Pajak (PKP)" | Archivo 118% 600 |
-  | Alamat            | Full `address`                                          | —                |
-  | Kanal pengadaan   | Publishable channel names                               | —                |
+  | Term              | Description                                             | Emphasis |
+  | ----------------- | ------------------------------------------------------- | -------- |
+  | Nama perusahaan   | `legalName`                                             | semibold |
+  | Bentuk usaha      | `legalForm`                                             | —        |
+  | Status Perpajakan | `taxStatus` value: exactly "Pengusaha Kena Pajak (PKP)" | semibold |
+  | Alamat            | Full `address`                                          | —        |
+  | Kanal pengadaan   | Publishable channel names                               | —        |
 
   There is no NPWP row, ever, and no badge, seal or checkmark anywhere in the sheet.
 
@@ -521,16 +549,18 @@ apart.
 
 - **Address block:** 32px below.
   - The `label` "Alamat kantor" in mist.
-  - An `<address>` at 17px in ivory, on two lines: street, village and district, then regency,
+  - An `<address>` at 17px in white, on two lines: street, village and district, then regency,
     province and postal code.
-  - "Buka di Google Maps", an external text link, only when `mapsUrl` is publishable.
+  - "Buka di Google Maps", an external text link: the company's listing once `mapsUrl` is
+    confirmed, and a search for the client-provided address until then (D23).
+  - "WhatsApp" with the number in Indonesian format, when the fact is publishable (D24).
   - "Jam operasional" rows, only when `officeHours` is publishable.
 - **Locator:** 44px below.
   - A raised panel with a 1px `hair-inverse` frame, at 4:3.
   - The contour diagram: 16 rings with every fourth stronger, a faint 50-unit grid and a brass
     crosshair at the center.
   - A caption at the bottom left: "Penanda lokasi (diagram)" in mist. The coordinates follow in
-    ivory with tabular figures, only when the `coordinates` fact is publishable.
+    white with tabular figures, only when the `coordinates` fact is publishable.
   - The locator is `aria-hidden`; the address is the accessible location.
 
 **From 768:** the actions sit side by side.
@@ -539,7 +569,7 @@ apart.
 
 ### 6.8 Footer
 
-- **Band:** ivory, with 40px top and 32px bottom padding. The letterhead rule closes the
+- **Band:** white, with 40px top and 32px bottom padding. The letterhead rule closes the
   document at the top.
 - **Logo:** 152px, 28px below the rule.
 - **Nav:** Profil, Bidang usaha, Pengadaan, Data perusahaan, Kontak. It is a two-column grid of
@@ -573,15 +603,15 @@ and the exact grade are in [SOURCES.md](design/concepts/photos/SOURCES.md) and
 **Slots.** The focal point applies at every breakpoint unless stated. "Rendered width" is the
 cover-scaled image width in CSS pixels, measured on the board; it drives `sizes`.
 
-| Slot | Master           | Mobile | Tablet | Desktop | Focal point               | Rendered width at 390 / 1024 / 1440 | `sizes`                                                                                |
-| ---- | ---------------- | ------ | ------ | ------- | ------------------------- | ----------------------------------- | -------------------------------------------------------------------------------------- |
-| H    | `hero-desk-crop` | 4:5    | 3:2    | 6:5.4   | 55% 50%; desktop 100% 50% | 627 / 566 / 807                     | `(min-width: 1440px) 815px, (min-width: 1024px) 56vw, (min-width: 768px) 100vw, 161vw` |
-| E1   | `arch-atrium`    | 3:2    | 3:2    | 4:5     | 50% 30%; desktop 40% 50%  | 390 / 768 / 1099                    | `(min-width: 1440px) 1113px, (min-width: 1024px) 76vw, 100vw`                          |
-| C1   | `it-keyboard`    | 4:5    | 4:5    | 3:2     | 50% 50%                   | 525 / 520 / 742                     | `(min-width: 1440px) 785px, (min-width: 1024px) 54vw, (min-width: 768px) 74vw, 135vw`  |
-| C2   | `office-ruler`   | 4:5    | 4:5    | 1:1     | 55% 40%                   | 525 / 543 / 781                     | same as C1                                                                             |
-| C3   | `elec-board`     | 4:5    | 4:5    | 4:5     | 62% 50%                   | 525 / 532 / 769                     | same as C1                                                                             |
-| C4   | `inst-chairs`    | 4:5    | 4:5    | 4:3     | 38% 50%                   | 622 / 483 / 694                     | `(min-width: 1440px) 695px, (min-width: 1024px) 48vw, (min-width: 768px) 87vw, 160vw`  |
-| C5   | `goods-boxes`    | 4:5    | 4:5    | 3:4     | 45% 50%                   | 525 / 409 / 600                     | `(min-width: 1440px) 600px, (min-width: 1024px) 42vw, (min-width: 768px) 74vw, 135vw`  |
+| Slot | Master           | Mobile | Tablet | Desktop | Focal point               | Rendered width at 390 / 1024 / 1440 | `sizes`                                                                                                          |
+| ---- | ---------------- | ------ | ------ | ------- | ------------------------- | ----------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| H    | `hero-desk-crop` | 4:5    | 3:2    | 6:5.4   | 55% 50%; desktop 100% 50% | 627 / 481 / 807                     | `(min-width: 1440px) 815px, (min-width: 1280px) 56vw, (min-width: 1024px) 47vw, (min-width: 768px) 100vw, 161vw` |
+| E1   | `arch-atrium`    | 3:2    | 3:2    | 4:5     | 50% 30%; desktop 40% 50%  | 390 / 768 / 1099                    | `(min-width: 1440px) 1113px, (min-width: 1024px) 76vw, 100vw`                                                    |
+| C1   | `it-keyboard`    | 4:5    | 4:5    | 3:2     | 50% 50%                   | 525 / 520 / 742                     | `(min-width: 1440px) 785px, (min-width: 1024px) 54vw, (min-width: 768px) 74vw, 135vw`                            |
+| C2   | `office-ruler`   | 4:5    | 4:5    | 1:1     | 55% 40%                   | 525 / 543 / 781                     | same as C1                                                                                                       |
+| C3   | `elec-board`     | 4:5    | 4:5    | 4:5     | 62% 50%                   | 525 / 532 / 769                     | same as C1                                                                                                       |
+| C4   | `inst-chairs`    | 4:5    | 4:5    | 4:3     | 38% 50%                   | 622 / 483 / 694                     | `(min-width: 1440px) 695px, (min-width: 1024px) 48vw, (min-width: 768px) 87vw, 160vw`                            |
+| C5   | `goods-boxes`    | 4:5    | 4:5    | 3:4     | 45% 50%                   | 525 / 409 / 600                     | `(min-width: 1440px) 600px, (min-width: 1024px) 42vw, (min-width: 768px) 74vw, 135vw`                            |
 
 The spare `it-laptop` is not used on the page.
 
@@ -619,7 +649,7 @@ The spare `it-laptop` is not used on the page.
   - an 8px brass core.
 - **Leader:** a 12px, 1px brass line that leaves a 6px gap between the marker and the label.
 - **Label:**
-  - `label` type at 600 in ivory, no wrapping;
+  - `label` type at 600 in white, no wrapping;
   - on the label plate, with a 2px brass left edge and 8px × 12px padding;
   - placed left of its marker by default, or right of it (variant `r`).
 
@@ -673,15 +703,15 @@ percentages for each crop with the `object-fit: cover` math, so every marker sta
 
 Measured on the exported `out/` build in Phase 6.
 
-| Metric                                | Target                                                                                        |
-| ------------------------------------- | --------------------------------------------------------------------------------------------- |
-| LCP (mobile, Lighthouse simulated)    | ≤ 2.5s. The LCP element is the hero photograph on mobile and desktop                          |
-| CLS                                   | < 0.05                                                                                        |
-| INP                                   | < 200ms                                                                                       |
-| JavaScript beyond the Next.js runtime | ≤ 15 KB gzip (menu, reveals, meter, header sentinel)                                          |
-| Fonts                                 | Archivo (latin; `wdth` + `wght`) preloaded; Newsreader (latin; `opsz` + `wght`) not preloaded |
-| First-view transfer (mobile)          | ≤ 500 KB target, including the hero derivative                                                |
-| Images                                | Per [image-assets.md](image-assets.md)                                                        |
+| Metric                                | Target                                                               |
+| ------------------------------------- | -------------------------------------------------------------------- |
+| LCP (mobile, Lighthouse simulated)    | ≤ 2.5s. The LCP element is the hero photograph on mobile and desktop |
+| CLS                                   | < 0.05                                                               |
+| INP                                   | < 200ms                                                              |
+| JavaScript beyond the Next.js runtime | ≤ 15 KB gzip (menu, reveals, meter, header sentinel)                 |
+| Fonts                                 | Plus Jakarta Sans (latin, variable), one 27 KB file, preloaded       |
+| First-view transfer (mobile)          | ≤ 500 KB target, including the hero derivative                       |
+| Images                                | Per [image-assets.md](image-assets.md)                               |
 
 ## 11. Acceptance criteria (Phase 4 and 5 sign-off)
 
@@ -709,7 +739,7 @@ A build is accepted only when **all** of these hold:
    - only the motions in [motion-spec.md](motion-spec.md) exist;
    - reduced motion shows final states;
    - there is no layout shift and no scroll listener.
-9. **Logo integrity:** the official artwork, in the right variant, only on ivory.
+9. **Logo integrity:** the official artwork, in the right variant, only on white.
 10. **Budgets:** the §10 budgets are met on `out/`.
 11. **Accessibility:**
     - a keyboard-only walkthrough works: skip link, menu trap and focus return, visible focus,
@@ -721,77 +751,83 @@ A build is accepted only when **all** of these hold:
 The build follows the board except in these places. Each change fixes a defect, meets a project
 rule or replaces a stand-in.
 
-| #   | Board                                                                            | Build                                                                                                                         | Why                                                                 |
-| --- | -------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| D1  | Brass focus ring everywhere                                                      | Brass-deep on light surfaces, brass on dark                                                                                   | Brass on ivory is 2.1:1, below the 3:1 needed for a focus indicator |
-| D2  | Chip plate at midnight 62%, text at ivory 90%                                    | Plate at midnight 75%, solid ivory text                                                                                       | 4.0:1 in the worst case; now 7.3:1 over any photograph              |
-| D3  | Line-button outline at navy 40%                                                  | Navy 55%                                                                                                                      | 2.4:1; now 3.7:1 for the button boundary                            |
-| D4  | Card summaries at 15px on mobile                                                 | 16px                                                                                                                          | Running text on mobile is at least 16px                             |
-| D5  | Annotation labels and menu sub-labels at 12px                                    | 13px, the single label size                                                                                                   | Legibility; one label size                                          |
-| D6  | Tablet hero photo at 4:5                                                         | 3:2 from 768 to 1023                                                                                                          | At 768×1024 the board pushed both actions below the first screen    |
-| D7  | Desktop flow line floats 40px above the diamonds; step titles at line height 1.6 | The line runs through the diamond centers; titles at 1.25                                                                     | Board defect; the line should join the steps                        |
-| D8  | Menu sub-label "Legalitas"                                                       | "Identitas usaha"                                                                                                             | "Legalitas" suggests that legal documents are published             |
-| D9  | Scroll padding 72px at all widths                                                | 72px below 1024, 88px from 1024                                                                                               | The desktop header is 80px tall                                     |
-| D10 | Nearly every block fades in on scroll                                            | Only heading groups and photographs reveal. Facts, the data sheet, actions, the address and flow steps are present on arrival | Identity data must never perform; less generic motion               |
-| D11 | Desktop motion values on mobile                                                  | Shorter distances and smaller scale on mobile                                                                                 | Project rule: lighter mobile motion                                 |
-| D12 | Scroll listeners for the header line and the meter                               | IntersectionObserver; the meter's bar-width change is contained (`contain: layout paint`)                                     | No scroll listeners; no page-level layout work during motion        |
-| D13 | Stand-in contact buttons, Maps link and coordinates                              | Rendered only from publishable facts                                                                                          | Content policy: no stand-ins or empty links                         |
-| D14 | Headline split into words by runtime JavaScript                                  | Split at build time with an accessible full-sentence alternative                                                              | No layout shift, no JS dependency, clean screen-reader output       |
-| D15 | —                                                                                | Browser theme color and touch-icon background in ivory                                                                        | Matches the header                                                  |
+| #   | Board                                                                            | Build                                                                                                                         | Why                                                                         |
+| --- | -------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| D1  | Brass focus ring everywhere                                                      | Brass-deep on light surfaces, brass on dark                                                                                   | Brass on a light canvas is 2.1–2.4:1, below the 3:1 a focus indicator needs |
+| D2  | Chip plate at midnight 62%, text at ivory 90%                                    | Plate at midnight 75%, solid white text                                                                                       | 4.0:1 in the worst case; now 8.4:1 over any photograph                      |
+| D3  | Line-button outline at navy 40%                                                  | Navy 55%                                                                                                                      | 2.4:1; now 3.7:1 for the button boundary                                    |
+| D4  | Card summaries at 15px on mobile                                                 | 16px                                                                                                                          | Running text on mobile is at least 16px                                     |
+| D5  | Annotation labels and menu sub-labels at 12px                                    | 13px, the single label size                                                                                                   | Legibility; one label size                                                  |
+| D6  | Tablet hero photo at 4:5                                                         | 3:2 from 768 to 1023                                                                                                          | At 768×1024 the board pushed both actions below the first screen            |
+| D7  | Desktop flow line floats 40px above the diamonds; step titles at line height 1.6 | The line runs through the diamond centers; titles at 1.25                                                                     | Board defect; the line should join the steps                                |
+| D8  | Menu sub-label "Legalitas"                                                       | "Identitas usaha"                                                                                                             | "Legalitas" suggests that legal documents are published                     |
+| D9  | Scroll padding 72px at all widths                                                | 72px below 1024, 88px from 1024                                                                                               | The desktop header is 80px tall                                             |
+| D10 | Nearly every block fades in on scroll                                            | Only heading groups and photographs reveal. Facts, the data sheet, actions, the address and flow steps are present on arrival | Identity data must never perform; less generic motion                       |
+| D11 | Desktop motion values on mobile                                                  | Shorter distances and smaller scale on mobile                                                                                 | Project rule: lighter mobile motion                                         |
+| D12 | Scroll listeners for the header line and the meter                               | IntersectionObserver; the meter's bar-width change is contained (`contain: layout paint`)                                     | No scroll listeners; no page-level layout work during motion                |
+| D13 | Stand-in contact buttons, Maps link and coordinates                              | Rendered only from publishable facts                                                                                          | Content policy: no stand-ins or empty links                                 |
+| D14 | Headline split into words by runtime JavaScript                                  | Split at build time with an accessible full-sentence alternative                                                              | No layout shift, no JS dependency, clean screen-reader output               |
+| D15 | —                                                                                | Browser theme color and touch-icon background in white                                                                        | Matches the header                                                          |
+| D16 | Ivory canvas and paper band                                                      | White dominant; cloud catalogue band and data sheet                                                                           | Owner amendment, Phase 4                                                    |
+| D17 | Archivo (expanded widths) and a Newsreader statement                             | Plus Jakarta Sans throughout; the statement is light from 1024                                                                | Owner amendment: readability first                                          |
+| D18 | Hero copy in 6 columns at every desktop width                                    | 7 columns with a smaller display size at 1024–1279, then 6                                                                    | At 1024 the headline set in 5 lines and the buttons stacked                 |
+| D19 | Profile facts in three columns on desktop                                        | Term-and-value rows from 1024                                                                                                 | Three columns wrapped every value at 1024                                   |
+| D20 | Mosaic bottom row 4/5/3 at every desktop width                                   | Even thirds at 1024–1279, then 4/5/3                                                                                          | The 3-column card was 208px wide at 1024                                    |
+| D21 | Data sheet in columns 6–12 with a 13rem term column                              | Columns 5–12 and a 10.5rem term column at 1024–1279                                                                           | Values wrapped up to five lines at 1024                                     |
+| D22 | Locator at 4:3 when stacked                                                      | 16:9 on tablets                                                                                                               | A 546px-tall diagram at 768                                                 |
+| D23 | Maps link only with a confirmed listing                                          | A search for the client-provided address until the listing is confirmed                                                       | Useful without claiming a listing                                           |
+| D24 | —                                                                                | The WhatsApp number shown under the address                                                                                   | A client-provided public fact that procurement officers often note          |
+| D25 | White hero with the photograph beside the copy                                   | Full-bleed photographic hero; text on its navy-graded quiet side                                                              | Owner brief: an integrated, premium first impression                        |
+| D26 | Hero chip, annotation markers and ruler                                          | Removed                                                                                                                       | Owner brief: no labels or decoration that do not strengthen the hero        |
+| D27 | Copy, photo and both actions overflowed short phones                             | Hero height clamped to the phone screen; headline, line and actions fit at 320–430px                                          | Mobile first screens failed at 375×667 and 320×568                          |
+| D28 | —                                                                                | Overview strip of three entries, overlapping the hero from 1024px                                                             | Who, what, where to buy and how to reach, in seconds                        |
+| D29 | Profile facts row                                                                | Moved into the identity sheet                                                                                                 | One home per fact; a calmer profile                                         |
+| D30 | Swipe only, meter only                                                           | Previous/next buttons and a "1 dari 5" position; desktop hover zoom                                                           | A non-swipe alternative and clear progress                                  |
+| D31 | Procurement split left/right                                                     | Centered, symmetrical composition                                                                                             | The section must feel distinctive and important                             |
+| D32 | Identity rows like a table                                                       | Legal name as the title; particulars in two columns                                                                           | A corporate document, not an HTML table                                     |
+| D33 | Maps search link; locator not a link                                             | Owner-confirmed listing everywhere; the locator links to it with a visible label                                              | The owner confirmed the listing                                             |
+| D34 | Footer with an imagery note                                                      | Four groups plus a bottom line; no photo disclaimer                                                                           | Owner brief                                                                 |
+| D35 | Phone section padding 88px; display 34px                                         | 72px; 30px at 320px                                                                                                           | Phone-specific calibration                                                  |
 
-## 13. Content changes for Phase 4 (no facts invented)
+## 13. Content model (implemented in Phase 4)
 
-**Copy entries.** These are copy, not facts, and are taken from the approved board. Group them in
-`src/content/` (for example a `copy` object):
+**`src/content/company.ts`:**
 
-| Group             | Entries                                                                                                                                                                                                    |
-| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Hero              | Headline (pending confirmation, see §14) and the hero line                                                                                                                                                 |
-| Section labels    | Profil perusahaan, Bidang usaha, Kanal pengadaan, Data perusahaan, Kontak                                                                                                                                  |
-| Section headings  | The Bidang usaha, Pengadaan, Data perusahaan and Kontak `h2`s and their ledes (§6)                                                                                                                         |
-| Flow              | The three step titles and labels; the caption "Alur pengadaan"                                                                                                                                             |
-| Actions and links | "Hubungi via WhatsApp", "Kirim email", "Buka toko SIPLah", "Buka toko di SIPLah Toko Ladang", "Diskusikan kebutuhan lain", "Buka di Google Maps", "Hubungi kami"                                           |
-| Interface         | The menu labels and sub-labels, "Menu" / "Tutup", the skip link, "(membuka situs eksternal)", "Geser", "Foto ilustrasi", "Penanda lokasi (diagram)", "Alamat kantor", "Jam operasional", "Berkedudukan di" |
-| Footer            | The imagery note                                                                                                                                                                                           |
+- **`contact.whatsapp`:** `6281802681183`, client-provided (2026-11-05). Every WhatsApp action
+  links to `https://wa.me/6281802681183`, and the contact band shows "0818-0268-1183".
+- **`contact.email`:** `info@latansajogja.co.id`, status **`pending-activation`**. It is never
+  rendered. Cloudflare Email Routing is not configured; publish (status `client-confirmed`) only
+  after the address receives email successfully. The personal forwarding inbox is never recorded
+  or published.
+- **`positioning.headline`:** confirmable copy with `confirmation: "pending"`. It is shown
+  provisionally, and `content:check --strict` blocks launch until the client confirms it.
+- **Address and location (updated):** `mapsUrl` and `coordinates` are now `client-confirmed`
+  (owner, 2026-11-05) and published. Previously: `address.regionShort`; `mapsUrl` and `coordinates` (both
+  `needs-confirmation`, hidden); `officeHours` as day-group rows (`needs-confirmation`, hidden).
 
-**Changes to `company.ts`:**
+**Other content:**
 
-- **`positioning.headline`:** replace it with the Concept C headline once the owner confirms it
-  (§14). The current headline stays until then.
-- **`address.regionShort`:** add "Kabupaten Bantul, DIY", a presentational short form of the
-  client-provided address.
-- **`mapsUrl` (new optional fact):** the Google Maps listing "Latansa Jogjakarta", with status
-  `needs-confirmation` and `launch: "optional"`.
-- **`coordinates` (new optional fact):** 7°57′41″ LS, 110°20′58″ BT, read from the same listing,
-  with status `needs-confirmation` and `launch: "optional"`.
-- **`officeHours`:** restructure into day-group rows. It stays `needs-confirmation`.
-
-**Image manifest (`src/content/images.ts`):** one entry per slot. Each entry holds the file, alt
-text, photographer, photo page, license and the date its page was last verified, so that imagery
-has provenance like facts.
+- **`src/content/copy.ts`:** all interface and section copy from §6.
+- **`src/content/images.ts`:** each photo with alt text, photographer, photo page, license and the
+  date its page was verified.
 
 ## 14. Open items for the owner
 
-| Item                                                                                | Needed for                        |
-| ----------------------------------------------------------------------------------- | --------------------------------- |
-| Confirm the headline "Perangkat dan perlengkapan kerja untuk instansi dan lembaga." | Before Phase 6                    |
-| Confirm the office coordinates, or drop them from the locator caption               | Optional                          |
-| The official WhatsApp number and/or email address                                   | **Launch blocker** (at least one) |
-| Confirm the Google Maps listing as the company's own                                | Optional                          |
-| Confirm the office hours                                                            | Optional                          |
-| Verify the Mbizmarket profile                                                       | Optional                          |
-| Keep the Unsplash photographs at launch, or replace some later                      | Optional                          |
+| Item                                                                                | Needed for                                         |
+| ----------------------------------------------------------------------------------- | -------------------------------------------------- |
+| Confirm the headline "Perangkat dan perlengkapan kerja untuk instansi dan lembaga." | **Launch** (blocks `--strict`)                     |
+| Activate `info@latansajogja.co.id`, test delivery, then mark it client-confirmed    | Optional (WhatsApp already meets the contact rule) |
+| Confirm the office hours                                                            | Optional                                           |
+| Verify the Mbizmarket profile                                                       | Optional                                           |
+| Re-verify every Unsplash photo page                                                 | Phase 6                                            |
 
-## 15. Phase 4 build notes
+## 15. Build notes (implemented in Phase 4)
 
-- **Tokens:** rewrite the `@theme` block in `src/app/globals.css` with §3–§5 (colors, aliases,
-  fonts, easing). Remove the Phase 1 palette.
-- **Fonts:** in `src/app/layout.tsx`, load Archivo and Newsreader as in §3 and remove Geist. Set
-  `themeColor` to ivory `#F2EEE6`.
-- **Icons:** update `scripts/brand-assets.mjs` so the apple-touch-icon background is ivory, then
-  run `npm run brand:assets`.
-- **Images:** add a sharp script that turns the masters into derivatives with the exact grade from
-  [image-assets.md](image-assets.md).
-- **Components:** server components by default. The only client components are the menu sheet,
-  the reveal observer, the catalogue meter and the header sentinel (see
-  [motion-spec.md §4](motion-spec.md#4-implementation)).
+- **Tokens:** `src/app/globals.css` (`@theme`), including the type scale, spacing, frame and
+  easing. Tailwind's default colors are removed.
+- **Fonts:** Plus Jakarta Sans in `src/app/layout.tsx`. Theme color white.
+- **Icons:** the apple-touch icon background is white (`npm run brand:assets`).
+- **Images:** `npm run images:build` turns `assets/images/originals` into graded AVIF/WebP
+  derivatives in `public/images` and writes `src/config/image-assets.json`.
+- **Components:** `src/components/site/`, server components by default. The client components are
+  the mobile menu, the reveal observer and the category scroller (about 7 KB gzip together).

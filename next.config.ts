@@ -20,6 +20,12 @@ const nextConfig: NextConfig = {
   // serves both without extra configuration.
   trailingSlash: false,
   poweredByHeader: false,
+  // Development only: lets a phone on the same local network load `next dev`
+  // (e.g. http://192.168.1.20:3000). Without it, Next.js blocks the dev CSS
+  // and JavaScript for that origin, and the page renders unstyled and zoomed
+  // out. The static export is unaffected. For sign-off on a phone, use the
+  // exported build: `npm run build && npm run preview`, then the Network URL.
+  allowedDevOrigins: ["192.168.*.*", "10.*.*.*", "172.*.*.*", "*.local"],
   reactStrictMode: true,
   turbopack: {
     rules: {

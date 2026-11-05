@@ -8,9 +8,11 @@ const STATUSES = new Set([
   "client-confirmed",
   "client-provided",
   "needs-confirmation",
+  "pending-activation",
   "unverified",
   "missing",
 ]);
+const CONFIRMATIONS = new Set(["confirmed", "pending"]);
 
 const isFactLike = (node) =>
   node !== null &&
@@ -35,6 +37,51 @@ export function collectFacts(node, path = "company", out = []) {
   }
   return out;
 }
+
+const isCopyLike = (node) =>
+  node !== null &&
+  typeof node === "object" &&
+  typeof node.text === "string" &&
+  "confirmation" in node &&
+  "source" in node;
+
+/**
+ * Walk a content tree and collect every ConfirmableCopy-shaped object: copy
+ * that is shown on the site and carries a confirmation state.
+ */
+export function collectCopy(node, path = "company", out = []) {
+  if (isCopyLike(node)) {
+    out.push({ path, copy: node });
+    return out;
+  }
+  if (isFactLike(node)) return out;
+  if (node && typeof node === "object") {
+    for (const [key, child] of Object.entries(node)) {
+      const label = Array.isArray(node)
+        ? `${path}[${child?.id ?? key}]`
+        : `${path}.${key}`;
+      collectCopy(child, label, out);
+    }
+  }
+  return out;
+}
+
+/** Structural problems in confirmable copy. */
+export function validateCopy(items) {
+  const errors = [];
+  for (const { path, copy } of items) {
+    if (!CONFIRMATIONS.has(copy.confirmation))
+      errors.push(`${path}: unknown confirmation "${copy.confirmation}"`);
+    if (typeof copy.source !== "string" || !copy.source.trim())
+      errors.push(`${path}: missing source`);
+    if (!copy.text.trim()) errors.push(`${path}: empty text`);
+  }
+  return errors;
+}
+
+/** Copy shown on the site that still needs the client's final confirmation. */
+export const pendingCopy = (items) =>
+  items.filter(({ copy }) => copy.confirmation === "pending");
 
 export const isPublishableFact = (fact) =>
   fact.value !== null && PUBLISHABLE.has(fact.status);

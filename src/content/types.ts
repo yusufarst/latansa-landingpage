@@ -17,6 +17,12 @@ export type FactStatus =
   | "client-provided"
   /** A value exists but must be confirmed by the client before publishing. */
   | "needs-confirmation"
+  /**
+   * The client owns and plans this value, but it does not work yet (for
+   * example an email address before its mailbox or routing is set up). Never
+   * published until it is activated and re-marked as client-confirmed.
+   */
+  | "pending-activation"
   /** Mentioned, but not yet verified to belong to the company. */
   | "unverified"
   /** No value available yet. */
@@ -50,6 +56,42 @@ export const PUBLISHABLE_STATUSES: readonly FactStatus[] = [
   "client-provided",
 ];
 
+/**
+ * Copy (not a fact) that is shown on the site but still needs the client's
+ * final confirmation. `content:check` lists every pending item, and
+ * `--strict` blocks launch until it is confirmed.
+ */
+export interface ConfirmableCopy {
+  text: string;
+  confirmation: "confirmed" | "pending";
+  source: string;
+  note?: string;
+}
+
+export interface Address {
+  street: string;
+  village: string;
+  district: string;
+  regency: string;
+  province: string;
+  postalCode: string;
+  country: string;
+  /** Presentational short form of the same address, e.g. "Kabupaten Bantul, DIY". */
+  regionShort: string;
+}
+
+export interface OfficeHoursRow {
+  days: string;
+  hours: string;
+}
+
+export interface Coordinates {
+  latitude: number;
+  longitude: number;
+  /** Degrees–minutes–seconds in Indonesian notation (LS/BT). */
+  display: string;
+}
+
 export interface BusinessCategory {
   id: string;
   title: string;
@@ -68,22 +110,18 @@ export interface CompanyContent {
   shortName: Fact<string>;
   legalForm: Fact<string>;
   taxStatus: Fact<{ label: string; value: string }>;
-  address: Fact<{
-    street: string;
-    village: string;
-    district: string;
-    regency: string;
-    province: string;
-    postalCode: string;
-    country: string;
-  }>;
-  officeHours: Fact<string>;
+  address: Fact<Address>;
+  officeHours: Fact<OfficeHoursRow[]>;
+  /** The company's own Google Maps listing (not the address search link). */
+  mapsUrl: Fact<string>;
+  coordinates: Fact<Coordinates>;
   contact: {
+    /** International digits only, e.g. "62812…", used for https://wa.me/<number>. */
     whatsapp: Fact<string>;
     email: Fact<string>;
   };
   positioning: {
-    headline: string;
+    headline: ConfirmableCopy;
     summary: string;
     profile: string[];
   };

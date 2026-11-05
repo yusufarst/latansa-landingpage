@@ -10,16 +10,21 @@ All company facts live in [`src/content/company.ts`](../src/content/company.ts),
 
 Every fact is a `Fact<T>` with a `status` and a `source`:
 
-| Status               | Meaning                                                               | Published? |
-| -------------------- | --------------------------------------------------------------------- | ---------- |
-| `client-confirmed`   | Client explicitly confirmed it for public use                         | Yes        |
-| `client-provided`    | Client supplied the value directly                                    | Yes        |
-| `needs-confirmation` | A value exists (e.g. from Google Maps) but awaits client confirmation | No         |
-| `unverified`         | Mentioned, not yet verified to belong to the company                  | No         |
-| `missing`            | No value yet                                                          | No         |
+| Status               | Meaning                                                                                                     | Published? |
+| -------------------- | ----------------------------------------------------------------------------------------------------------- | ---------- |
+| `client-confirmed`   | Client explicitly confirmed it for public use                                                               | Yes        |
+| `client-provided`    | Client supplied the value directly                                                                          | Yes        |
+| `needs-confirmation` | A value exists (e.g. from Google Maps) but awaits client confirmation                                       | No         |
+| `pending-activation` | The client owns and plans it, but it does not work yet (e.g. an email address before its routing is set up) | No         |
+| `unverified`         | Mentioned, not yet verified to belong to the company                                                        | No         |
+| `missing`            | No value yet                                                                                                | No         |
 
 Components **omit the element entirely** when a fact is not publishable. Visitors never see
 placeholder text. Optional sections are dropped when their data is missing.
+
+**Confirmable copy.** Copy shown on the site that still needs the client's final word (currently
+the hero headline) is a `ConfirmableCopy` with `confirmation: "pending"`. It may be shown, and
+`content:check --strict` blocks launch until it is confirmed.
 
 ## Launch requirements
 
@@ -56,8 +61,8 @@ but safe to omit until the client confirms it.
 It always lists launch blockers and unresolved optional facts.
 
 `npm run content:check -- --strict` is the Phase 6 production gate: it additionally fails while
-any **launch blocker** remains (an unresolved required fact, or a group with no resolved
-member). Unresolved optional facts do **not** block launch.
+any **launch blocker** remains: an unresolved required fact, a group with no resolved member,
+or copy still pending confirmation. Unresolved optional facts do **not** block launch.
 
 Tests for these rules: `npm test` (`scripts/__tests__/content-rules.test.mjs`).
 
@@ -85,10 +90,12 @@ Link out with `rel="noopener noreferrer"`; describe the channel neutrally.
 
 ## Imagery
 
-AI-generated imagery is allowed as **illustrative** supporting visuals only (see
-[image-assets.md](image-assets.md)). It must never depict or imply real LATANSA staff,
-premises, vehicles, deliveries, events, clients or government handovers, and must never be
-captioned or positioned as documentary evidence. No fake logos of real brands or agencies.
+Licensed photography (currently the Unsplash License) and AI-generated imagery are allowed as
+**editorial** supporting visuals (see [image-assets.md](image-assets.md)). By the owner's decision
+(2026-11-05) the site shows no visible photo disclaimer, so the copy itself must stay honest: no
+caption, alt text or claim may present a photo as LATANSA's real staff, premises, vehicles,
+inventory, deliveries, events, clients or government handovers. No fake logos of real brands or
+agencies. Provenance and licenses stay recorded in the repository.
 
 ## Language and tone
 
