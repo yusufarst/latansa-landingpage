@@ -1,0 +1,50 @@
+{
+  "latansa-logo-horizontal": {
+    "480": {
+      "png": "/brand/latansa-logo-horizontal-480.png",
+      "webp": "/brand/latansa-logo-horizontal-480.webp",
+      "width": 480,
+      "height": 113
+    },
+    "960": {
+      "png": "/brand/latansa-logo-horizontal-960.png",
+      "webp": "/brand/latansa-logo-horizontal-960.webp",
+      "width": 960,
+      "height": 225
+    },
+    "1440": {
+      "png": "/brand/latansa-logo-horizontal-1440.png",
+      "webp": "/brand/latansa-logo-horizontal-1440.webp",
+      "width": 1440,
+      "height": 338
+    }
+  },
+  "latansa-logo-vertical": {
+    "480": {
+      "png": "/brand/latansa-logo-vertical-480.png",
+      "webp": "/brand/latansa-logo-vertical-480.webp",
+      "width": 480,
+      "height": 452
+    },
+    "960": {
+      "png": "/brand/latansa-logo-vertical-960.png",
+      "webp": "/brand/latansa-logo-vertical-960.webp",
+      "width": 960,
+      "height": 904
+    }
+  },
+  "latansa-symbol": {
+    "256": {
+      "png": "/brand/latansa-symbol-256.png",
+      "webp": "/brand/latansa-symbol-256.webp",
+      "width": 256,
+      "height": 214
+    },
+    "512": {
+      "png": "/brand/latansa-symbol-512.png",
+      "webp": "/brand/latansa-symbol-512.webp",
+      "width": 512,
+      "height": 428
+    }
+  }
+}

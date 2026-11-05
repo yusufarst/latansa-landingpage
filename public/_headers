@@ -1,0 +1,17 @@
+# Cloudflare Pages response headers (https://developers.cloudflare.com/pages/configuration/headers/)
+# A Content-Security-Policy is added and tested in Phase 6.
+
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
+  Cross-Origin-Opener-Policy: same-origin
+
+# Content-hashed build assets never change — cache for a year.
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Brand derivatives are regenerated rarely; revalidate daily.
+/brand/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
