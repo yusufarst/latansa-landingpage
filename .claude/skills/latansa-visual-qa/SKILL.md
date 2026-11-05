@@ -102,6 +102,12 @@ wrap well in Indonesian (no orphaned single words where avoidable).
   are absolutely positioned.
 - **Keyboard:** Tab through the whole page at 390 and 1440. Every stop matches `:focus-visible`,
   shows a ring, is scrolled into view, and follows the reading order (column by column).
+- **Text links:** count the visible lines of each `.tlink` label (text nodes only, skipping
+  `.sr-only`). At default sizes none wraps from 320 to 1920. Where one wraps (large text), check
+  that each line has its own underline and none runs through the text. Every label goes through
+  `TextLinkLabel`.
+- **Contact links:** `npm run verify:export` checks WhatsApp, Maps, SIPLah and email links against
+  the published facts, and rejects any email address other than the published one.
 
 ## 4. Motion checks
 

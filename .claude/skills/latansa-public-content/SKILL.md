@@ -47,8 +47,11 @@ officers more than a missing section. Full policy: `docs/content-policy.md`.
 - Office hours (from Google Maps) — needs confirmation; hidden.
 - WhatsApp 081802681183 — client-provided; every WhatsApp action links to
   `https://wa.me/6281802681183`.
-- Email `info@latansajogja.co.id` — `pending-activation` (Cloudflare Email Routing not set up).
-  Never rendered until it receives mail; never publish the personal forwarding inbox.
+- Email `info@latansajogja.co.id` — client-confirmed (owner, 2026-11-06: Cloudflare Email Routing
+  active, inbound test delivered). Shown as `mailto:` in Kontak and the footer only.
+  - Receive-only: never promise replies from it, and never add a form that sends from it.
+  - Never record or publish the personal forwarding inbox. A test and `verify:export` reject any
+    other address.
 
 ## PKP rules
 

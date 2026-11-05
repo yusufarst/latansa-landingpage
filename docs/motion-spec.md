@@ -29,6 +29,9 @@ deltas D10, D11, D12 and D14 in [art-direction.md §12](art-direction.md#12-delt
 >   "1 dari 5" position carries the state.
 > - **Press feedback:** text links dim to 70% opacity while pressed (150ms). Phones show no grey
 >   tap flash.
+> - **M11 (text links), 2026-11-06:** the underline lives on the label's inline span, so a
+>   wrapped link retracts and returns line by line. With reduced motion the hover leaves the
+>   underline shown, as the M11 row specifies; before, it vanished instantly.
 
 ## 1. Principles
 

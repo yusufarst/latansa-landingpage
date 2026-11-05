@@ -63,6 +63,34 @@ export function ExternalButton({
   );
 }
 
+/**
+ * An email address that wraps after the "@" when its line is too narrow
+ * (320px screens, enlarged default text), and anywhere only as a last resort.
+ */
+export function EmailText({ address }: { address: string }) {
+  const at = address.indexOf("@") + 1;
+  return (
+    <span className="[overflow-wrap:anywhere]">
+      {address.slice(0, at)}
+      <wbr />
+      {address.slice(at)}
+    </span>
+  );
+}
+
+/**
+ * The label of a `.tlink` text link (motion M11). The underline sits on an
+ * inline span, so a label that wraps gets an underline under each line, never
+ * through the text; an icon passed in stays on the last line, underlined too.
+ */
+export function TextLinkLabel({ children }: { children: ReactNode }) {
+  return (
+    <span className="tlink-label">
+      <span>{children}</span>
+    </span>
+  );
+}
+
 /** An underlined text link that opens another site in a new tab. */
 export function ExternalTextLink({
   href,
@@ -80,8 +108,10 @@ export function ExternalTextLink({
       rel="noopener noreferrer"
       className={cx("tlink", className)}
     >
-      {children}
-      <ExternalIcon />
+      <TextLinkLabel>
+        {children}
+        <ExternalIcon />
+      </TextLinkLabel>
       <span className="sr-only"> {copy.externalHint}</span>
     </a>
   );

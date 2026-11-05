@@ -4,6 +4,16 @@
 > Changing nameservers moves all DNS for the domain, including email. A mistake can take the
 > website or email offline for hours.
 
+> **Update (2026-11-06): email is live.** The owner confirmed that Cloudflare Email Routing
+> (Free) is active for `info@latansajogja.co.id`, and an inbound test email arrived. Email Routing
+> works only on a zone that uses Cloudflare DNS, so some of steps 0–2 may already be done.
+>
+> - **Check first (read-only):** before any step, look at the zone's status and nameservers in the
+>   Cloudflare dashboard.
+> - **Keep the email records:** never delete, edit or proxy the Email Routing MX and TXT (SPF)
+>   records. Attaching the Pages custom domain must leave them untouched.
+> - **Receive-only:** Email Routing receives and forwards mail; it does not send.
+
 The domain stays **registered at Hostinger** (renewals continue there). Only DNS hosting moves
 to Cloudflare's **free** plan. This is required because Cloudflare Pages can serve an **apex**
 domain (`latansajogja.co.id`, without `www`) only when the domain's DNS zone is on Cloudflare.

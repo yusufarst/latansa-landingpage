@@ -11,7 +11,7 @@
     "format:check": "prettier --check .",
     "content:check": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/content-check.mjs",
     "brand:assets": "node scripts/brand-assets.mjs",
-    "verify:export": "node scripts/verify-export.mjs",
+    "verify:export": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/verify-export.mjs",
     "preview": "npx --yes serve@14 out -l 4173",
     "check": "npm run lint && npm run typecheck && npm run format:check && npm test && npm run content:check && npm run build && npm run verify:export",
     "test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test \"scripts/__tests__/*.test.mjs\"",

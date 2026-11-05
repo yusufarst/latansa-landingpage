@@ -100,6 +100,24 @@ wins.** Every difference is listed with its reason in [§12](#12-deltas-from-the
 >   - text links dim while pressed;
 >   - the skip link never exceeds the screen;
 >   - the menu sheet uses `100dvh` and the bottom safe area.
+> - **Text links (2026-11-06):** the 1px underline sits on the label's inline span
+>   (`TextLinkLabel`), so a wrapped link is underlined line by line, never through the text; the
+>   "↗" stays on the last line. Single-line links look as before.
+> - **Footer at 1024–1279:** no spacer column before the navigation. The procurement group spans
+>   three columns, so "SIPLah Toko Ladang" stays on one line. From 1280 the layout is unchanged.
+
+> **Owner update: email active (2026-11-06).** The owner confirmed that Cloudflare Email Routing
+> (Free) delivers `info@latansajogja.co.id` to the destination inbox, so `contact.email` is now
+> `client-confirmed` and published in the Kontak band and the footer only (§6.7, §6.9 and §6.8).
+>
+> - **Kontak:** the ghost "Kirim email" action follows WhatsApp, and an "Email" line follows the
+>   WhatsApp number.
+> - **Footer:** the address follows the WhatsApp number, with a mail glyph in brass-deep.
+> - **Hero, header and menu:** they keep WhatsApp as their single action.
+> - **Links:** every `mailto:` opens in place. The address may wrap after the "@" on narrow lines.
+> - **Receive-only:** Email Routing forwards inbound mail and sends nothing. No copy may promise a
+>   reply from this address, and no form may send from it. The forwarding inbox is never recorded
+>   or published.
 
 The rejected "Kop" direction is archived at
 [design/archive/kop-board-rejected.html](design/archive/kop-board-rejected.html). Its spec lives
@@ -583,6 +601,8 @@ apart.
   - "Buka di Google Maps", an external text link: the company's listing once `mapsUrl` is
     confirmed, and a search for the client-provided address until then (D23).
   - "WhatsApp" with the number in Indonesian format, when the fact is publishable (D24).
+  - "Email" with the address as a `mailto:` link, when the fact is publishable. The address may
+    wrap after the "@".
   - "Jam operasional" rows, only when `officeHours` is publishable.
 - **Locator:** 44px below.
   - A raised panel with a 1px `hair-inverse` frame, at 4:3.
@@ -828,6 +848,8 @@ rule or replaces a stand-in.
 | D39 | Meter always shown                                                               | Compresses on narrow rows; hidden below 17rem, where "1 dari 5" carries the state                                             | Same                                                                        |
 | D40 | Footer and overview links and text at 15px                                       | 16px on phones; 15px from 1024px                                                                                              | Phone minimum is 16px                                                       |
 | D41 | Locator caption directly on the contours                                         | A navy fade under the caption                                                                                                 | Contour lines crossed the caption                                           |
+| D42 | Text-link underline placed from the link box's center                            | An underline per line on the label's inline span; the icon on the last line                                                   | A wrapped link was struck through its second line                           |
+| D43 | Footer spacer column at every width from 1024                                    | No spacer at 1024–1279; procurement spans three columns there                                                                 | "SIPLah Toko Ladang" wrapped at 1024–1290px                                 |
 
 ## 13. Content model (implemented in Phase 4)
 
@@ -835,10 +857,13 @@ rule or replaces a stand-in.
 
 - **`contact.whatsapp`:** `6281802681183`, client-provided (2026-11-05). Every WhatsApp action
   links to `https://wa.me/6281802681183`, and the contact band shows "0818-0268-1183".
-- **`contact.email`:** `info@latansajogja.co.id`, status **`pending-activation`**. It is never
-  rendered. Cloudflare Email Routing is not configured; publish (status `client-confirmed`) only
-  after the address receives email successfully. The personal forwarding inbox is never recorded
-  or published.
+- **`contact.email`:** `info@latansajogja.co.id`, status **`client-confirmed`** since 2026-11-06.
+  Before that it was `pending-activation` and never rendered. The owner confirmed that Cloudflare
+  Email Routing (Free) is active and an inbound test arrived. It is published in the Kontak band
+  and the footer as `mailto:`.
+  - Email Routing is receive-only: it forwards inbound mail and sends none.
+  - The personal forwarding inbox is never recorded or published. A test and `verify:export`
+    reject any other address in `src/` and in the exported pages.
 - **`positioning.headline`:** confirmable copy with `confirmation: "pending"`. It is shown
   provisionally, and `content:check --strict` blocks launch until the client confirms it.
 - **Address and location (updated):** `mapsUrl` and `coordinates` are now `client-confirmed`

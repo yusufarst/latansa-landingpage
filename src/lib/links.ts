@@ -14,7 +14,7 @@ export const whatsappHref = (number: string) => `https://wa.me/${number}`;
 
 /**
  * Every publishable contact action, WhatsApp first (art-direction §6.9). The
- * planned email joins automatically once its status allows publishing.
+ * email follows automatically while its status allows publishing.
  */
 export function contactActions(): ContactAction[] {
   const actions: ContactAction[] = [];

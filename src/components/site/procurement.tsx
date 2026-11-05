@@ -1,7 +1,7 @@
 import { company } from "@/content/company";
 import { copy } from "@/content/copy";
 import { siplahStore } from "@/lib/links";
-import { ExternalButton } from "./actions";
+import { ExternalButton, TextLinkLabel } from "./actions";
 
 /**
  * Pengadaan (art-direction §6.5): the navy band, the page's one centered,
@@ -57,7 +57,7 @@ export function Procurement() {
             {copy.actions.siplahLong}
           </ExternalButton>
           <a href="#kontak" className="tlink">
-            {copy.actions.otherNeeds}
+            <TextLinkLabel>{copy.actions.otherNeeds}</TextLinkLabel>
           </a>
         </div>
       </div>

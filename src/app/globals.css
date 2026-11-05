@@ -296,31 +296,44 @@
     transform: none;
   }
 
+  /* Text links (motion M11). The 44px link box centers its label; the 1px
+     underline lives on the label's inline span (TextLinkLabel), so a label
+     that wraps is underlined line by line, never through the text. The ↗
+     icon sits on the last line, above the same underline. */
   .tlink {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
     min-height: 2.75rem;
     font-size: var(--text-ui);
     font-weight: 600;
-    background: linear-gradient(currentColor, currentColor) left calc(50% + 0.8em) / 100%
-      1px no-repeat;
-    transition:
-      background-size 400ms var(--ease-precise),
-      opacity 150ms;
+    transition: opacity 150ms;
   }
   .tlink:active {
     opacity: 0.7;
   }
+  .tlink-label {
+    min-width: 0;
+  }
+  .tlink-label > span {
+    padding-bottom: 0.2em;
+    background: linear-gradient(currentColor, currentColor) left bottom / 100% 1px
+      no-repeat;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    transition: background-size 400ms var(--ease-precise);
+  }
   .tlink svg {
+    display: inline-block;
     width: 1rem;
     height: 1rem;
-    flex: none;
+    margin-left: 0.5rem;
+    vertical-align: middle;
   }
-  @media (hover: hover) {
-    .tlink:hover {
+  /* Reduced motion keeps the underline shown (M11). */
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .tlink:hover .tlink-label > span {
       background-size: 0% 1px;
-      background-position: right calc(50% + 0.8em);
+      background-position: right bottom;
     }
   }
 
