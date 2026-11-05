@@ -69,7 +69,7 @@ officers more than a missing section. Full policy: `docs/content-policy.md`.
   (Bapak/Ibu only where natural).
 - Describe what the company provides and how to reach it; let restraint signal confidence.
 - Prefer concrete nouns (perangkat komputer, alat tulis kantor) over marketing abstractions.
-- Calls to action: "Hubungi kami melalui WhatsApp", "Kirim email", "Kunjungi toko kami di
+- Calls to action: "Hubungi kami melalui WhatsApp", "Kirim email", "Buka toko kami di
   SIPLah" — only when the underlying fact is publishable.
 - SEO title ≤ 60 chars, description ≤ 160 chars, in Indonesian.
 

@@ -1,17 +1,22 @@
 # Design standards — Modern Institutional Elegance
 
-These are the fixed standards. The detailed art direction (final typefaces, grid, section
-compositions) and the motion spec are produced in Phase 3.
+These are the fixed standards. The full Phase 3 art direction (concept "Kop", final type scale,
+grid, section wireframes, critique log) is in [art-direction.md](art-direction.md), and the motion
+catalog in [motion-spec.md](motion-spec.md). Those documents are binding.
 
 ## Palette
 
-| Token       | Hex       | Role                                                        |
-| ----------- | --------- | ----------------------------------------------------------- |
-| `ink`       | `#172B36` | Primary text, dark surfaces, primary actions                |
-| `porcelain` | `#F7F6F2` | Page background, text on dark                               |
-| `slate`     | `#526B78` | Secondary text, metadata                                    |
-| `champagne` | `#B69A75` | Accent: hairlines, rules, small details; text only on `ink` |
-| `stone`     | `#D9DFDE` | Dividers, subtle surfaces                                   |
+| Token       | Hex       | Role                                                         |
+| ----------- | --------- | ------------------------------------------------------------ |
+| `ink`       | `#172B36` | Primary text, dark surfaces, primary actions                 |
+| `porcelain` | `#F7F6F2` | Page background, text on dark                                |
+| `slate`     | `#526B78` | Secondary text, metadata                                     |
+| `champagne` | `#B69A75` | Accent on Ink only: link underline, focus ring, band divider |
+| `stone`     | `#D9DFDE` | Company-data band, dividers, secondary text on Ink           |
+
+Phase 3 adds two functional shades: `ink-soft` `#24404E` (hover on Ink buttons, porcelain text
+10.1:1) and `slate-deep` `#46606C` (secondary text on Stone, 4.9:1; plain slate fails there at
+4.2:1). Full token and contrast tables: [art-direction.md §4](art-direction.md#4-final-color-tokens).
 
 Tokens are defined in [`src/app/globals.css`](../src/app/globals.css) with semantic aliases
 (`surface`, `text`, `text-muted`, `accent`, `line`, …). Prefer semantic aliases in components.
@@ -28,10 +33,11 @@ Tokens are defined in [`src/app/globals.css`](../src/app/globals.css) with seman
 The logo's original red, blue and gray are **not** part of the UI palette. They appear only in
 the logo artwork itself.
 
-## Typography (provisional)
+## Typography
 
-Display: Newsreader (serif, editorial). Text: Geist (sans). Both self-hosted via `next/font`.
-Phase 3 confirms or replaces these. Only free, open-licensed fonts (OFL or similar).
+Display, headings and lead: **Newsreader** (OFL, optical sizes). Text, UI and data: **Plus Jakarta
+Sans** (OFL, Tokotype, Indonesia). Both self-hosted via `next/font`. Geist (provisional in
+Phase 1) is replaced in Phase 4. Scale: [art-direction.md §3](art-direction.md#3-typography).
 
 ## Mobile-first — mandatory
 

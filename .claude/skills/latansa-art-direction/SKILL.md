@@ -1,109 +1,64 @@
 ---
 name: latansa-art-direction
-description: Art direction for the LATANSA JOGJAKARTA corporate website ("Modern Institutional Elegance"). Use before any visual decision or UI implementation in this repo — layout, composition, typography, color, logo placement, imagery, and motion intent — and when reviewing whether a design looks premium, credible and non-generic. Enforces the Deep Ink / Porcelain palette, mobile-first composition, official-logo rules and the anti-template list.
+description: Art direction for the LATANSA JOGJAKARTA corporate website ("Modern Institutional Elegance", concept "Kop"). Use before any visual decision or UI implementation in this repo — layout, composition, typography, color, logo placement, imagery, and motion intent — and when reviewing whether a design looks premium, credible and non-generic. Enforces the letterhead concept, the Deep Ink / Porcelain palette, mobile-first composition, official-logo rules and the anti-template list.
 ---
 
-# LATANSA art direction — Modern Institutional Elegance
+# LATANSA art direction — "Kop"
 
-The site must read like a high-end studio project for an institution, not a template. The
-audience is government and institutional procurement officers: they reward clarity, order,
-restraint and evidence of seriousness. Distinctive, but never flashy.
+**Binding spec:** `docs/art-direction.md`, `docs/motion-spec.md` and `docs/image-assets.md`.
+Read them before any UI work. This skill is the short version; if anything here differs, the
+docs win. Visual reference: `docs/design/phase-3-board.html` (the `design-board` launch config,
+then `/docs/design/phase-3-board.html`).
 
-Use together with the official `frontend-design` skill (aesthetic method) and `motion` skill
-(animation mechanics). This skill decides **what fits LATANSA**; those decide how.
+Use together with the official `frontend-design` skill (method) and `motion` (mechanics).
 
-Read first: `docs/design-standards.md`. If `docs/art-direction.md` and `docs/motion-spec.md`
-exist (Phase 3 output), they are the binding spec — follow them over anything generic here.
+## Concept in one line
 
-## Identity in one line
+The company introduces itself the way Indonesian institutions do: on letterhead. The hero is a
+_kop surat_ (logo, address, thick-over-thin rule) above a large editorial serif headline; the same
+rule closes the page in the footer. Everything between is quiet and typographic.
 
-Editorial calm with institutional precision: deep ink, warm porcelain paper, champagne hairlines,
-confident serif display type, and generous, deliberate whitespace.
+## Non-negotiables
 
-## Palette (tokens in `src/app/globals.css`)
+- **Kop rule** (3px ink, 3px gap, 1px ink) appears only under the hero letterhead and at the top
+  of the footer.
+- **Fonts**: Newsreader (display/headings/lead, optical sizes) and Plus Jakarta Sans
+  (text/UI/data). Self-hosted via `next/font`. Type scale in art-direction §3.
+- **Color mass**: Porcelain ground, exactly one full-bleed Ink band (procurement), exactly one
+  full-bleed Stone band (company data). Champagne only on Ink. Use the semantic tokens and the
+  contrast table in art-direction §4. Slate on Stone fails: use `slate-deep`.
+- **Logo**: official full-color artwork on Porcelain only. Horizontal in kop and compact header,
+  vertical once as the contact sign-off, symbol for icons. Never on Ink or Stone, never recolored,
+  cropped, outlined or animated in parts. No monochrome derivative.
+- **Layout**: left-aligned; 4/8/12-column grid; desktop headings in columns 1–5 with content in
+  6/7–12. Compose 360px first, then 390 → 430 → 768 → 1024 → 1440 → 1920.
+- **Motion**: one orchestrated hero load (rule draw and headline mask) plus the compact header.
+  Everything else answers the user (menu, hover, press). No section fade-ups. Full catalog in
+  `docs/motion-spec.md`.
+- **Imagery**: optional and additive. Never an empty placeholder frame. Never documentary-looking.
 
-| Token       | Hex     | Use                                                             |
-| ----------- | ------- | --------------------------------------------------------------- |
-| `ink`       | #172B36 | Text, dark sections, primary actions                            |
-| `porcelain` | #F7F6F2 | Page ground, text on ink                                        |
-| `slate`     | #526B78 | Secondary text, metadata                                        |
-| `champagne` | #B69A75 | Hairlines, rules, numerals, small accents; text **only on ink** |
-| `stone`     | #D9DFDE | Dividers, quiet surfaces                                        |
+## Rejected on sight (template tells)
 
-- Champagne on porcelain is ≈ 2.5:1 — never for text or meaningful icons.
-- Use semantic aliases (`text`, `text-muted`, `surface`, `surface-inverse`, `accent`, `line`).
-- Mostly porcelain with one or two decisive ink sections. Champagne is a seasoning (< 5% of
-  any viewport).
-- The logo's red/blue/gray are not UI colors. Do not build accents from them.
+- uppercase tracked eyebrow labels;
+- 01/02/03 numbering for things that aren't a sequence (the sectors aren't one);
+- middle-dot meta strings (`A · B · C`);
+- `→` appended to link or button text;
+- a single italic or colored word inside a headline;
+- cards or identical boxes;
+- gradients, glassmorphism or blur, shadows, neon or glow;
+- textures and patterns, including guilloche (tried and rejected);
+- counters, stats, badges and seals (no verified numbers exist);
+- logo walls and testimonial carousels;
+- pricing UI;
+- looping or decorative animation, parallax, scroll-jacking;
+- a CTA that says one thing and does another.
 
-## Typography
+## Self-check before handing off
 
-- Provisional pair: **Newsreader** (display, serif) + **Geist** (text, sans), self-hosted via
-  `next/font`. Phase 3 may replace them with other free/OFL faces.
-- Hierarchy through scale, weight and space — not color or boxes.
-- Display sizes fluid with `clamp()`; mobile h1 ≈ 2.25–2.75rem, desktop up to ~5rem.
-- Body ≥ 16px on mobile, line length 60–75 characters, generous leading (1.5–1.65).
-- Small caps / letter-spaced labels (`tracking-[0.2em] uppercase text-sm`) for section
-  eyebrows and metadata — sparingly.
-- Indonesian copy: `text-balance` for headings, `text-pretty` for paragraphs; watch long
-  compounds like "Kelembagaan" at 360px.
-
-## Composition
-
-- Mobile-first: compose for **360px first**, then 390 → 430 → 768 → 1024 → 1440 → 1920. Each
-  step is an intentional recomposition (asymmetry, column shifts, offsets), not a stretched
-  mobile stack.
-- Editorial grid: 4 columns mobile, 8 tablet, 12 desktop; let headings break the grid
-  deliberately; use hairline rules (`border-line` / champagne) to structure.
-- Vary section rhythm: full-bleed ink band, asymmetric split, indexed list, quiet statement.
-  Never three identical cards in a row as the main pattern.
-- Generous vertical spacing (mobile 64–96px between sections, desktop 128–192px).
-- Present categories as an indexed editorial list (01–05) or a typographic table — not a
-  product grid, never with prices.
-- Legal identity (incl. "Status Perpajakan: Pengusaha Kena Pajak (PKP)") is set like a
-  colophon/definition list: restrained, precise, no badges or seals.
-
-## Logo
-
-- Use `<BrandLogo>` (`src/components/brand/brand-logo.tsx`): horizontal in the navbar
-  (≥ 140px wide at 360px), vertical only for identity moments (e.g. closing section), symbol
-  for icons.
-- Full-color logo on porcelain/white only. Never recolor, filter, outline, distort, rotate,
-  animate its parts, or place it on busy imagery.
-- A monochrome/reversed derivative for ink surfaces may be proposed in Phase 3; it must keep
-  exact geometry and needs explicit user approval before use.
-
-## Imagery
-
-- Supporting, illustrative imagery only; see `docs/image-assets.md`.
-- Design must be complete without photos. Image slots are framed deliberately (crop, ratio,
-  grading to palette), never decorative filler.
-- Never imply documentary evidence (staff, office, deliveries, handovers, clients).
-
-## Motion intent
-
-- Purpose first: reveal hierarchy, confirm interaction, guide reading order. No decoration.
-- Typical vocabulary: short opacity + 8–16px translate reveals; hairline draw-ins; subtle
-  hover underline/arrow shifts; one considered hero entrance. Easing `--ease-institutional`,
-  durations 180–640ms.
-- Mobile: fewer animated elements, shorter distances, no parallax, no scroll-jacking.
-- `prefers-reduced-motion: reduce` → no transforms; content visible immediately.
-- No Lenis or smooth-scroll libraries unless `docs/motion-spec.md` justifies it technically.
-- Animate only `transform`/`opacity`; never cause layout shift.
-
-## Anti-patterns (reject on sight)
-
-Generic SaaS hero + 3 feature cards; repetitive card grids; gradients as decoration;
-glassmorphism/blur panels; neon or glow; drop-shadow stacks; emoji/icon-sticker clutter;
-stock "handshake" or "business team" imagery; marquee logo walls (no client logos exist);
-counters/stats (no verified numbers exist); testimonial carousels; badge-style "certified"
-seals; pricing tables; looping background animation.
-
-## Self-check before handing off a design
-
-1. Does 360px look intentional and premium on its own?
-2. Could this layout belong to any other company? If yes, push it further toward LATANSA's
-   institutional, editorial identity.
-3. Is every color pairing within the contrast table?
-4. Is every claim on screen backed by a publishable fact in `src/content/`?
-5. Does every animation have a stated purpose and a reduced-motion fallback?
+1. Does the 360×780 first screen look composed and premium on its own?
+2. Is the kop recognizable, with logo, address, rule and headline on one left edge?
+3. Could this layout belong to any other company? If yes, remove the generic part.
+4. Is every color pairing in the art-direction §4 contrast table?
+5. Is every fact rendered through the provenance rules (`latansa-public-content`)?
+6. Does every motion appear in `docs/motion-spec.md`, with a reduced-motion state?
+7. Do the acceptance criteria in art-direction §12 pass?

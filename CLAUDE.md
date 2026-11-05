@@ -8,7 +8,9 @@ Indonesian only. Design direction: **Modern Institutional Elegance**.
 
 Read before working: [docs/project-brief.md](docs/project-brief.md),
 [docs/roadmap.md](docs/roadmap.md), [docs/content-policy.md](docs/content-policy.md),
-[docs/design-standards.md](docs/design-standards.md).
+[docs/design-standards.md](docs/design-standards.md). For any UI work, the binding design spec is
+[docs/art-direction.md](docs/art-direction.md) + [docs/motion-spec.md](docs/motion-spec.md) +
+[docs/image-assets.md](docs/image-assets.md).
 
 ## Hard rules
 
