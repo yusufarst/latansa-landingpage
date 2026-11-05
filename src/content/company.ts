@@ -12,27 +12,35 @@ import type { CompanyContent } from "./types";
  * - Copy is Indonesian only.
  * - Facts that are not publishable are omitted from the UI, not shown as
  *   placeholders. Run `npm run content:check` to list open items.
+ * - `launch` marks what must be resolved before production: "required" facts
+ *   block `content:check --strict`; "optional" facts never block and are read
+ *   in UI only via `publishedValue()`; `{ atLeastOneOf }` needs one publishable
+ *   fact per group (at least one contact channel).
  */
 export const company = {
   legalName: {
     value: "CV. Latansa Jogjakarta",
     status: "client-confirmed",
     source: "Client brief, 2026-11-05",
+    launch: "required",
   },
   shortName: {
     value: "LATANSA",
     status: "client-confirmed",
     source: "Official logo wordmark (assets/brand)",
+    launch: "required",
   },
   legalForm: {
     value: "Persekutuan Komanditer (CV)",
     status: "client-confirmed",
     source: "Legal name prefix “CV.” in client brief",
+    launch: "required",
   },
   taxStatus: {
     value: { label: "Status Perpajakan", value: "Pengusaha Kena Pajak (PKP)" },
     status: "client-confirmed",
     source: "Client explicitly confirmed valid PKP status for public use, 2026-11-05",
+    launch: "required",
     note: "Exact wording required. Do not publish the NPWP number or tax documents. Do not imply PKP status alone means approved government supplier.",
   },
   address: {
@@ -48,11 +56,13 @@ export const company = {
     status: "client-provided",
     source:
       "Client brief, 2026-11-05; matches Google Maps listing “Latansa Jogjakarta” (plus code 28QX+FVV)",
+    launch: "required",
   },
   officeHours: {
     value: "Senin–Jumat 09.00–17.00 WIB · Sabtu 09.00–15.00 WIB · Minggu tutup",
     status: "needs-confirmation",
     source: "Google Maps listing “Latansa Jogjakarta”, read 2026-11-05",
+    launch: "optional",
     note: "Confirm with the client before publishing (set status to client-confirmed).",
   },
   contact: {
@@ -60,12 +70,14 @@ export const company = {
       value: null,
       status: "missing",
       source: "Not provided",
+      launch: { atLeastOneOf: "contact" },
       note: "Needs the official WhatsApp number in international format (62…). Contact links are hidden until provided.",
     },
     email: {
       value: null,
       status: "missing",
       source: "Not provided",
+      launch: { atLeastOneOf: "contact" },
       note: "Needs the official email address. Contact links are hidden until provided.",
     },
   },
@@ -117,12 +129,14 @@ export const company = {
         value: "SIPLah Toko Ladang",
         status: "client-provided",
         source: "Client brief, 2026-11-05",
+        launch: "optional",
       },
       url: {
         value:
           "https://siplah.tokoladang.co.id/m/cv-latansa-jogjakarta.21163?page=1&etalase=&keyword=",
         status: "client-provided",
         source: "Official store link supplied by the client, 2026-11-05",
+        launch: "optional",
       },
       description:
         "Toko CV. Latansa Jogjakarta di SIPLah Toko Ladang untuk pengadaan oleh satuan pendidikan.",
@@ -133,12 +147,14 @@ export const company = {
         value: "Mbizmarket",
         status: "unverified",
         source: "Client brief, 2026-11-05",
+        launch: "optional",
         note: "Verify the correct company profile on Mbizmarket before publishing.",
       },
       url: {
         value: null,
         status: "missing",
         source: "Not provided",
+        launch: "optional",
         note: "Needs the verified Mbizmarket profile URL.",
       },
       description: "Profil CV. Latansa Jogjakarta di Mbizmarket.",

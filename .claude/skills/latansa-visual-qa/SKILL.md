@@ -14,7 +14,7 @@ Standards: `docs/design-standards.md`, `latansa-art-direction`, and (when presen
 ## 1. Build what production serves
 
 ```bash
-npm run check          # lint, typecheck, format, build, verify:export
+npm run check          # lint, typecheck, format, tests, content:check, build, verify:export
 npm run content:check
 ```
 

@@ -46,7 +46,8 @@ Palette and rules: [design-standards.md](design-standards.md).
 
 ## Open inputs from the client
 
-Tracked live by `npm run content:check`. At the time of writing:
+Tracked live by `npm run content:check`. At least one contact channel (WhatsApp or email) is
+required before launch; the rest are optional and omitted until confirmed. At the time of writing:
 
 - Official WhatsApp number and email address
 - Confirmation of office hours (Google Maps shows Mon–Fri 09.00–17.00, Sat 09.00–15.00)

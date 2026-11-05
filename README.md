@@ -13,18 +13,19 @@ Next.js (App Router) · TypeScript · Tailwind CSS v4 · static export → Cloud
 
 ## Commands
 
-| Command                                   | What it does                                               |
-| ----------------------------------------- | ---------------------------------------------------------- |
-| `npm ci`                                  | Install exact dependencies                                 |
-| `npm run dev`                             | Local dev server at http://localhost:3000                  |
-| `npm run build`                           | Static production build into `out/`                        |
-| `npm run verify:export`                   | Assert `out/` is a valid static site for Cloudflare Pages  |
-| `npm run preview`                         | Serve `out/` at http://localhost:4173 (like production)    |
-| `npm run lint` / `npm run typecheck`      | ESLint / TypeScript                                        |
-| `npm run format` / `npm run format:check` | Prettier (with Tailwind class sorting)                     |
-| `npm run content:check`                   | List unresolved company facts; scan for forbidden content  |
-| `npm run brand:assets`                    | Regenerate logo derivatives and icons from `assets/brand/` |
-| `npm run check`                           | Everything CI runs: lint, typecheck, format, build, verify |
+| Command                                   | What it does                                                                                   |
+| ----------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `npm ci`                                  | Install exact dependencies                                                                     |
+| `npm run dev`                             | Local dev server at http://localhost:3000                                                      |
+| `npm run build`                           | Static production build into `out/`                                                            |
+| `npm run verify:export`                   | Assert `out/` is a valid static site for Cloudflare Pages                                      |
+| `npm run preview`                         | Serve `out/` at http://localhost:4173 (like production)                                        |
+| `npm run lint` / `npm run typecheck`      | ESLint / TypeScript                                                                            |
+| `npm run format` / `npm run format:check` | Prettier (with Tailwind class sorting)                                                         |
+| `npm run content:check`                   | Content safety scan; list launch blockers and optional open facts (`-- --strict`: launch gate) |
+| `npm test`                                | Unit and CLI tests for the content rules (Node test runner)                                    |
+| `npm run brand:assets`                    | Regenerate logo derivatives and icons from `assets/brand/`                                     |
+| `npm run check`                           | Everything CI runs: lint, typecheck, format, tests, content check, build, verify               |
 
 ## Structure
 

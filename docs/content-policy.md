@@ -18,11 +18,48 @@ Every fact is a `Fact<T>` with a `status` and a `source`:
 | `unverified`         | Mentioned, not yet verified to belong to the company                  | No         |
 | `missing`            | No value yet                                                          | No         |
 
-Components call `isPublishable(fact)` and **omit the element entirely** when it is false.
-Visitors never see placeholder text. Optional sections are dropped when their data is missing.
+Components **omit the element entirely** when a fact is not publishable. Visitors never see
+placeholder text. Optional sections are dropped when their data is missing.
 
-`npm run content:check` lists every open item and scans `src/` for forbidden content.
-`npm run content:check -- --strict` fails while anything is unresolved; it is the Phase 6 gate.
+## Launch requirements
+
+Every fact also declares `launch`: whether it must be resolved before production.
+
+| `launch`                    | Meaning at launch                                  | How UI reads it                                          |
+| --------------------------- | -------------------------------------------------- | -------------------------------------------------------- |
+| `"required"`                | Must be publishable; blocks `--strict` otherwise   | Directly (`company.legalName.value`)                     |
+| `"optional"`                | May stay unresolved; never blocks launch           | Only via `publishedValue(fact)` → omit when `null`       |
+| `{ atLeastOneOf: "group" }` | Optional individually; one member must be resolved | Only via `publishedValue(fact)`; render the ones present |
+
+Current assignment:
+
+| Required                                                         | At least one of             | Optional                                     |
+| ---------------------------------------------------------------- | --------------------------- | -------------------------------------------- |
+| Legal name, short name, legal form, PKP tax status, full address | WhatsApp, email (`contact`) | Office hours, SIPLah Toko Ladang, Mbizmarket |
+
+A website for procurement credibility cannot launch without the company's identity, legal form,
+confirmed tax status, address and **some** way to reach the company. Everything else is useful
+but safe to omit until the client confirms it.
+
+## Checks
+
+`npm run content:check` (runs in CI and `npm run check`) fails on:
+
+- **forbidden content** anywhere in `src/` — prices, pricing language, cart/checkout wording,
+  stock quantities, NPWP/NIK-like numbers;
+- **unguarded fact access** in `src/app` and `src/components` — reading
+  `company.<non-required fact>.value` directly instead of through `publishedValue()`, which is
+  what guarantees unresolved optional facts are omitted from the UI;
+- an **invalid content model** — unknown status, missing source, missing `launch`, or a
+  publishable status without a value.
+
+It always lists launch blockers and unresolved optional facts.
+
+`npm run content:check -- --strict` is the Phase 6 production gate: it additionally fails while
+any **launch blocker** remains (an unresolved required fact, or a group with no resolved
+member). Unresolved optional facts do **not** block launch.
+
+Tests for these rules: `npm test` (`scripts/__tests__/content-rules.test.mjs`).
 
 ## Never publish
 

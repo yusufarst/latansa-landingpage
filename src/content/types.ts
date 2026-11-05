@@ -22,11 +22,25 @@ export type FactStatus =
   /** No value available yet. */
   | "missing";
 
+/**
+ * Whether a fact must be resolved before production launch
+ * (`npm run content:check -- --strict`).
+ *
+ * - "required": must be publishable at launch. The UI may read it directly.
+ * - "optional": may stay unresolved at launch. The UI must read it through
+ *   `publishedValue()` / `isPublishable()` so it is omitted while unresolved.
+ * - { atLeastOneOf: group }: optional individually, but at least one fact in the
+ *   same group must be publishable at launch (e.g. one contact channel).
+ */
+export type LaunchRequirement = "required" | "optional" | { atLeastOneOf: string };
+
 export interface Fact<T> {
   value: T | null;
   status: FactStatus;
   /** Where the value came from — who said it, or which public source. */
   source: string;
+  /** Launch gate for this fact. */
+  launch: LaunchRequirement;
   /** Internal note for maintainers. Never rendered. */
   note?: string;
 }

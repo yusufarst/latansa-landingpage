@@ -3,14 +3,14 @@
 Each phase starts only after the user approves it. Work happens on feature branches and lands
 in `main` by Pull Request. Nothing is deployed and no DNS is changed without explicit approval.
 
-| Phase | Scope                                                                                                 | Effort | Status      |
-| ----- | ----------------------------------------------------------------------------------------------------- | ------ | ----------- |
-| 1     | Repository foundation, Next.js static export, docs, conventions, content baseline                     | Medium | Done (PR 1) |
-| 2     | frontend-design plugin, Motion AI Kit, LATANSA skills, image pipeline research                        | Medium | Done (PR 1) |
-| 3     | Premium art direction and motion specification; image-asset plan                                      | High   | Next        |
-| 4     | Frontend implementation, mobile-first; generate images if a suitable free tool exists                 | MAX    | —           |
-| 5     | Browser visual testing and intensive refinement (mobile first)                                        | MAX    | —           |
-| 6     | SEO, accessibility, performance, `content:check --strict`, production verification, set `launchReady` | High   | —           |
+| Phase | Scope                                                                                                                             | Effort | Status      |
+| ----- | --------------------------------------------------------------------------------------------------------------------------------- | ------ | ----------- |
+| 1     | Repository foundation, Next.js static export, docs, conventions, content baseline                                                 | Medium | Done (PR 1) |
+| 2     | frontend-design plugin, Motion AI Kit, LATANSA skills, image pipeline research                                                    | Medium | Done (PR 1) |
+| 3     | Premium art direction and motion specification; image-asset plan                                                                  | High   | Next        |
+| 4     | Frontend implementation, mobile-first; generate images if a suitable free tool exists                                             | MAX    | —           |
+| 5     | Browser visual testing and intensive refinement (mobile first)                                                                    | MAX    | —           |
+| 6     | SEO, accessibility, performance, `content:check --strict` (required launch info only), production verification, set `launchReady` | High   | —           |
 
 After Phase 6, deployment to Cloudflare Pages and the Hostinger DNS change are separate steps
 that each need explicit approval. See [deployment-cloudflare-pages.md](deployment-cloudflare-pages.md)

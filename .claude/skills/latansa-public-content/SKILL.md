@@ -14,11 +14,20 @@ officers more than a missing section. Full policy: `docs/content-policy.md`.
   (types in `src/content/types.ts`).
 - Publishable statuses: `client-confirmed`, `client-provided`. Not publishable:
   `needs-confirmation`, `unverified`, `missing`.
-- In UI, guard every fact with `isPublishable(fact)` from `src/content/facts.ts` and **omit the
-  element entirely** when false. Never render placeholder text, "TBA", "segera", or empty
-  links. Drop optional sections whose data is missing.
+- Every fact declares `launch`: `"required"` (must be publishable to launch),
+  `"optional"` (may stay unresolved), or `{ atLeastOneOf: "contact" }` (one member of the
+  group must be resolved). New facts are `"optional"` unless the site cannot credibly launch
+  without them — ask the user before adding a new `"required"` fact.
+- In UI, read `"required"` facts directly (`company.legalName.value`). Read every other fact
+  only via `publishedValue(fact)` from `src/content/facts.ts` and **omit the element
+  entirely** when it returns `null`. `content:check` rejects direct `.value` reads of
+  non-required facts in `src/app` and `src/components`. Never render placeholder text, "TBA",
+  "segera", or empty links. Drop optional sections whose data is missing.
 - Never hard-code company facts in components.
-- After any change run `npm run content:check` (and `-- --strict` before production).
+- After any change run `npm run content:check` and `npm test`. Before production,
+  `npm run content:check -- --strict` must pass: it blocks only on required launch
+  information (currently: identity, legal form, PKP status, address, and at least one of
+  WhatsApp/email).
 
 ## Current facts (verify in the file — it may have changed)
 
@@ -73,6 +82,7 @@ officers more than a missing section. Full policy: `docs/content-policy.md`.
 ## Adding or changing a fact
 
 1. Confirm the source (client message, client-supplied link, official public record).
-2. Add/update the `Fact` with `status`, `source` (who/where + date) and an optional `note`.
-3. Run `npm run content:check`.
+2. Add/update the `Fact` with `status`, `source` (who/where + date), `launch` and an optional
+   `note`.
+3. Run `npm run content:check` and `npm test`.
 4. Mention the change and its source in the PR description.

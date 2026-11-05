@@ -18,8 +18,9 @@ Read before working: [docs/project-brief.md](docs/project-brief.md),
 - **Never publish** the NPWP number, tax documents or sensitive legal records.
 - PKP wording is fixed: **"Status Perpajakan: Pengusaha Kena Pajak (PKP)"**. Never imply PKP
   status alone means approved government supplier.
-- Company facts live only in `src/content/` with provenance. UI renders a fact only when
-  `isPublishable(fact)`; otherwise the element is omitted (no visible placeholders).
+- Company facts live only in `src/content/` with provenance and a `launch` requirement.
+  UI may read `"required"` facts directly; every other fact only via `publishedValue(fact)`,
+  omitting the element when it returns `null` (no visible placeholders).
 - Contact is via WhatsApp and email links only — no contact form, no backend.
 - AI-generated imagery is illustrative only. Never present it as documentary evidence of
   real LATANSA operations, staff, premises, deliveries or clients.
@@ -53,8 +54,12 @@ Design, code and review in this order: **360 & 390 → 430 → 768 → 1024 → 
 ## Workflow
 
 - Feature branch → Pull Request into `main`. Production branch is `main`.
-- Before pushing: `npm run check` (lint, typecheck, format, build, verify:export).
-- `npm run content:check` lists unresolved facts; `--strict` is the Phase 6 launch gate.
+- Before pushing: `npm run check` (lint, typecheck, format, tests, content:check, build,
+  verify:export).
+- `npm run content:check` lists launch blockers and unresolved optional facts and fails on
+  forbidden content or unguarded fact access. `--strict` (Phase 6 launch gate) fails only on
+  unresolved **required** launch information; optional facts never block. See
+  `docs/content-policy.md`.
 - `src/config/site.ts` → `launchReady` stays `false` (noindex) until Phase 6 sign-off.
 
 ## Effort policy (the user selects the level manually)

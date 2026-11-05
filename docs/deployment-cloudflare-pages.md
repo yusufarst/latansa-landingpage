@@ -58,7 +58,7 @@ Load Balancing etc. are not needed).
 
 ```bash
 npm run check
-npm run content:check -- --strict
+npm run content:check -- --strict   # fails only on required launch information
 ```
 
 Then set `launchReady: true` in `src/config/site.ts` (enables indexing and the sitemap entry in

@@ -1,59 +1,47 @@
 #!/usr/bin/env node
 /**
- * content:check — reports company facts that are not yet publishable and
- * scans source files for content that must never ship.
+ * content:check — content safety and launch-readiness gate.
  *
- *   npm run content:check            report; fails only on forbidden content
- *   npm run content:check -- --strict also fails while any fact is unresolved
- *                                     (Phase 6 production gate)
+ *   npm run content:check              report open items; fail on forbidden content,
+ *                                      unguarded fact access or an invalid content model
+ *   npm run content:check -- --strict  additionally fail when launch-REQUIRED facts are
+ *                                      unresolved (Phase 6 production gate). Optional facts
+ *                                      never block: the UI omits them until resolved.
  *
- * Loads src/content/company.ts through Node's built-in TypeScript type
- * stripping (Node >= 24), so it needs no extra dependencies.
+ * Options (for tests): --content <module>  load `company` from another module.
+ *
+ * Loads src/content/company.ts through Node's built-in TypeScript type stripping
+ * (Node >= 24), so it needs no extra dependencies. Rules: scripts/lib/content-rules.mjs.
  */
 import { readdirSync, readFileSync, statSync } from "node:fs";
-import { join, relative } from "node:path";
-import { fileURLToPath } from "node:url";
+import { join, relative, resolve } from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
+import {
+  collectFacts,
+  evaluateLaunch,
+  scanForbidden,
+  scanUnguardedAccess,
+  validateFacts,
+} from "./lib/content-rules.mjs";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
-const strict = process.argv.includes("--strict");
-const PUBLISHABLE = new Set(["client-confirmed", "client-provided"]);
+const args = process.argv.slice(2);
+const strict = args.includes("--strict");
+const contentArg = args.includes("--content")
+  ? args[args.indexOf("--content") + 1]
+  : null;
+const contentUrl = contentArg
+  ? pathToFileURL(resolve(contentArg)).href
+  : new URL("../src/content/company.ts", import.meta.url).href;
 
-const { company } = await import("../src/content/company.ts");
-
-/** Walk the content tree and collect every Fact-shaped object. */
-function collectFacts(node, path = "company", out = []) {
-  if (node && typeof node === "object") {
-    if ("status" in node && "source" in node && "value" in node) {
-      out.push({ path, ...node });
-      return out;
-    }
-    for (const [key, child] of Object.entries(node)) {
-      const label = Array.isArray(node)
-        ? `${path}[${child?.id ?? key}]`
-        : `${path}.${key}`;
-      collectFacts(child, label, out);
-    }
-  }
-  return out;
-}
-
+const { company } = await import(contentUrl);
 const facts = collectFacts(company);
-const open = facts.filter((f) => f.value === null || !PUBLISHABLE.has(f.status));
 
-/** Patterns that must never appear in shipped source. */
-const FORBIDDEN = [
-  { re: /\bRp\.?\s?\d/i, why: "price in Rupiah" },
-  { re: /\bIDR\s?\d/i, why: "price in IDR" },
-  { re: /\b(harga|diskon|promo)\b/i, why: "pricing language" },
-  { re: /\b(keranjang|checkout|add to cart|beli sekarang)\b/i, why: "cart / checkout" },
-  { re: /\bstok\s*[:\d]/i, why: "stock quantity" },
-  { re: /\b\d{2}\.\d{3}\.\d{3}\.\d-\d{3}\.\d{3}\b/, why: "NPWP-like number (15 digit)" },
-  { re: /\b\d{4}\s?\d{4}\s?\d{4}\s?\d{4}\b/, why: "NPWP/NIK-like 16-digit number" },
-];
-const SCAN_DIRS = ["src"];
+// ── Source scans ────────────────────────────────────────────────────────────
 const SCAN_EXT = /\.(tsx?|mdx?|json|css)$/;
-// The checker's own rule text and the policy comments are allowed to name these words.
+// The content model's own rule text may name forbidden words.
 const SCAN_SKIP = new Set([join("src", "content", "types.ts")]);
+const UI_DIRS = [join("src", "app"), join("src", "components")];
 
 function* walk(dir) {
   for (const name of readdirSync(dir)) {
@@ -63,41 +51,60 @@ function* walk(dir) {
   }
 }
 
-const violations = [];
-for (const dir of SCAN_DIRS) {
-  for (const file of walk(join(root, dir))) {
-    const rel = relative(root, file);
-    if (SCAN_SKIP.has(rel)) continue;
-    readFileSync(file, "utf8")
-      .split(/\r?\n/)
-      .forEach((line, i) => {
-        // Ignore maintainer comments that state the rules themselves.
-        if (/^\s*(\*|\/\/|\/\*)/.test(line)) return;
-        for (const { re, why } of FORBIDDEN) {
-          if (re.test(line))
-            violations.push(`${rel}:${i + 1}  ${why}  →  ${line.trim()}`);
-        }
-      });
-  }
+const forbidden = [];
+const unguarded = [];
+for (const file of walk(join(root, "src"))) {
+  const rel = relative(root, file);
+  if (SCAN_SKIP.has(rel)) continue;
+  const text = readFileSync(file, "utf8");
+  forbidden.push(...scanForbidden(text, rel));
+  if (UI_DIRS.some((d) => rel.startsWith(d)))
+    unguarded.push(...scanUnguardedAccess(text, rel, facts));
 }
 
-console.log(
-  `Facts: ${facts.length} total, ${facts.length - open.length} publishable, ${open.length} open\n`,
-);
-if (open.length) {
-  console.log("Open items (hidden from the site until resolved):");
-  for (const f of open) {
-    console.log(`  - ${f.path}  [${f.status}]${f.note ? `  ${f.note}` : ""}`);
+// ── Report ──────────────────────────────────────────────────────────────────
+const modelErrors = validateFacts(facts);
+const { blocking, deferred } = evaluateLaunch(facts);
+const publishable = facts.length - new Set(deferred.map((d) => d.path)).size;
+
+console.log(`Facts: ${facts.length} total, ${publishable} publishable\n`);
+if (blocking.length) {
+  console.log("Launch blockers (required before production):");
+  for (const b of blocking) {
+    const note = b.fact?.note ? `  ${b.fact.note}` : "";
+    console.log(`  ! ${b.path}  [${b.fact?.status ?? b.reason}]${note}`);
   }
   console.log("");
 }
-if (violations.length) {
-  console.error("Forbidden content found:");
-  for (const v of violations) console.error(`  ✗ ${v}`);
-  process.exit(1);
+if (deferred.length) {
+  console.log("Optional, unresolved (omitted from the site; do not block launch):");
+  for (const d of deferred) {
+    console.log(
+      `  - ${d.path}  [${d.fact.status}]${d.fact.note ? `  ${d.fact.note}` : ""}`,
+    );
+  }
+  console.log("");
 }
-console.log("Forbidden-content scan: clean.");
-if (strict && open.length) {
-  console.error("\n--strict: unresolved facts remain. Resolve them before production.");
-  process.exit(1);
+
+let failed = false;
+const fail = (title, items) => {
+  if (!items.length) return;
+  failed = true;
+  console.error(title);
+  for (const v of items) console.error(`  ✗ ${v}`);
+};
+fail("Invalid content model:", modelErrors);
+fail("Forbidden content found:", forbidden);
+fail("Unguarded fact access in UI:", unguarded);
+if (failed) process.exit(1);
+
+console.log("Content model valid. Forbidden-content scan clean. UI fact access guarded.");
+if (strict) {
+  if (blocking.length) {
+    console.error(
+      `\n--strict: ${blocking.length} launch blocker(s). Resolve them before production.`,
+    );
+    process.exit(1);
+  }
+  console.log("--strict: launch-ready (no required facts unresolved).");
 }
