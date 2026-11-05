@@ -4,15 +4,15 @@
 
 Single-page corporate website for **CV. Latansa Jogjakarta** at **latansajogja.co.id**.
 Purpose: establish credibility with government and institutional procurement audiences.
-Indonesian only. Design direction: **Modern Institutional Elegance**.
+Indonesian only. Design direction: **Concept C · Presisi Terang** (Modern Precision Corporate),
+approved by the owner on 2026-11-05.
 
 Read before working: [docs/project-brief.md](docs/project-brief.md),
 [docs/roadmap.md](docs/roadmap.md), [docs/content-policy.md](docs/content-policy.md),
-[docs/design-standards.md](docs/design-standards.md). Design direction: Phase 3 is under review. The current
-proposal is the photographic Concept C in
-[docs/design/phase-3-photographic-direction.md](docs/design/phase-3-photographic-direction.md).
-Photorealistic imagery is mandatory. Do not implement UI until a direction is approved and its
-binding spec is written.
+[docs/design-standards.md](docs/design-standards.md). Before any UI work, also read the binding
+spec: [docs/art-direction.md](docs/art-direction.md), [docs/motion-spec.md](docs/motion-spec.md)
+and [docs/image-assets.md](docs/image-assets.md). Photorealistic imagery is mandatory. Phase 4
+(frontend build) starts only with the owner's explicit authorization.
 
 ## Hard rules
 
@@ -26,8 +26,8 @@ binding spec is written.
   UI may read `"required"` facts directly; every other fact only via `publishedValue(fact)`,
   omitting the element when it returns `null` (no visible placeholders).
 - Contact is via WhatsApp and email links only — no contact form, no backend.
-- AI-generated imagery is illustrative only. Never present it as documentary evidence of
-  real LATANSA operations, staff, premises, deliveries or clients.
+- All imagery (licensed photography or AI-generated) is illustrative only. Never present it as
+  documentary evidence of real LATANSA operations, staff, premises, deliveries or clients.
 - The official logo is never recolored, redrawn, distorted or re-composed. Originals in
   `assets/brand/` are read-only; derivatives come from `npm run brand:assets`.
 

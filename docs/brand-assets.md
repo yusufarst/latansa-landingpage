@@ -37,7 +37,9 @@ filters, redrawing, changing proportions or spacing, adding effects.
 Use `<BrandLogo variant="horizontal|vertical|symbol" />` from
 `src/components/brand/brand-logo.tsx`. Size by width with `h-auto`.
 
-- Place the full-color logo on light surfaces (porcelain/white).
-- A monochrome or reversed treatment for dark surfaces may be **explored in Phase 3** as a
-  separate derivative. It must keep the exact geometry and needs user approval before use.
+- Place the full-color logo on light surfaces only (ivory, paper or white). In the approved
+  direction it appears on ivory, in the header and the footer.
+- No monochrome or reversed treatment is needed, because the approved direction never places the
+  logo on a dark surface. Any future derivative must keep the exact geometry and needs the owner's
+  approval before use.
 - Minimum navbar width ≈ 140px at 360px viewports so the subtitle stays legible.

@@ -1,8 +1,13 @@
 # Phase 3, round 3: photographic direction "Presisi Terang" (Concept C)
 
-Status: **for review. No concept is approved.** This round answers the client's mandatory
-requirement for photorealistic imagery. It supersedes the illustrated hero artwork of Concepts A
-and B (kept for reference in [phase-3-concepts.md](phase-3-concepts.md)).
+Status: **approved by the owner on 2026-11-05.** The binding spec is
+[art-direction.md](../art-direction.md), [motion-spec.md](../motion-spec.md) and
+[image-assets.md](../image-assets.md); where they differ from this document, they win. This
+document keeps the rationale, the sourcing tests and the review record.
+
+This round answered the client's mandatory requirement for photorealistic imagery. It supersedes
+the illustrated hero artwork of Concepts A and B, which are kept for reference in
+[phase-3-concepts.md](phase-3-concepts.md).
 
 |                     |                                                                                                                    |
 | ------------------- | ------------------------------------------------------------------------------------------------------------------ |

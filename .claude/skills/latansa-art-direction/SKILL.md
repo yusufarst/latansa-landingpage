@@ -7,25 +7,23 @@ description: Art direction for the LATANSA JOGJAKARTA corporate website ("Modern
 
 ## Current status (check first)
 
-- The first direction, **"Kop", was rejected** (2026-11-05) as too basic and conservative. Its
-  docs (`docs/art-direction.md`, `docs/motion-spec.md`) are marked superseded. **Do not implement
-  from them.**
-- Concepts A (Presisi) and B (Terang) used illustrated artwork. Neither was approved.
-- **Photorealistic imagery is mandatory** (client, 2026-11-05). Isometric, flat SVG or cartoon
-  objects never satisfy it.
-- The current proposal is **Concept C · Presisi Terang**:
+- **Approved: Concept C · Presisi Terang** (owner, 2026-11-05):
   - Presisi's navy and brass character;
   - Terang's ivory breathing room;
   - licensed professional photography graded as one family;
-  - brass annotation markers as the signature.
-
-  Spec: `docs/design/phase-3-photographic-direction.md`. Photo provenance:
-  `docs/design/concepts/photos/SOURCES.md`. Image rules: `docs/image-assets.md`.
-  Boards: `docs/design/concepts/` (launch config `design-board`, then `/docs/design/concepts/`).
-
-- **No UI implementation until the owner approves one direction** and its binding spec replaces
-  `docs/art-direction.md` and `docs/motion-spec.md`. After approval, those two files win over this
-  skill.
+  - brass annotation markers on the hero photograph as the signature.
+- **The binding spec wins over this skill:**
+  - `docs/art-direction.md`: tokens, type, grid, sections, imagery slots, annotations, deltas
+    from the board, acceptance criteria;
+  - `docs/motion-spec.md`: every motion, its implementation and reduced-motion behavior;
+  - `docs/image-assets.md`: sourcing, exact grade and derivatives.
+- **The approved board** is `docs/design/concepts/c-presisi-terang.html` (launch config
+  `design-board`). Where it differs from the spec, the spec wins; the differences are listed in
+  art-direction §12.
+- **Photorealistic imagery is mandatory.** Isometric, flat SVG or cartoon objects never satisfy
+  it. Photo provenance: `docs/design/concepts/photos/SOURCES.md`.
+- **Rejected history:** "Kop" (archived), and Concepts A and B (illustrated).
+- **Phase 4** (frontend build) starts only with the owner's explicit authorization.
 
 Use together with the official `frontend-design` skill (method) and `motion` (mechanics).
 
@@ -49,8 +47,9 @@ and density changes between sections, not just whitespace.
   - Diagrams (flow, locator) are information graphics, not substitutes for photography.
 - **No grey placeholders, ever.** If an image is not available, the composition must be complete
   without it.
-- **Contrast:** every text pair ≥ 4.5:1 (large display ≥ 3:1), measured. The tables are in the
-  concept doc.
+- **Contrast:** every text pair ≥ 4.5:1 (large display ≥ 3:1) and focus rings and boundaries ≥
+  3:1, measured. The table is in `docs/art-direction.md` §4. Brass is never text or focus on light
+  surfaces; use brass-deep.
 - **Motion:**
   - one orchestrated hero entrance;
   - purposeful scroll moments, each defined per direction;

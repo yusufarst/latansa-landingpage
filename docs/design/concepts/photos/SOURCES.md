@@ -26,7 +26,23 @@ license page, unsplash.com/license, was reviewed the same day.
 | `goods-boxes.webp`    | Barang & jasa pendukung           | https://unsplash.com/photos/brown-cardboard-box-on-white-table-jpQs15STZZ4           | Mediamodifier     |
 | `arch-atrium.webp`    | Profile (architectural editorial) | https://unsplash.com/photos/clear-glass-building-interior-during-daytime-aKij95Mmus8 | LYCS Architecture |
 
+**Unsplash image IDs.** These identify the originals on the Unsplash CDN, for re-downloading
+masters in Phase 4:
+
+| File                  | Image ID                           | Original used for review |
+| --------------------- | ---------------------------------- | ------------------------ |
+| `hero-desk-crop.webp` | `photo-1752225494606-ae09aca08bea` | 2600 × 1465              |
+| `it-laptop.webp`      | `photo-1620365602462-40d8f2cdd84c` | 2600 × 1733              |
+| `it-keyboard.webp`    | `photo-1572916118970-fb5c8a1cb3d1` | 2600 × 1733              |
+| `office-ruler.webp`   | `photo-1765917393220-78ed33e7e07b` | 2600 × 1734              |
+| `elec-board.webp`     | `photo-1518770660439-4636190af475` | 2600 × 1733              |
+| `inst-chairs.webp`    | `photo-1628062699790-7c45262b82b4` | 2600 × 1463              |
+| `goods-boxes.webp`    | `photo-1631010231931-d2c396b444ec` | 2600 × 1733              |
+| `arch-atrium.webp`    | `photo-1531972111231-7482a960e109` | 2600 × 1733              |
+
 ## Processing
+
+The exact per-image grade is in [docs/image-assets.md](../../../image-assets.md#family-grade-exact-values-used-for-the-approved-board).
 
 Every image was downloaded from the Unsplash CDN at 2600px, then processed with sharp:
 
