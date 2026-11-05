@@ -1,12 +1,17 @@
 # Art direction — Phase 3 (binding spec for Phase 4)
 
+> **Superseded (2026-11-05).** The "Kop" direction described here was reviewed and rejected as too
+> basic. Two new directions are under review in [design/phase-3-concepts.md](design/phase-3-concepts.md). This
+> document is kept for history and will be rewritten for the approved direction. Do not implement
+> from it.
+
 Status: **proposed, awaiting approval.** When approved, this document, [motion-spec.md](motion-spec.md)
 and [image-assets.md](image-assets.md) override any generic guidance elsewhere.
 
-Visual reference: [design/phase-3-board.html](design/phase-3-board.html). It's a static mock built
+Visual reference (archived): [design/archive/kop-board-rejected.html](design/archive/kop-board-rejected.html). It's a static mock built
 with the real palette, fonts and copy, reviewed at 360 / 390 / 430 / 768 / 1024 / 1440 / 1920 px. Open
 it with the `design-board` config in `.claude/launch.json` at
-`http://localhost:4174/docs/design/phase-3-board.html` (add `?clean` to hide the review notes).
+`http://localhost:4174/docs/design/archive/kop-board-rejected.html` (add `?clean` to hide the review notes).
 It is not production code.
 
 ---

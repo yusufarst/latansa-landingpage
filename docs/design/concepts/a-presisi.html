@@ -1,0 +1,2389 @@
+<!doctype html>
+<!--
+  Phase 3 · Concept A "Presisi" — high-fidelity design board (review mock, NOT production code).
+  Fonts load from the Google Fonts CDN here only; Phase 4 self-hosts them via next/font.
+  Add ?still to render every animation in its final state (used for screenshots).
+-->
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>LATANSA — Konsep A · Presisi</title>
+    <script>
+      if (/[?&]still\b/.test(location.search))
+        document.documentElement.classList.add("still");
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --midnight: #08131f;
+        --navy: #0d1c2c;
+        --raised: #13283d;
+        --ivory: #f1ece2;
+        --paper: #f8f5ef;
+        --stone: #dcd6cb;
+        --mist: #a7b4c2;
+        --steel: #6b7f93;
+        --slate: #4e6175;
+        --brass: #cfa35e;
+        --brass-deep: #7a5a28;
+        --hair-d: rgb(241 236 226 / 0.14);
+        --hair-l: rgb(13 28 44 / 0.14);
+        --pad: clamp(1.25rem, 0.2rem + 4.3vw, 4.5rem);
+        --max: 90rem;
+        --e-out: cubic-bezier(0.16, 1, 0.3, 1);
+        --e-snap: cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+      html {
+        -webkit-text-size-adjust: 100%;
+        scroll-behavior: smooth;
+        scroll-padding-top: 4.5rem;
+      }
+      body {
+        font-family: "Archivo", system-ui, sans-serif;
+        font-stretch: 100%;
+        font-size: 1rem;
+        line-height: 1.6;
+        color: var(--navy);
+        background: var(--ivory);
+        overflow-x: clip;
+        -webkit-font-smoothing: antialiased;
+      }
+      img,
+      svg {
+        display: block;
+        max-width: 100%;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      button {
+        font: inherit;
+        color: inherit;
+        background: none;
+        border: 0;
+        cursor: pointer;
+      }
+      .wrap {
+        width: 100%;
+        max-width: var(--max);
+        margin-inline: auto;
+        padding-inline: var(--pad);
+      }
+      .d {
+        font-stretch: 125%;
+        font-weight: 600;
+        letter-spacing: -0.03em;
+        line-height: 1.02;
+        text-wrap: balance;
+      }
+      .lbl {
+        font-stretch: 112%;
+        font-weight: 500;
+        font-size: 0.8125rem;
+        letter-spacing: 0.01em;
+        line-height: 1.35;
+      }
+      :focus-visible {
+        outline: 2px solid var(--brass);
+        outline-offset: 3px;
+      }
+
+      /* ───────── Buttons & links ───────── */
+      .btn {
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.625rem;
+        min-height: 3.375rem;
+        padding-inline: 1.375rem;
+        border-radius: 4px;
+        font-stretch: 112%;
+        font-weight: 600;
+        font-size: 0.9375rem;
+        letter-spacing: 0.005em;
+        white-space: nowrap;
+        transition:
+          color 0.35s var(--e-snap),
+          box-shadow 0.35s var(--e-snap),
+          transform 0.12s linear;
+      }
+      .btn::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.45s var(--e-out);
+      }
+      .btn:active {
+        transform: translateY(1px);
+      }
+      .btn svg {
+        width: 1.125rem;
+        height: 1.125rem;
+        flex: none;
+      }
+      .btn-brass {
+        background: var(--brass);
+        color: var(--navy);
+      }
+      .btn-brass::before {
+        background: #e2bf86;
+      }
+      .btn-ghost {
+        color: var(--ivory);
+        box-shadow: inset 0 0 0 1px rgb(241 236 226 / 0.34);
+      }
+      .btn-ghost::before {
+        background: var(--ivory);
+      }
+      .btn-navy {
+        background: var(--navy);
+        color: var(--ivory);
+      }
+      .btn-navy::before {
+        background: var(--raised);
+      }
+      @media (hover: hover) {
+        .btn:hover::before {
+          transform: scaleX(1);
+        }
+        .btn-ghost:hover {
+          color: var(--navy);
+          box-shadow: inset 0 0 0 1px var(--ivory);
+        }
+      }
+      .tlink {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        min-height: 3rem;
+        font-stretch: 112%;
+        font-weight: 600;
+        font-size: 0.9375rem;
+        background: linear-gradient(currentColor, currentColor) left calc(50% + 0.85em) /
+          100% 1px no-repeat;
+        transition: background-size 0.4s var(--e-out);
+      }
+      .tlink svg {
+        width: 1rem;
+        height: 1rem;
+      }
+      @media (hover: hover) {
+        .tlink:hover {
+          background-size: 0% 1px;
+          background-position: right calc(50% + 0.85em);
+        }
+      }
+
+      /* ───────── Header ───────── */
+      .hdr {
+        position: sticky;
+        top: 0;
+        z-index: 40;
+        background: var(--ivory);
+        transition: box-shadow 0.3s;
+      }
+      .hdr.scrolled {
+        box-shadow: 0 1px 0 var(--hair-l);
+      }
+      .hdr-in {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        height: 4rem;
+      }
+      .hdr-logo img {
+        width: 8.5rem;
+        height: auto;
+      }
+      .hdr-nav,
+      .hdr-cta {
+        display: none;
+      }
+      .menu {
+        margin-left: auto;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.625rem;
+        min-height: 2.75rem;
+        padding: 0 0.25rem 0 0.75rem;
+        font-stretch: 112%;
+        font-weight: 600;
+        font-size: 0.875rem;
+      }
+      .menu i {
+        position: relative;
+        display: block;
+        width: 2.75rem;
+        height: 2.75rem;
+        border-radius: 50%;
+        background: var(--navy);
+      }
+      .menu i::before,
+      .menu i::after {
+        content: "";
+        position: absolute;
+        left: 0.875rem;
+        right: 0.875rem;
+        height: 1.5px;
+        background: var(--ivory);
+        transition: transform 0.35s var(--e-out);
+      }
+      .menu i::before {
+        top: calc(50% - 3.5px);
+      }
+      .menu i::after {
+        top: calc(50% + 2.5px);
+      }
+      .menu[aria-expanded="true"] i::before {
+        transform: translateY(3px) rotate(45deg);
+      }
+      .menu[aria-expanded="true"] i::after {
+        transform: translateY(-3px) rotate(-45deg);
+      }
+      .sheet {
+        position: fixed;
+        inset: 4rem 0 0;
+        z-index: 39;
+        background: var(--navy);
+        color: var(--ivory);
+        display: flex;
+        flex-direction: column;
+        padding: 1.5rem var(--pad) 2rem;
+        clip-path: inset(0 0 100% 0);
+        visibility: hidden;
+        transition:
+          clip-path 0.55s var(--e-out),
+          visibility 0s 0.55s;
+      }
+      .sheet.open {
+        clip-path: inset(0 0 0 0);
+        visibility: visible;
+        transition:
+          clip-path 0.55s var(--e-out),
+          visibility 0s;
+      }
+      .sheet nav a {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-height: 4rem;
+        border-bottom: 1px solid var(--hair-d);
+        font-stretch: 125%;
+        font-weight: 600;
+        font-size: 1.75rem;
+        letter-spacing: -0.03em;
+        opacity: 0;
+        transform: translateY(14px);
+        transition:
+          opacity 0.4s var(--e-out),
+          transform 0.5s var(--e-out);
+      }
+      .sheet nav a small {
+        font-size: 0.75rem;
+        font-stretch: 112%;
+        font-weight: 500;
+        letter-spacing: 0.01em;
+        color: var(--mist);
+      }
+      .sheet.open nav a {
+        opacity: 1;
+        transform: none;
+      }
+      .sheet.open nav a:nth-child(2) {
+        transition-delay: 0.05s;
+      }
+      .sheet.open nav a:nth-child(3) {
+        transition-delay: 0.1s;
+      }
+      .sheet.open nav a:nth-child(4) {
+        transition-delay: 0.15s;
+      }
+      .sheet.open nav a:nth-child(5) {
+        transition-delay: 0.2s;
+      }
+      .sheet-foot {
+        margin-top: auto;
+        display: grid;
+        gap: 0.75rem;
+      }
+      .sheet-foot p {
+        color: var(--mist);
+        font-size: 0.875rem;
+        margin-top: 0.5rem;
+      }
+
+      /* ───────── Hero ───────── */
+      .hero {
+        position: relative;
+        background:
+          radial-gradient(60rem 36rem at 70% 18%, rgb(36 73 106 / 0.55), transparent 70%),
+          var(--navy);
+        color: var(--ivory);
+        overflow: hidden;
+      }
+      .hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image:
+          radial-gradient(circle, rgb(241 236 226 / 0.11) 1px, transparent 1.4px),
+          radial-gradient(circle, rgb(241 236 226 / 0.11) 1px, transparent 1.4px);
+        background-size: 26px 45.03px;
+        background-position:
+          0 0,
+          13px 22.52px;
+        mask-image: radial-gradient(120% 90% at 65% 35%, #000 30%, transparent 80%);
+        pointer-events: none;
+      }
+      .hero-grid {
+        position: relative;
+        display: grid;
+        padding-block: 0.75rem 3rem;
+      }
+      .hero-art {
+        position: relative;
+        order: -1;
+        margin-inline: calc(var(--pad) * -1 + 0.25rem);
+      }
+      .hero-art svg {
+        width: 100%;
+        height: auto;
+        overflow: visible;
+      }
+      .art-tag {
+        position: absolute;
+        right: calc(var(--pad) - 0.25rem);
+        bottom: 0.25rem;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        color: var(--mist);
+      }
+      .art-tag::before {
+        content: "";
+        width: 0.75rem;
+        height: 0.75rem;
+        background:
+          linear-gradient(var(--brass), var(--brass)) center / 100% 1px no-repeat,
+          linear-gradient(var(--brass), var(--brass)) center / 1px 100% no-repeat;
+      }
+      .callouts {
+        display: none;
+      }
+      .hero-copy {
+        margin-top: 1.25rem;
+      }
+      .hero-h {
+        font-size: clamp(2.0625rem, 1.35rem + 2.9vw, 3.5rem);
+      }
+      .hero-h .w {
+        display: inline-block;
+        overflow: hidden;
+        vertical-align: top;
+        padding-bottom: 0.08em;
+        margin-bottom: -0.08em;
+      }
+      .hero-h .w > span {
+        display: inline-block;
+      }
+      .hero-sub {
+        margin-top: 1.125rem;
+        max-width: 34rem;
+        color: var(--mist);
+        font-size: 1.0625rem;
+        line-height: 1.6;
+      }
+      .hero-cta {
+        display: grid;
+        gap: 0.625rem;
+        margin-top: 1.75rem;
+      }
+      .hero-loc {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 1.5rem;
+        color: var(--mist);
+      }
+      .hero-loc svg {
+        width: 1rem;
+        height: 1rem;
+        color: var(--brass);
+      }
+      .rail {
+        display: none;
+      }
+      .ruler {
+        position: relative;
+        height: 0.875rem;
+        background:
+          repeating-linear-gradient(
+              to right,
+              rgb(207 163 94 / 0.9) 0 1px,
+              transparent 1px 48px
+            )
+            left bottom / 100% 0.875rem no-repeat,
+          repeating-linear-gradient(
+              to right,
+              rgb(207 163 94 / 0.45) 0 1px,
+              transparent 1px 8px
+            )
+            left bottom / 100% 0.4375rem no-repeat;
+      }
+
+      /* hero entrance */
+      @media (prefers-reduced-motion: no-preference) {
+        .hero::before {
+          animation: fadeIn 1.2s ease both;
+        }
+        .iso-plat {
+          animation: fadeIn 0.8s 0.1s ease both;
+        }
+        .iso-edge {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 1;
+          animation: draw 1.1s 0.15s var(--e-out) forwards;
+        }
+        .hero .obj {
+          animation: drop 0.9s var(--e-out) both;
+          animation-delay: calc(0.35s + var(--i) * 0.07s);
+        }
+        .hero-h .w > span {
+          animation: rise 0.9s var(--e-out) both;
+          animation-delay: calc(0.25s + var(--k) * 0.035s);
+        }
+        .hero-sub,
+        .hero-cta,
+        .hero-loc,
+        .art-tag,
+        .callout,
+        .lead {
+          animation: fadeUp 0.8s var(--e-out) both;
+        }
+        .hero-sub {
+          animation-delay: 0.65s;
+        }
+        .hero-cta {
+          animation-delay: 0.78s;
+        }
+        .hero-loc,
+        .art-tag {
+          animation-delay: 0.95s;
+        }
+        .callout,
+        .lead {
+          animation-delay: calc(1s + var(--i) * 0.08s);
+        }
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+      }
+      @keyframes draw {
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+      @keyframes drop {
+        from {
+          opacity: 0;
+          transform: translateY(-14px);
+        }
+      }
+      @keyframes rise {
+        from {
+          transform: translateY(105%);
+        }
+      }
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+      }
+      .obj {
+        transform-box: fill-box;
+      }
+
+      /* ───────── Sections ───────── */
+      .sec {
+        padding-block: clamp(4.5rem, 2.6rem + 8vw, 9.5rem);
+        position: relative;
+      }
+      .reg::before,
+      .reg::after {
+        content: "";
+        position: absolute;
+        width: 0.875rem;
+        height: 0.875rem;
+        top: 1.25rem;
+        background:
+          linear-gradient(var(--c, var(--steel)), var(--c, var(--steel))) center / 100%
+            1px no-repeat,
+          linear-gradient(var(--c, var(--steel)), var(--c, var(--steel))) center / 1px
+            100% no-repeat;
+        opacity: 0.7;
+      }
+      .reg::before {
+        left: calc(var(--pad) - 0.4375rem);
+      }
+      .reg::after {
+        right: calc(var(--pad) - 0.4375rem);
+      }
+      .sec-tag {
+        display: flex;
+        align-items: center;
+        gap: 0.625rem;
+        color: var(--brass-deep);
+      }
+      .sec-tag::before {
+        content: "";
+        width: 1.5rem;
+        height: 1px;
+        background: currentColor;
+      }
+      .dark .sec-tag {
+        color: var(--brass);
+      }
+      .h2 {
+        font-size: clamp(1.875rem, 1.1rem + 3vw, 3.5rem);
+        margin-top: 1rem;
+      }
+
+      /* Profil */
+      .profil {
+        background: var(--ivory);
+      }
+      .profil-grid {
+        display: grid;
+        gap: 1.5rem;
+      }
+      .statement {
+        font-stretch: 100%;
+        font-weight: 300;
+        font-size: clamp(1.5rem, 1.05rem + 1.85vw, 2.625rem);
+        line-height: 1.22;
+        letter-spacing: -0.02em;
+        text-wrap: pretty;
+      }
+      .profil-body {
+        color: var(--slate);
+        max-width: 36rem;
+      }
+      .facts {
+        display: grid;
+        margin-top: 1.5rem;
+        border-top: 1px solid var(--navy);
+      }
+      .facts > div {
+        padding-block: 1.125rem;
+        border-bottom: 1px solid var(--hair-l);
+        display: grid;
+        gap: 0.25rem;
+      }
+      .facts dt {
+        color: var(--slate);
+      }
+      .facts dd {
+        font-stretch: 118%;
+        font-weight: 600;
+        font-size: 1.0625rem;
+        letter-spacing: -0.01em;
+      }
+
+      /* Bidang usaha */
+      .sektor {
+        background: var(--paper);
+        overflow: hidden;
+      }
+      .sektor::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image:
+          radial-gradient(circle, rgb(13 28 44 / 0.09) 1px, transparent 1.4px),
+          radial-gradient(circle, rgb(13 28 44 / 0.09) 1px, transparent 1.4px);
+        background-size: 26px 45.03px;
+        background-position:
+          0 0,
+          13px 22.52px;
+        pointer-events: none;
+      }
+      .sektor-lede {
+        margin-top: 1rem;
+        color: var(--slate);
+        max-width: 32rem;
+      }
+      .stage {
+        display: none;
+      }
+      .plates {
+        position: relative;
+        margin-inline: calc(var(--pad) * -1);
+        display: flex;
+        gap: 0.75rem;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-padding-inline: var(--pad);
+        padding: 2.25rem var(--pad) 0.5rem;
+        scrollbar-width: none;
+      }
+      .plates::-webkit-scrollbar {
+        display: none;
+      }
+      .plate {
+        flex: 0 0 82%;
+        scroll-snap-align: start;
+        background: var(--ivory);
+        border: 1px solid var(--hair-l);
+        padding: 1rem 1.25rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+      }
+      .plate svg {
+        width: 100%;
+        height: 11.5rem;
+        margin-bottom: 1rem;
+      }
+      .plate h3 {
+        font-stretch: 118%;
+        font-weight: 600;
+        font-size: 1.25rem;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+      }
+      .plate p {
+        margin-top: 0.5rem;
+        color: var(--slate);
+        font-size: 0.9375rem;
+      }
+      .plate-meter {
+        display: flex;
+        gap: 0.375rem;
+        padding: 1.25rem var(--pad) 0;
+        align-items: center;
+      }
+      .plate-meter i {
+        height: 2px;
+        flex: 0 0 1.5rem;
+        background: var(--hair-l);
+        transition:
+          background 0.3s,
+          flex-basis 0.4s var(--e-out);
+      }
+      .plate-meter i.on {
+        background: var(--navy);
+        flex-basis: 3rem;
+      }
+      .plate-meter span {
+        margin-left: auto;
+        color: var(--slate);
+      }
+
+      /* Pengadaan */
+      .dark {
+        background: var(--navy);
+        color: var(--ivory);
+      }
+      .pengadaan .lede {
+        margin-top: 1rem;
+        color: var(--mist);
+        max-width: 34rem;
+      }
+      .flow {
+        list-style: none;
+        padding: 0;
+        margin-top: 2.5rem;
+        position: relative;
+        display: grid;
+        gap: 1.75rem;
+      }
+      .flow::before {
+        content: "";
+        position: absolute;
+        left: 0.4375rem;
+        top: 0.75rem;
+        bottom: 0.75rem;
+        width: 1px;
+        background: repeating-linear-gradient(
+          to bottom,
+          var(--brass) 0 6px,
+          transparent 6px 11px
+        );
+        transform-origin: top;
+      }
+      .flow li {
+        position: relative;
+        padding-left: 2.25rem;
+      }
+      .flow li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.3rem;
+        width: 0.9375rem;
+        height: 0.9375rem;
+        border: 1px solid var(--brass);
+        background: var(--navy);
+        transform: rotate(45deg);
+      }
+      .flow li.mid::before {
+        background: var(--brass);
+      }
+      .flow b {
+        display: block;
+        font-stretch: 118%;
+        font-weight: 600;
+        font-size: 1.1875rem;
+        letter-spacing: -0.015em;
+      }
+      .flow span {
+        color: var(--mist);
+      }
+      .pengadaan-cta {
+        display: grid;
+        gap: 0.5rem;
+        margin-top: 2.5rem;
+        justify-items: start;
+      }
+      .pengadaan-cta .btn {
+        width: 100%;
+      }
+      .dark .tlink {
+        color: var(--ivory);
+      }
+
+      /* Data perusahaan */
+      .data {
+        background: var(--ivory);
+      }
+      .data .lede {
+        margin-top: 1rem;
+        color: var(--slate);
+        max-width: 30rem;
+      }
+      .sheet-doc {
+        position: relative;
+        margin-top: 2.25rem;
+        background: var(--paper);
+        padding: 1.25rem 1.25rem 0.5rem;
+        border: 1px solid var(--hair-l);
+      }
+      .kop {
+        display: grid;
+        gap: 3px;
+        margin-bottom: 0.5rem;
+      }
+      .kop i {
+        display: block;
+        height: 3px;
+        background: var(--navy);
+      }
+      .kop i + i {
+        height: 1px;
+      }
+      .sheet-doc dl > div {
+        display: grid;
+        gap: 0.25rem;
+        padding-block: 1rem;
+        border-bottom: 1px solid var(--hair-l);
+      }
+      .sheet-doc dl > div:last-child {
+        border-bottom: 0;
+      }
+      .sheet-doc dt {
+        color: var(--slate);
+      }
+      .sheet-doc dd {
+        font-weight: 500;
+        font-size: 1.0625rem;
+        font-variant-numeric: tabular-nums;
+      }
+      .sheet-doc dd.em {
+        font-stretch: 118%;
+        font-weight: 600;
+      }
+      .corner {
+        position: absolute;
+        width: 0.625rem;
+        height: 0.625rem;
+        border-color: var(--navy);
+        border-style: solid;
+        border-width: 0;
+      }
+      .c-tl {
+        top: -1px;
+        left: -1px;
+        border-top-width: 2px;
+        border-left-width: 2px;
+      }
+      .c-tr {
+        top: -1px;
+        right: -1px;
+        border-top-width: 2px;
+        border-right-width: 2px;
+      }
+      .c-bl {
+        bottom: -1px;
+        left: -1px;
+        border-bottom-width: 2px;
+        border-left-width: 2px;
+      }
+      .c-br {
+        bottom: -1px;
+        right: -1px;
+        border-bottom-width: 2px;
+        border-right-width: 2px;
+      }
+
+      /* Kontak */
+      .kontak {
+        background: var(--midnight);
+        color: var(--ivory);
+      }
+      .kontak .lede {
+        margin-top: 1rem;
+        color: var(--mist);
+        max-width: 32rem;
+      }
+      .kontak-cta {
+        display: grid;
+        gap: 0.625rem;
+        margin-top: 2rem;
+      }
+      .locator {
+        position: relative;
+        margin-top: 2.75rem;
+        background: var(--raised);
+        border: 1px solid var(--hair-d);
+        aspect-ratio: 4 / 3;
+        overflow: hidden;
+      }
+      .locator svg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .coord {
+        position: absolute;
+        left: 1rem;
+        bottom: 0.875rem;
+        right: 1rem;
+        display: grid;
+        gap: 0.125rem;
+        color: var(--mist);
+      }
+      .coord b {
+        color: var(--ivory);
+        font-weight: 600;
+        font-stretch: 112%;
+        font-variant-numeric: tabular-nums;
+      }
+      .addr {
+        margin-top: 1.5rem;
+        display: grid;
+        gap: 0.25rem;
+      }
+      .addr p:first-child {
+        color: var(--mist);
+      }
+      .addr address {
+        font-style: normal;
+        font-size: 1.0625rem;
+      }
+
+      /* Footer */
+      .foot {
+        background: var(--ivory);
+        padding-block: 2.5rem 2rem;
+      }
+      .foot-top {
+        display: grid;
+        gap: 1.75rem;
+        margin-top: 1.75rem;
+      }
+      .foot-top img {
+        width: 9.5rem;
+        height: auto;
+      }
+      .foot-nav {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.25rem 1rem;
+      }
+      .foot-nav a {
+        min-height: 2.75rem;
+        display: flex;
+        align-items: center;
+        font-weight: 500;
+      }
+      .foot-legal {
+        margin-top: 2rem;
+        padding-top: 1.25rem;
+        border-top: 1px solid var(--hair-l);
+        display: grid;
+        gap: 0.5rem;
+        color: var(--slate);
+        font-size: 0.8125rem;
+      }
+
+      /* Scroll reveals */
+      @media (prefers-reduced-motion: no-preference) {
+        .rv {
+          opacity: 0;
+          transform: translateY(18px);
+          transition:
+            opacity 0.8s var(--e-out),
+            transform 0.9s var(--e-out);
+        }
+        .rv.in {
+          opacity: 1;
+          transform: none;
+        }
+        .flow::before {
+          transform: scaleY(0);
+          transition: transform 1.2s var(--e-out) 0.2s;
+        }
+        .flow.in::before {
+          transform: none;
+        }
+        .plate .obj {
+          opacity: 0;
+          transform: translateY(-10px);
+          transition:
+            opacity 0.6s var(--e-out),
+            transform 0.8s var(--e-out);
+          transition-delay: calc(var(--i) * 0.06s);
+        }
+        .plate.in .obj {
+          opacity: 1;
+          transform: none;
+        }
+        .loc-ring {
+          stroke-dasharray: 1;
+          stroke-dashoffset: 1;
+          transition: stroke-dashoffset 1.6s var(--e-out);
+          transition-delay: calc(var(--i) * 0.04s);
+        }
+        .locator.in .loc-ring {
+          stroke-dashoffset: 0;
+        }
+      }
+      .still *,
+      .still *::before,
+      .still *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+      .still .rv,
+      .still .plate .obj {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+      .still .iso-edge,
+      .still .loc-ring {
+        stroke-dashoffset: 0 !important;
+      }
+      .still .flow::before {
+        transform: none !important;
+      }
+
+      /* ───────── ≥ 430 ───────── */
+      @media (min-width: 26.875rem) {
+        .hdr-logo img {
+          width: 9.25rem;
+        }
+        .plate {
+          flex-basis: 76%;
+        }
+      }
+
+      /* ───────── ≥ 768 ───────── */
+      @media (min-width: 48rem) {
+        .hero-cta,
+        .kontak-cta {
+          grid-auto-flow: column;
+          justify-content: start;
+        }
+        .facts {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 0 2rem;
+        }
+        .plate {
+          flex-basis: 46%;
+        }
+        .sheet-doc dl > div {
+          grid-template-columns: 14rem 1fr;
+          gap: 1.5rem;
+          align-items: baseline;
+        }
+        .pengadaan-cta .btn {
+          width: auto;
+        }
+      }
+
+      /* ───────── ≥ 1024 (desktop) ───────── */
+      @media (min-width: 64rem) {
+        .hdr-in {
+          height: 5rem;
+          gap: 2.5rem;
+        }
+        .hdr-logo img {
+          width: 10.5rem;
+        }
+        .hdr-nav {
+          display: flex;
+          gap: 2rem;
+          margin-left: auto;
+          font-stretch: 112%;
+          font-weight: 500;
+          font-size: 0.9375rem;
+        }
+        .hdr-nav a {
+          position: relative;
+          padding-block: 0.5rem;
+        }
+        .hdr-nav a::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 0.2rem;
+          height: 1px;
+          background: currentColor;
+          transform: scaleX(0);
+          transform-origin: right;
+          transition: transform 0.4s var(--e-out);
+        }
+        .hdr-nav a:hover::after {
+          transform: scaleX(1);
+          transform-origin: left;
+        }
+        .hdr-cta {
+          display: inline-flex;
+          min-height: 2.875rem;
+        }
+        .menu {
+          display: none;
+        }
+        .hero-grid {
+          grid-template-columns: repeat(12, minmax(0, 1fr));
+          column-gap: 2rem;
+          align-items: center;
+          min-height: min(48rem, calc(100vh - 5rem - 5.5rem));
+          padding-block: 3.5rem 2.5rem;
+        }
+        .hero-copy {
+          grid-column: 1 / 6;
+          grid-row: 1;
+          margin-top: 0;
+        }
+        .hero-art {
+          grid-column: 6 / 13;
+          grid-row: 1;
+          margin: 0;
+        }
+        .callouts {
+          display: block;
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+        }
+        .callout {
+          position: absolute;
+          transform: translate(-100%, -50%);
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          color: var(--ivory);
+          white-space: nowrap;
+        }
+        .callout.r {
+          transform: translate(0, -50%);
+          flex-direction: row-reverse;
+        }
+        .callout::after {
+          content: "";
+          width: 0.4375rem;
+          height: 0.4375rem;
+          background: var(--brass);
+          transform: rotate(45deg);
+        }
+        .art-tag {
+          right: 0;
+          bottom: -0.75rem;
+        }
+        .rail {
+          position: relative;
+          display: grid;
+          grid-template-columns: repeat(5, 1fr);
+          border-top: 1px solid var(--hair-d);
+        }
+        .rail a {
+          display: flex;
+          flex-direction: column;
+          gap: 0.375rem;
+          padding: 1.25rem 1.5rem 1.5rem 0;
+          border-right: 1px solid var(--hair-d);
+          color: var(--mist);
+          transition: color 0.3s;
+        }
+        .rail a + a {
+          padding-left: 1.5rem;
+        }
+        .rail a:last-child {
+          border-right: 0;
+        }
+        .rail a b {
+          font-stretch: 118%;
+          font-weight: 600;
+          font-size: 1rem;
+          letter-spacing: -0.01em;
+          color: var(--ivory);
+        }
+        .rail a:hover {
+          color: var(--brass);
+        }
+        .profil-grid {
+          grid-template-columns: repeat(12, minmax(0, 1fr));
+          column-gap: 2rem;
+        }
+        .profil-grid > .sec-tag {
+          grid-column: 1 / 4;
+          align-self: start;
+          margin-top: 0.75rem;
+        }
+        .profil-grid > .profil-main {
+          grid-column: 4 / 13;
+        }
+        .sektor-head {
+          display: grid;
+          grid-template-columns: repeat(12, minmax(0, 1fr));
+          column-gap: 2rem;
+          align-items: end;
+        }
+        .sektor-head > div {
+          grid-column: 1 / 8;
+        }
+        .sektor-head .sektor-lede {
+          grid-column: 9 / 13;
+        }
+        .sektor-body {
+          display: grid;
+          grid-template-columns: repeat(12, minmax(0, 1fr));
+          column-gap: 2rem;
+          margin-top: 3.5rem;
+        }
+        .stage {
+          display: block;
+          grid-column: 1 / 8;
+          position: sticky;
+          top: 7rem;
+          align-self: start;
+          height: min(44rem, calc(100vh - 9rem));
+          background: var(--ivory);
+          border: 1px solid var(--hair-l);
+        }
+        .stage svg {
+          width: 100%;
+          height: 100%;
+          padding: 2rem;
+        }
+        .stage .obj {
+          transition:
+            opacity 0.5s var(--e-out),
+            filter 0.5s;
+        }
+        .stage[data-active] .obj {
+          opacity: 0.18;
+        }
+        .stage[data-active="komputer-ti"] .obj[data-cat="komputer-ti"],
+        .stage[data-active="perlengkapan-kantor"] .obj[data-cat="perlengkapan-kantor"],
+        .stage[data-active="elektronik-teknis"] .obj[data-cat="elektronik-teknis"],
+        .stage[data-active="peralatan-kelembagaan"]
+          .obj[data-cat="peralatan-kelembagaan"],
+        .stage[data-active="barang-jasa-pendukung"]
+          .obj[data-cat="barang-jasa-pendukung"] {
+          opacity: 1;
+        }
+        .stage-cap {
+          position: absolute;
+          left: 1.5rem;
+          top: 1.25rem;
+          color: var(--slate);
+        }
+        .plates {
+          grid-column: 9 / 13;
+          display: block;
+          overflow: visible;
+          padding: 0;
+          margin: 0;
+        }
+        .plate {
+          background: none;
+          border: 0;
+          border-top: 1px solid var(--hair-l);
+          padding: 1.5rem 0 1.75rem;
+          min-height: 0;
+          transition: opacity 0.4s;
+        }
+        .plates[data-active] .plate {
+          opacity: 0.42;
+        }
+        .plates[data-active] .plate.active {
+          opacity: 1;
+        }
+        .plate svg {
+          display: none;
+        }
+        .plate h3 {
+          font-size: 1.75rem;
+        }
+        .plate p {
+          font-size: 1.0625rem;
+          margin-top: 0.75rem;
+        }
+        .plate-meter {
+          display: none;
+        }
+        .peng-grid,
+        .data-grid,
+        .kontak-grid {
+          display: grid;
+          grid-template-columns: repeat(12, minmax(0, 1fr));
+          column-gap: 2rem;
+        }
+        .peng-grid > .peng-copy {
+          grid-column: 1 / 6;
+          grid-row: 1;
+        }
+        .peng-grid > .pengadaan-cta {
+          grid-column: 1 / 6;
+          grid-row: 2;
+        }
+        .peng-grid > .peng-flow {
+          grid-column: 7 / 13;
+          grid-row: 1 / 3;
+          align-self: center;
+          border: 1px solid var(--hair-d);
+          padding: 2.5rem 2.25rem 2.75rem;
+          position: relative;
+        }
+        .peng-flow::before {
+          content: "Alur pengadaan";
+          position: absolute;
+          top: -0.65rem;
+          left: 1.75rem;
+          padding: 0 0.5rem;
+          background: var(--navy);
+          color: var(--mist);
+          font-size: 0.8125rem;
+          font-stretch: 112%;
+          font-weight: 500;
+        }
+        .flow {
+          margin-top: 0;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 1.5rem;
+          padding-top: 2.5rem;
+        }
+        .flow::before {
+          left: 0.5rem;
+          right: 0.5rem;
+          top: 0.45rem;
+          bottom: auto;
+          width: auto;
+          height: 1px;
+          background: repeating-linear-gradient(
+            to right,
+            var(--brass) 0 6px,
+            transparent 6px 11px
+          );
+          transform-origin: left;
+        }
+        .flow li {
+          padding: 1.75rem 0 0;
+        }
+        .flow li::before {
+          top: 0;
+        }
+        .flow:not(.in)::before {
+          transform: scaleX(0);
+        }
+        .still .flow::before,
+        .flow.in::before {
+          transform: none;
+        }
+        .data-grid > .data-copy {
+          grid-column: 1 / 5;
+        }
+        .data-grid > .sheet-doc {
+          grid-column: 6 / 13;
+          margin-top: 0;
+          padding: 2rem 2.5rem 1rem;
+        }
+        .kontak-grid > .kontak-copy {
+          grid-column: 1 / 6;
+        }
+        .kontak-grid > .kontak-map {
+          grid-column: 7 / 13;
+        }
+        .locator {
+          margin-top: 0;
+        }
+        .foot-top {
+          grid-template-columns: auto 1fr;
+          align-items: center;
+        }
+        .foot-nav {
+          display: flex;
+          justify-content: flex-end;
+          gap: 2.25rem;
+        }
+        .foot-legal {
+          grid-template-columns: 1fr auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="hdr" id="hdr">
+      <div class="wrap hdr-in">
+        <a class="hdr-logo" href="#top" aria-label="LATANSA, ke beranda">
+          <img
+            src="../../../public/brand/latansa-logo-horizontal-480.png"
+            width="480"
+            height="113"
+            alt="LATANSA — CV Latansa Jogjakarta"
+          />
+        </a>
+        <nav class="hdr-nav" aria-label="Utama">
+          <a href="#profil">Profil</a><a href="#bidang">Bidang usaha</a
+          ><a href="#pengadaan">Pengadaan</a><a href="#data">Data perusahaan</a>
+        </nav>
+        <a class="btn btn-navy hdr-cta" href="#kontak">Hubungi kami</a>
+        <button class="menu" type="button" aria-expanded="false" aria-controls="sheet">
+          <span>Menu</span><i aria-hidden="true"></i>
+        </button>
+      </div>
+    </header>
+
+    <div class="sheet" id="sheet" aria-label="Menu">
+      <nav>
+        <a href="#profil">Profil <small>Tentang kami</small></a>
+        <a href="#bidang">Bidang usaha <small>Lima kategori</small></a>
+        <a href="#pengadaan">Pengadaan <small>SIPLah</small></a>
+        <a href="#data">Data perusahaan <small>Legalitas</small></a>
+        <a href="#kontak">Kontak <small>Bantul, DIY</small></a>
+      </nav>
+      <div class="sheet-foot">
+        <a class="btn btn-brass" href="#kontak">Hubungi via WhatsApp</a>
+        <p>
+          Klisat, Srihardono, Pundong, Kabupaten Bantul, Daerah Istimewa Yogyakarta 55771
+        </p>
+      </div>
+    </div>
+
+    <main>
+      <!-- HERO -->
+      <section class="hero" id="top" aria-labelledby="hero-h">
+        <div class="wrap hero-grid">
+          <div class="hero-copy">
+            <h1 class="d hero-h" id="hero-h" data-split>
+              Perangkat dan perlengkapan kerja untuk instansi dan lembaga.
+            </h1>
+            <p class="hero-sub">
+              CV. Latansa Jogjakarta memasok perangkat komputer, perlengkapan kantor,
+              elektronik, dan peralatan kelembagaan, beserta layanan pendukung terpilih.
+            </p>
+            <div class="hero-cta">
+              <a class="btn btn-brass" href="#kontak"
+                ><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path
+                    d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3 1 2.6 1.1 2.8.1.2 1.9 2.9 4.6 4 1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"
+                  /></svg
+                >Hubungi via WhatsApp</a
+              >
+              <a class="btn btn-ghost" href="#pengadaan"
+                >Buka toko SIPLah<svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  aria-hidden="true"
+                >
+                  <path d="M8 16 16 8M9.5 8H16v6.5" /></svg
+              ></a>
+            </div>
+            <p class="hero-loc lbl">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                aria-hidden="true"
+              >
+                <path
+                  d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11Z"
+                />
+                <circle cx="12" cy="10" r="2.3" />
+              </svg>
+              Kabupaten Bantul, Daerah Istimewa Yogyakarta
+            </p>
+          </div>
+          <div class="hero-art">
+            <svg
+              id="isoHero"
+              role="img"
+              aria-label="Ilustrasi isometrik barang dari lima kategori usaha"
+            ></svg>
+            <div class="callouts" id="callouts" aria-hidden="true"></div>
+            <p class="art-tag lbl" aria-hidden="true">Ilustrasi kategori barang</p>
+          </div>
+        </div>
+        <div class="ruler" aria-hidden="true"></div>
+        <nav class="wrap rail" aria-label="Kategori usaha">
+          <a href="#bidang"
+            ><b>Komputer &amp; TI</b><span class="lbl">Perangkat dan pendukung</span></a
+          >
+          <a href="#bidang"
+            ><b>Perlengkapan kantor</b
+            ><span class="lbl">Alat tulis dan peralatan</span></a
+          >
+          <a href="#bidang"
+            ><b>Elektronik &amp; teknis</b><span class="lbl">Sesuai spesifikasi</span></a
+          >
+          <a href="#bidang"
+            ><b>Peralatan kelembagaan</b><span class="lbl">Fungsi dan fasilitas</span></a
+          >
+          <a href="#bidang"
+            ><b>Barang &amp; jasa pendukung</b
+            ><span class="lbl">Sesuai kebutuhan</span></a
+          >
+        </nav>
+      </section>
+
+      <!-- PROFIL -->
+      <section class="sec profil reg" id="profil" aria-labelledby="profil-h">
+        <div class="wrap profil-grid">
+          <p class="sec-tag lbl rv">Profil perusahaan</p>
+          <div class="profil-main">
+            <h2 class="statement rv" id="profil-h">
+              CV. Latansa Jogjakarta menyediakan beragam kategori barang serta layanan
+              pendukung terpilih untuk menunjang kebutuhan operasional instansi, lembaga,
+              dan organisasi.
+            </h2>
+            <p class="profil-body rv" style="margin-top: 1.5rem">
+              Kami melayani pengadaan melalui kanal resmi yang tersedia, dengan komunikasi
+              yang jelas mengenai spesifikasi, ketersediaan, dan proses pengiriman sesuai
+              kesepakatan.
+            </p>
+            <dl class="facts rv">
+              <div>
+                <dt class="lbl">Berkedudukan di</dt>
+                <dd>Kabupaten Bantul, D.I. Yogyakarta</dd>
+              </div>
+              <div>
+                <dt class="lbl">Bentuk usaha</dt>
+                <dd>Persekutuan Komanditer (CV)</dd>
+              </div>
+              <div>
+                <dt class="lbl">Kanal pengadaan</dt>
+                <dd>SIPLah Toko Ladang</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <!-- BIDANG USAHA -->
+      <section
+        class="sec sektor reg"
+        id="bidang"
+        aria-labelledby="bidang-h"
+        style="--c: var(--steel)"
+      >
+        <div class="wrap">
+          <div class="sektor-head">
+            <div>
+              <p class="sec-tag lbl rv">Bidang usaha</p>
+              <h2 class="d h2 rv" id="bidang-h">
+                Lima kategori untuk kebutuhan kerja instansi.
+              </h2>
+            </div>
+            <p class="sektor-lede rv">
+              Kategori barang dan layanan yang kami sediakan untuk instansi dan lembaga.
+            </p>
+          </div>
+        </div>
+        <div class="wrap sektor-body">
+          <div class="stage" id="stage" aria-hidden="true">
+            <p class="stage-cap lbl">Ilustrasi kategori</p>
+            <svg id="isoStage"></svg>
+          </div>
+          <div
+            class="plates"
+            id="plates"
+            tabindex="0"
+            aria-label="Kategori bidang usaha, geser untuk melihat"
+          >
+            <article class="plate" data-cat="komputer-ti">
+              <svg data-plate="komputer-ti" aria-hidden="true"></svg>
+              <h3>Komputer &amp; Teknologi Informasi</h3>
+              <p>
+                Perangkat komputer, perangkat pendukung, dan kebutuhan teknologi informasi
+                untuk menunjang administrasi dan pelayanan.
+              </p>
+            </article>
+            <article class="plate" data-cat="perlengkapan-kantor">
+              <svg data-plate="perlengkapan-kantor" aria-hidden="true"></svg>
+              <h3>Alat Tulis &amp; Perlengkapan Kantor</h3>
+              <p>
+                Alat tulis, perlengkapan, dan peralatan kantor untuk kebutuhan operasional
+                sehari-hari.
+              </p>
+            </article>
+            <article class="plate" data-cat="elektronik-teknis">
+              <svg data-plate="elektronik-teknis" aria-hidden="true"></svg>
+              <h3>Elektronik &amp; Perlengkapan Teknis</h3>
+              <p>
+                Perangkat elektronik dan perlengkapan teknis sesuai spesifikasi kebutuhan.
+              </p>
+            </article>
+            <article class="plate" data-cat="peralatan-kelembagaan">
+              <svg data-plate="peralatan-kelembagaan" aria-hidden="true"></svg>
+              <h3>Peralatan Umum Kelembagaan</h3>
+              <p>
+                Peralatan umum untuk menunjang fungsi dan fasilitas instansi maupun
+                lembaga.
+              </p>
+            </article>
+            <article class="plate" data-cat="barang-jasa-pendukung">
+              <svg data-plate="barang-jasa-pendukung" aria-hidden="true"></svg>
+              <h3>Barang &amp; Jasa Pendukung Terpilih</h3>
+              <p>
+                Barang dan layanan pendukung lainnya yang disediakan berdasarkan kebutuhan
+                dan ketersediaan.
+              </p>
+            </article>
+          </div>
+        </div>
+        <div class="plate-meter" id="meter" aria-hidden="true">
+          <i class="on"></i><i></i><i></i><i></i><i></i><span class="lbl">Geser</span>
+        </div>
+      </section>
+
+      <!-- PENGADAAN -->
+      <section
+        class="sec dark pengadaan reg"
+        id="pengadaan"
+        aria-labelledby="peng-h"
+        style="--c: var(--steel)"
+      >
+        <div class="wrap peng-grid">
+          <div class="peng-copy">
+            <p class="sec-tag lbl rv">Kanal pengadaan</p>
+            <h2 class="d h2 rv" id="peng-h">Pengadaan melalui SIPLah Toko Ladang.</h2>
+            <p class="lede rv">
+              Satuan pendidikan dapat melakukan pengadaan melalui toko CV. Latansa
+              Jogjakarta di SIPLah Toko Ladang. Untuk kebutuhan lain, hubungi kami secara
+              langsung.
+            </p>
+          </div>
+          <div class="peng-flow">
+            <ol class="flow rv" id="flow" aria-label="Alur pengadaan melalui SIPLah">
+              <li><b>CV. Latansa Jogjakarta</b><span class="lbl">Pemasok</span></li>
+              <li class="mid">
+                <b>SIPLah Toko Ladang</b><span class="lbl">Toko resmi kami</span>
+              </li>
+              <li>
+                <b>Satuan pendidikan</b><span class="lbl">Pengadaan barang dan jasa</span>
+              </li>
+            </ol>
+          </div>
+          <div class="pengadaan-cta rv">
+            <a class="btn btn-brass" href="#" rel="noopener noreferrer"
+              >Buka toko di SIPLah Toko Ladang<svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                aria-hidden="true"
+              >
+                <path d="M8 16 16 8M9.5 8H16v6.5" /></svg
+            ></a>
+            <a class="tlink" href="#kontak">Diskusikan kebutuhan lain</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- DATA PERUSAHAAN -->
+      <section class="sec data reg" id="data" aria-labelledby="data-h">
+        <div class="wrap data-grid">
+          <div class="data-copy">
+            <p class="sec-tag lbl rv">Data perusahaan</p>
+            <h2 class="d h2 rv" id="data-h">Identitas usaha.</h2>
+            <p class="lede rv">
+              Informasi identitas perusahaan untuk keperluan administrasi pengadaan.
+            </p>
+          </div>
+          <div class="sheet-doc rv">
+            <span class="corner c-tl"></span><span class="corner c-tr"></span
+            ><span class="corner c-bl"></span><span class="corner c-br"></span>
+            <div class="kop" aria-hidden="true"><i></i><i></i></div>
+            <dl>
+              <div>
+                <dt class="lbl">Nama perusahaan</dt>
+                <dd class="em">CV. Latansa Jogjakarta</dd>
+              </div>
+              <div>
+                <dt class="lbl">Bentuk usaha</dt>
+                <dd>Persekutuan Komanditer (CV)</dd>
+              </div>
+              <div>
+                <dt class="lbl">Status Perpajakan</dt>
+                <dd class="em">Pengusaha Kena Pajak (PKP)</dd>
+              </div>
+              <div>
+                <dt class="lbl">Alamat</dt>
+                <dd>
+                  Klisat, Srihardono, Kecamatan Pundong, Kabupaten Bantul, Daerah Istimewa
+                  Yogyakarta 55771
+                </dd>
+              </div>
+              <div>
+                <dt class="lbl">Kanal pengadaan</dt>
+                <dd>SIPLah Toko Ladang</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <!-- KONTAK -->
+      <section class="sec kontak" id="kontak" aria-labelledby="kontak-h">
+        <div class="wrap kontak-grid">
+          <div class="kontak-copy">
+            <p class="sec-tag lbl rv" style="color: var(--brass)">Kontak</p>
+            <h2 class="d h2 rv" id="kontak-h">Diskusikan kebutuhan pengadaan Anda.</h2>
+            <p class="lede rv">
+              Sampaikan spesifikasi barang yang dibutuhkan. Kami akan membantu menjelaskan
+              ketersediaan dan proses pengadaannya.
+            </p>
+            <div class="kontak-cta rv">
+              <a class="btn btn-brass" href="#">Hubungi via WhatsApp</a>
+              <a class="btn btn-ghost" href="#">Kirim email</a>
+            </div>
+            <div class="addr rv">
+              <p class="lbl">Alamat kantor</p>
+              <address>
+                Klisat, Srihardono, Kecamatan Pundong<br />Kabupaten Bantul, Daerah
+                Istimewa Yogyakarta 55771
+              </address>
+              <a
+                class="tlink"
+                href="#"
+                rel="noopener noreferrer"
+                style="justify-self: start"
+                >Buka di Google Maps<svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  aria-hidden="true"
+                >
+                  <path d="M8 16 16 8M9.5 8H16v6.5" /></svg
+              ></a>
+            </div>
+          </div>
+          <div class="kontak-map">
+            <div class="locator rv" id="locator" aria-hidden="true">
+              <svg
+                id="topo"
+                viewBox="0 0 400 300"
+                preserveAspectRatio="xMidYMid slice"
+              ></svg>
+              <p class="coord lbl">
+                <span>Penanda lokasi (ilustrasi)</span><b>7°57′41″ LS, 110°20′58″ BT</b>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <div class="wrap">
+        <div class="kop" aria-hidden="true"><i></i><i></i></div>
+        <div class="foot-top">
+          <img
+            src="../../../public/brand/latansa-logo-horizontal-480.png"
+            width="480"
+            height="113"
+            alt="LATANSA — CV Latansa Jogjakarta"
+          />
+          <nav class="foot-nav" aria-label="Navigasi bawah">
+            <a href="#profil">Profil</a><a href="#bidang">Bidang usaha</a
+            ><a href="#pengadaan">Pengadaan</a><a href="#data">Data perusahaan</a
+            ><a href="#kontak">Kontak</a>
+          </nav>
+        </div>
+        <div class="foot-legal">
+          <p>
+            © 2026 CV. Latansa Jogjakarta. Kabupaten Bantul, Daerah Istimewa Yogyakarta.
+          </p>
+          <p>
+            Ilustrasi pada situs ini adalah karya grafis, bukan dokumentasi kegiatan
+            perusahaan.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      /* ───────── Isometric engine (board only) ───────── */
+      const C30 = Math.cos(Math.PI / 6);
+      let BB;
+      const resetBB = () => (BB = { x0: 1e9, y0: 1e9, x1: -1e9, y1: -1e9 });
+      let ZO = 0; /* elevation offset applied while drawing a lifted object */
+      const P = (x, y, z) => {
+        const p = [(x - y) * C30, (x + y) * 0.5 - z - ZO];
+        if (p[0] < BB.x0) BB.x0 = p[0];
+        if (p[0] > BB.x1) BB.x1 = p[0];
+        if (p[1] < BB.y0) BB.y0 = p[1];
+        if (p[1] > BB.y1) BB.y1 = p[1];
+        return p;
+      };
+      const f2 = (n) => n.toFixed(2);
+      const pts = (a) =>
+        a
+          .map((q) =>
+            P(...q)
+              .map(f2)
+              .join(","),
+          )
+          .join(" ");
+      const ST = (c, w = 0.8) =>
+        `stroke="${c}" stroke-width="${w}" vector-effect="non-scaling-stroke" stroke-linejoin="round"`;
+      const pg = (a, fill, extra = "") =>
+        `<polygon points="${pts(a)}" fill="${fill}" ${extra}/>`;
+      const ln = (a, b, c, w = 1, extra = "") => {
+        const p = P(...a),
+          q = P(...b);
+        return `<line x1="${f2(p[0])}" y1="${f2(p[1])}" x2="${f2(q[0])}" y2="${f2(q[1])}" ${ST(c, w)} stroke-linecap="round" ${extra}/>`;
+      };
+      const dot = (a, r, fill) => {
+        const p = P(...a);
+        return `<circle cx="${f2(p[0])}" cy="${f2(p[1])}" r="${r}" fill="${fill}"/>`;
+      };
+      const LF = (x, y1, z) => (u, v) => [x + u, y1, z + v];
+      const TF = (x, y, z1) => (u, v) => [x + u, y + v, z1];
+      const RF = (x1, y, z) => (u, v) => [x1, y + u, z + v];
+      const quad = (f, u0, v0, u1, v1) => [f(u0, v0), f(u1, v0), f(u1, v1), f(u0, v1)];
+
+      const THEMES = {
+        solid: {
+          id: "s",
+          porc: ["#F6F2EA", "#DDD6C9", "#B4AD9F"],
+          navy: ["#2C4A67", "#1C344C", "#12263B"],
+          brass: ["#E4C083", "#C99F5C", "#9F7B40"],
+          kraft: ["#E8D8BA", "#CDB894", "#AA9470"],
+          white: ["#FCFBF8", "#ECE7DE", "#D2CBBE"],
+          stroke: "rgba(8,19,31,.42)",
+          detail: "rgba(8,19,31,.5)",
+          ui: "rgba(214,172,104,.95)",
+          ui2: "rgba(241,236,226,.32)",
+          ant: "#DDD6C9",
+          tape: "#CFA35E",
+          plat: ["#163450", "#0F2539", "#0A1A2A"],
+          platEdge: "rgba(207,163,94,.75)",
+          grid: "rgba(241,236,226,.08)",
+          dim: "rgba(207,163,94,.55)",
+          foot: "rgba(207,163,94,.07)",
+          scr: ["#2B5578", "#0A1726"],
+        },
+        line: {
+          id: "l",
+          porc: ["#FFFFFF", "#F2EEE6", "#E1DACD"],
+          navy: ["#E3E9EF", "#D3DCE4", "#BFCBD6"],
+          brass: ["#F3E2C2", "#E6CC9C", "#D2B47C"],
+          kraft: ["#F5ECDA", "#E8DBC0", "#D6C6A6"],
+          white: ["#FFFFFF", "#F6F3ED", "#E8E3D9"],
+          stroke: "rgba(13,28,44,.78)",
+          detail: "rgba(13,28,44,.55)",
+          ui: "rgba(122,90,40,.9)",
+          ui2: "rgba(13,28,44,.35)",
+          ant: "rgba(13,28,44,.78)",
+          tape: "#C79A55",
+          plat: ["#FBF9F5", "#EEE9DF", "#E0D9CC"],
+          platEdge: "rgba(13,28,44,.85)",
+          grid: "rgba(13,28,44,.07)",
+          dim: "rgba(122,90,40,.6)",
+          foot: "rgba(122,90,40,.06)",
+          scr: ["#D9E1E8", "#B9C7D3"],
+        },
+      };
+
+      function box(T, x, y, z, w, d, h, c) {
+        const f = Array.isArray(c) ? c : T[c];
+        const x1 = x + w,
+          y1 = y + d,
+          z1 = z + h,
+          s = ST(T.stroke);
+        return (
+          pg(
+            [
+              [x, y1, z],
+              [x1, y1, z],
+              [x1, y1, z1],
+              [x, y1, z1],
+            ],
+            f[1],
+            s,
+          ) +
+          pg(
+            [
+              [x1, y, z],
+              [x1, y1, z],
+              [x1, y1, z1],
+              [x1, y, z1],
+            ],
+            f[2],
+            s,
+          ) +
+          pg(
+            [
+              [x, y, z1],
+              [x1, y, z1],
+              [x1, y1, z1],
+              [x, y1, z1],
+            ],
+            f[0],
+            s,
+          )
+        );
+      }
+
+      const OBJ = {
+        cabinet(T, x, y) {
+          const w = 17,
+            d = 16,
+            h = 42;
+          let s = box(T, x, y, 0, w, d, h, "porc");
+          const f = LF(x, y + d, 0);
+          for (let i = 0; i < 3; i++) {
+            const v0 = 2.2 + i * 13.1,
+              v1 = v0 + 12;
+            s += pg(quad(f, 1.4, v0, w - 1.4, v1), "none", ST(T.detail));
+            s += pg(quad(f, w / 2 - 3, v1 - 3.2, w / 2 + 3, v1 - 2.1), T.navy[2]);
+            s += pg(
+              quad(f, w / 2 - 2, v0 + 1.6, w / 2 + 2, v0 + 3.9),
+              T.white[0],
+              ST(T.detail, 0.6),
+            );
+          }
+          return s;
+        },
+        credenza(T, x, y) {
+          const w = 24,
+            d = 11,
+            h = 13;
+          let s = box(T, x, y, 0, w, d, h, "navy");
+          const f = LF(x, y + d, 0);
+          s += ln(f(w / 2, 1), f(w / 2, h - 1), T.detail, 0.8);
+          s += pg(quad(f, w / 2 - 2.6, h - 5, w / 2 - 1.6, h - 2.4), T.brass[0]);
+          s += pg(quad(f, w / 2 + 1.6, h - 5, w / 2 + 2.6, h - 2.4), T.brass[0]);
+          return s;
+        },
+        monitor(T, x, y) {
+          let s = box(T, x + 8, y + 6, 0, 10, 7.5, 1.1, "porc");
+          s += box(T, x + 11.6, y + 6.4, 1.1, 2.8, 2.2, 9.5, "porc");
+          const px = x,
+            py = y + 8.6,
+            pw = 26,
+            pd = 1.6,
+            pz = 8,
+            ph = 17;
+          s += box(T, px, py, pz, pw, pd, ph, "porc");
+          const f = LF(px, py + pd, pz);
+          s += pg(quad(f, 1, 1.5, pw - 1, ph - 1), `url(#scr-${T.id})`);
+          for (let i = 0; i < 4; i++) {
+            const v = ph - 4 - i * 2.4;
+            s += ln(f(3, v), f(3 + (i % 2 ? 8 : 12.5), v), T.ui2, 1.1);
+          }
+          s += ln(f(pw - 8.5, ph - 4), f(pw - 3, ph - 4), T.ui, 1.6);
+          s += pg(quad(f, pw - 8.5, 3, pw - 3, 8), "none", ST(T.ui, 1));
+          return s;
+        },
+        laptop(T, x, y) {
+          const w = 22,
+            d = 15,
+            hz = 1.3,
+            lean = 4.2,
+            H = 14;
+          const sp = (u, v) => [x + u, y - lean * (v / H), hz + v];
+          let s = pg([sp(0, 0), sp(w, 0), sp(w, H), sp(0, H)], T.porc[1], ST(T.stroke));
+          s += pg(
+            [sp(1, 1.1), sp(w - 1, 1.1), sp(w - 1, H - 1), sp(1, H - 1)],
+            `url(#scr-${T.id})`,
+          );
+          for (let i = 0; i < 3; i++) {
+            const v = H - 3.6 - i * 2.5;
+            s += ln(sp(2.6, v), sp(2.6 + (i === 1 ? 7 : 10.5), v), T.ui2, 1.1);
+          }
+          s += ln(sp(w - 8, 3.2), sp(w - 2.8, 3.2), T.ui, 1.6);
+          s += box(T, x, y, 0, w, d, hz, "porc");
+          const t = TF(x, y, hz);
+          for (let i = 0; i < 4; i++) {
+            const v = 2.2 + i * 1.9;
+            s += ln(t(2.6, v), t(w - 2.6, v), T.detail, 0.6);
+          }
+          s += pg(
+            quad(t, w / 2 - 3.6, d - 5.4, w / 2 + 3.6, d - 1.4),
+            "none",
+            ST(T.detail, 0.7),
+          );
+          return s;
+        },
+        printer(T, x, y) {
+          const w = 22,
+            d = 17,
+            h = 10.5;
+          let s = box(T, x, y, 0, w, d, h, "porc");
+          const t = TF(x, y, h);
+          s += pg(quad(t, 3, 2, w - 3, 4.2), T.navy[2]);
+          const sp = (u, v) => [x + 4 + u, y + 3 - 0.32 * v, h + v];
+          s += pg(
+            [sp(0, 0), sp(w - 8, 0), sp(w - 8, 8.5), sp(0, 8.5)],
+            T.white[0],
+            ST(T.stroke, 0.7),
+          );
+          s += pg(quad(t, w - 7.5, d - 6.2, w - 2.2, d - 2), T.navy[1]);
+          s += dot([x + w - 3.4, y + d - 4, h], 0.55, T.brass[0]);
+          s += box(T, x + 4, y + d, 3.2, w - 8, 3.6, 0.7, "white");
+          const f = LF(x, y + d, 0);
+          s += ln(f(2, h - 2.6), f(w - 2, h - 2.6), T.detail, 0.7);
+          return s;
+        },
+        binders(T, x, y) {
+          let s = "";
+          const cols = ["navy", "porc", "brass", "porc", "navy"];
+          for (let i = 0; i < 5; i++) {
+            const bx = x + i * 3.3;
+            s += box(T, bx, y, 0, 2.9, 12.5, 15.5, cols[i]);
+            const f = LF(bx, y + 12.5, 0);
+            s += pg(quad(f, 0.55, 9.6, 2.35, 13.6), T.white[0]);
+            s += dot(f(1.45, 3.6), 0.55, T.stroke);
+          }
+          return s;
+        },
+        paper(T, x, y) {
+          let s = "";
+          for (let i = 0; i < 5; i++)
+            s += box(
+              T,
+              x + (i % 2) * 0.5,
+              y + (i % 2) * 0.3,
+              i * 0.9,
+              12,
+              9,
+              0.9,
+              "white",
+            );
+          return s;
+        },
+        router(T, x, y) {
+          const w = 14,
+            d = 9,
+            h = 3.2;
+          let s = ln([x + 2.2, y + 1.5, h], [x + 1.1, y + 0.5, h + 10], T.ant, 2.2);
+          s += ln([x + w - 2.2, y + 1.5, h], [x + w - 1.1, y + 0.5, h + 10], T.ant, 2.2);
+          s += box(T, x, y, 0, w, d, h, "navy");
+          const f = LF(x, y + d, 0);
+          for (let i = 0; i < 4; i++) s += dot(f(3 + i * 2.4, h / 2), 0.42, T.brass[0]);
+          return s;
+        },
+        toolbox(T, x, y) {
+          const w = 18,
+            d = 9.5,
+            h = 8.5;
+          let s = box(T, x, y, 0, w, d, h, "brass");
+          const c = y + d / 2;
+          const hp = [
+            P(x + 5, c, h),
+            P(x + 5, c, h + 3.6),
+            P(x + w - 5, c, h + 3.6),
+            P(x + w - 5, c, h),
+          ];
+          s += `<polyline points="${hp.map((p) => p.map(f2).join(",")).join(" ")}" fill="none" ${ST(T.stroke, 2.4)} stroke-linecap="round"/>`;
+          const f = LF(x, y + d, 0);
+          s += ln(f(0.4, h - 2.6), f(w - 0.4, h - 2.6), T.detail, 0.8);
+          s += pg(quad(f, 3, h - 4.2, 4.6, h - 1.4), T.navy[1]);
+          s += pg(quad(f, w - 4.6, h - 4.2, w - 3, h - 1.4), T.navy[1]);
+          return s;
+        },
+        boxes(T, x, y) {
+          let s = box(T, x, y, 0, 18, 18, 13, "kraft");
+          s += pg(quad(TF(x, y, 13), 8, 0, 10, 18), T.tape);
+          s += pg(quad(LF(x, y + 18, 0), 8, 8.5, 10, 13), T.tape);
+          s += box(T, x + 2.5, y + 2.5, 13, 13, 13, 9, "kraft");
+          s += pg(quad(TF(x + 2.5, y + 2.5, 22), 0, 5.5, 13, 7.5), T.tape);
+          s += pg(quad(RF(x + 15.5, y + 2.5, 13), 5.5, 4.5, 7.5, 9), T.tape);
+          return s;
+        },
+        smallbox(T, x, y) {
+          let s = box(T, x, y, 0, 11, 11, 8, "kraft");
+          s += pg(quad(TF(x, y, 8), 4.5, 0, 6.5, 11), T.tape);
+          return s;
+        },
+      };
+
+      function platform(T, W, D, opts = {}) {
+        let s = `<g class="iso-plat">` + box(T, 0, 0, -3, W, D, 3, T.plat);
+        for (let i = 10; i < W; i += 10) s += ln([i, 0, 0], [i, D, 0], T.grid, 1);
+        for (let j = 10; j < D; j += 10) s += ln([0, j, 0], [W, j, 0], T.grid, 1);
+        s += `</g>`;
+        s += `<polygon class="iso-edge" pathLength="1" points="${pts([
+          [0, 0, 0],
+          [W, 0, 0],
+          [W, D, 0],
+          [0, D, 0],
+        ])}" fill="none" ${ST(T.platEdge, 1.1)}/>`;
+        if (opts.dims) {
+          const o = 7;
+          s += ln([0, D + o, 0], [W, D + o, 0], T.dim, 0.9);
+          s += ln([0, D + o - 2, 0], [0, D + o + 2, 0], T.dim, 0.9);
+          s += ln([W, D + o - 2, 0], [W, D + o + 2, 0], T.dim, 0.9);
+          s += ln([W + o, 0, 0], [W + o, D, 0], T.dim, 0.9);
+          s += ln([W + o - 2, 0, 0], [W + o + 2, 0, 0], T.dim, 0.9);
+          s += ln([W + o - 2, D, 0], [W + o + 2, D, 0], T.dim, 0.9);
+          for (let i = 10; i < W; i += 10)
+            s += ln([i, D + o - 0.9, 0], [i, D + o + 0.9, 0], T.dim, 0.7);
+          for (let j = 10; j < D; j += 10)
+            s += ln([W + o - 0.9, j, 0], [W + o + 0.9, j, 0], T.dim, 0.7);
+        }
+        return s;
+      }
+
+      function defs(T) {
+        return `<defs><linearGradient id="scr-${T.id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${T.scr[0]}"/><stop offset="1" stop-color="${T.scr[1]}"/></linearGradient></defs>`;
+      }
+
+      /* Exploded axonometric: e = how far an object floats above its footprint. */
+      const FOOT = {
+        cabinet: [0, 0, 17, 16],
+        credenza: [0, 0, 24, 11],
+        monitor: [0, 6, 26, 7.5],
+        laptop: [0, 0, 22, 15],
+        printer: [0, 0, 22, 17],
+        binders: [0, 0, 16.1, 12.5],
+        paper: [0, 0, 12.5, 9.3],
+        router: [0, 0, 14, 9],
+        toolbox: [0, 0, 18, 9.5],
+        boxes: [0, 0, 18, 18],
+        smallbox: [0, 0, 11, 11],
+      };
+      const SCENE = [
+        { cat: "peralatan-kelembagaan", fn: "cabinet", x: 6, y: 8, e: 0, k: 0 },
+        { cat: "komputer-ti", fn: "monitor", x: 58, y: 4, e: 9, k: 2 },
+        { cat: "elektronik-teknis", fn: "router", x: 94, y: 14, e: 14, k: 4 },
+        { cat: "komputer-ti", fn: "laptop", x: 46, y: 36, e: 5, k: 3 },
+        { cat: "perlengkapan-kantor", fn: "printer", x: 8, y: 42, e: 8, k: 1 },
+        { cat: "elektronik-teknis", fn: "toolbox", x: 90, y: 46, e: 4, k: 6 },
+        { cat: "perlengkapan-kantor", fn: "binders", x: 34, y: 66, e: 10, k: 5 },
+        { cat: "barang-jasa-pendukung", fn: "boxes", x: 64, y: 62, e: 0, k: 7 },
+      ];
+      /* [x, y, z] anchor on the object, [dx, dy] label offset in screen units, side */
+      const ANCHORS = {
+        "peralatan-kelembagaan": [[14.5, 24, 42], [-26, -8], "l"],
+        "komputer-ti": [[71, 13.4, 34], [26, -16], "r"],
+        "elektronik-teknis": [[95, 14.5, 27], [20, 4], "r"],
+        "perlengkapan-kantor": [[19, 50.5, 18.5], [-30, 8], "l"],
+        "barang-jasa-pendukung": [[73, 71, 22], [-36, 30], "l"],
+      };
+      const NAMES = {
+        "komputer-ti": "Komputer & TI",
+        "perlengkapan-kantor": "Perlengkapan kantor",
+        "elektronik-teknis": "Elektronik & teknis",
+        "peralatan-kelembagaan": "Peralatan kelembagaan",
+        "barang-jasa-pendukung": "Barang pendukung",
+      };
+
+      function projection(T, o) {
+        const [fx, fy, fw, fd] = FOOT[o.fn];
+        const x = o.x + fx,
+          y = o.y + fy,
+          x1 = x + fw,
+          y1 = y + fd,
+          e = o.e;
+        const dash = `stroke-dasharray="2 2.4"`;
+        let s = `<polygon points="${pts([
+          [x, y, 0],
+          [x1, y, 0],
+          [x1, y1, 0],
+          [x, y1, 0],
+        ])}" fill="${T.foot}" ${ST(T.dim, 0.9)} ${dash}/>`;
+        [
+          [x, y1],
+          [x1, y1],
+          [x1, y],
+        ].forEach(([a, b]) => (s += ln([a, b, 0], [a, b, e], T.dim, 0.9, dash)));
+        return s;
+      }
+      function scene(T, items, W, D, opts = {}) {
+        resetBB();
+        let s = defs(T) + platform(T, W, D, opts);
+        items
+          .slice()
+          .sort((a, b) => a.x + a.y - (b.x + b.y))
+          .forEach((o, i) => {
+            const e = o.e || 0;
+            const proj = e ? projection(T, o) : "";
+            ZO = e;
+            const body = OBJ[o.fn](T, o.x, o.y);
+            ZO = 0;
+            s += `<g class="obj" data-cat="${o.cat}" style="--i:${o.k ?? i}">${proj}${body}</g>`;
+          });
+        return s;
+      }
+
+      function setVB(svg, pad) {
+        const [l, t, r, b] = pad;
+        const x = BB.x0 - l,
+          y = BB.y0 - t,
+          w = BB.x1 - BB.x0 + l + r,
+          h = BB.y1 - BB.y0 + t + b;
+        svg.setAttribute("viewBox", `${f2(x)} ${f2(y)} ${f2(w)} ${f2(h)}`);
+        return { x, y, w, h };
+      }
+
+      const mqDesk = matchMedia("(min-width: 64rem)");
+      function renderHero() {
+        const svg = document.getElementById("isoHero");
+        const desk = mqDesk.matches;
+        svg.innerHTML = scene(THEMES.solid, SCENE, 116, 88, { dims: true });
+        const co = document.getElementById("callouts");
+        co.innerHTML = "";
+        const labels = [];
+        if (desk) {
+          Object.entries(ANCHORS).forEach(([cat, [a, [dx, dy], side]]) => {
+            const p = P(...a);
+            const q = [p[0] + dx, p[1] + dy];
+            labels.push({ cat, p, q, side });
+            /* reserve room for the label text (≈ 52 units) */
+            const tx = side === "l" ? q[0] - 54 : q[0] + 54;
+            BB.x0 = Math.min(BB.x0, tx);
+            BB.x1 = Math.max(BB.x1, tx);
+            BB.y0 = Math.min(BB.y0, q[1] - 4);
+            BB.y1 = Math.max(BB.y1, q[1] + 4);
+          });
+        }
+        const vb = setVB(svg, desk ? [4, 8, 4, 6] : [-16, 6, -16, 2]);
+        if (!desk) return;
+        let lines = "";
+        labels.forEach(({ cat, p, q, side }, i) => {
+          const elbow = [q[0] - (side === "l" ? -8 : 8), q[1]];
+          lines += `<polyline points="${f2(p[0])},${f2(p[1])} ${f2(elbow[0])},${f2(elbow[1])} ${f2(q[0])},${f2(q[1])}" fill="none" stroke="rgba(207,163,94,.7)" stroke-width=".9" vector-effect="non-scaling-stroke"/>`;
+          lines += `<circle cx="${f2(p[0])}" cy="${f2(p[1])}" r="1.2" fill="#CFA35E"/>`;
+          const el = document.createElement("span");
+          el.className = "callout lbl" + (side === "r" ? " r" : "");
+          el.style.setProperty("--i", i);
+          el.textContent = NAMES[cat];
+          el.style.left = ((q[0] - vb.x) / vb.w) * 100 + "%";
+          el.style.top = ((q[1] - vb.y) / vb.h) * 100 + "%";
+          co.appendChild(el);
+        });
+        svg.insertAdjacentHTML("beforeend", `<g class="leads">${lines}</g>`);
+      }
+
+      const PLATE_SCENES = {
+        "komputer-ti": [
+          [
+            { cat: "komputer-ti", fn: "monitor", x: 2, y: 0 },
+            { cat: "komputer-ti", fn: "laptop", x: 30, y: 16 },
+          ],
+          56,
+          36,
+        ],
+        "perlengkapan-kantor": [
+          [
+            { cat: "perlengkapan-kantor", fn: "printer", x: 3, y: 3 },
+            { cat: "perlengkapan-kantor", fn: "binders", x: 32, y: 3 },
+            { cat: "perlengkapan-kantor", fn: "paper", x: 31, y: 22 },
+          ],
+          52,
+          36,
+        ],
+        "elektronik-teknis": [
+          [
+            { cat: "elektronik-teknis", fn: "router", x: 4, y: 4 },
+            { cat: "elektronik-teknis", fn: "toolbox", x: 24, y: 18 },
+          ],
+          46,
+          32,
+        ],
+        "peralatan-kelembagaan": [
+          [
+            { cat: "peralatan-kelembagaan", fn: "cabinet", x: 4, y: 4 },
+            { cat: "peralatan-kelembagaan", fn: "credenza", x: 26, y: 16 },
+          ],
+          54,
+          32,
+        ],
+        "barang-jasa-pendukung": [
+          [
+            { cat: "barang-jasa-pendukung", fn: "boxes", x: 4, y: 6 },
+            { cat: "barang-jasa-pendukung", fn: "smallbox", x: 28, y: 14 },
+          ],
+          44,
+          32,
+        ],
+      };
+      function renderPlates() {
+        document.querySelectorAll("svg[data-plate]").forEach((svg) => {
+          const [items, W, D] = PLATE_SCENES[svg.dataset.plate];
+          svg.innerHTML = scene(THEMES.line, items, W, D);
+          setVB(svg, [4, 6, 4, 4]);
+        });
+        const st = document.getElementById("isoStage");
+        st.innerHTML = scene(THEMES.line, SCENE, 116, 88, { dims: true });
+        setVB(st, [8, 10, 12, 10]);
+      }
+
+      /* ───────── Topographic locator (abstract) ───────── */
+      function renderTopo() {
+        const svg = document.getElementById("topo");
+        let s = "";
+        for (let i = 0; i <= 8; i++)
+          s += `<line x1="${i * 50}" y1="0" x2="${i * 50}" y2="300" stroke="rgba(241,236,226,.05)"/>`;
+        for (let j = 0; j <= 6; j++)
+          s += `<line x1="0" y1="${j * 50}" x2="400" y2="${j * 50}" stroke="rgba(241,236,226,.05)"/>`;
+        const cx = 200,
+          cy = 150;
+        for (let r = 1; r <= 16; r++) {
+          let d = "";
+          for (let a = 0; a <= 72; a++) {
+            const t = (a / 72) * Math.PI * 2;
+            const rr =
+              r *
+              15 *
+              (1 +
+                0.16 * Math.sin(3 * t + r * 0.35) +
+                0.09 * Math.sin(5 * t - r * 0.2) +
+                0.05 * Math.cos(7 * t + 1));
+            const x = cx + 30 * Math.sin(r * 0.25) + rr * Math.cos(t) * 1.15,
+              y = cy + 14 * Math.cos(r * 0.3) + rr * Math.sin(t) * 0.82;
+            d += (a ? "L" : "M") + f2(x) + " " + f2(y);
+          }
+          s += `<path class="loc-ring" pathLength="1" style="--i:${r}" d="${d}Z" fill="none" stroke="rgba(167,180,194,${r % 4 === 0 ? 0.42 : 0.2})" stroke-width="${r % 4 === 0 ? 1.1 : 0.8}"/>`;
+        }
+        s += `<g stroke="#CFA35E" fill="none" stroke-width="1.2"><circle cx="${cx}" cy="${cy}" r="10"/><circle cx="${cx}" cy="${cy}" r="2.5" fill="#CFA35E"/><line x1="${cx - 26}" y1="${cy}" x2="${cx - 14}" y2="${cy}"/><line x1="${cx + 14}" y1="${cy}" x2="${cx + 26}" y2="${cy}"/><line x1="${cx}" y1="${cy - 26}" x2="${cx}" y2="${cy - 14}"/><line x1="${cx}" y1="${cy + 14}" x2="${cx}" y2="${cy + 26}"/></g>`;
+        svg.innerHTML = s;
+      }
+
+      /* ───────── Behaviour ───────── */
+      function splitWords(el) {
+        let k = 0;
+        el.innerHTML = el.textContent
+          .trim()
+          .split(/\s+/)
+          .map((w) => `<span class="w"><span style="--k:${k++}">${w}</span></span>`)
+          .join(" ");
+      }
+      document.querySelectorAll("[data-split]").forEach(splitWords);
+      renderHero();
+      renderPlates();
+      renderTopo();
+      mqDesk.addEventListener("change", renderHero);
+
+      const hdr = document.getElementById("hdr");
+      addEventListener("scroll", () => hdr.classList.toggle("scrolled", scrollY > 8), {
+        passive: true,
+      });
+
+      const btn = document.querySelector(".menu"),
+        sheet = document.getElementById("sheet");
+      const setMenu = (open) => {
+        btn.setAttribute("aria-expanded", open);
+        sheet.classList.toggle("open", open);
+        btn.querySelector("span").textContent = open ? "Tutup" : "Menu";
+        document.body.style.overflow = open ? "hidden" : "";
+      };
+      btn.addEventListener("click", () =>
+        setMenu(btn.getAttribute("aria-expanded") !== "true"),
+      );
+      sheet
+        .querySelectorAll("a")
+        .forEach((a) => a.addEventListener("click", () => setMenu(false)));
+      addEventListener("keydown", (e) => e.key === "Escape" && setMenu(false));
+      if (/[?&]menu\b/.test(location.search)) setMenu(true);
+
+      const io = new IntersectionObserver(
+        (es) =>
+          es.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("in");
+              io.unobserve(e.target);
+            }
+          }),
+        { threshold: 0.18 },
+      );
+      document
+        .querySelectorAll(".rv, .plate, #flow, #locator")
+        .forEach((el) => io.observe(el));
+
+      const plates = document.getElementById("plates"),
+        meter = [...document.querySelectorAll("#meter i")];
+      plates.addEventListener(
+        "scroll",
+        () => {
+          const i = Math.round(
+            plates.scrollLeft / (plates.firstElementChild.offsetWidth + 12),
+          );
+          meter.forEach((m, j) => m.classList.toggle("on", j === i));
+        },
+        { passive: true },
+      );
+
+      const stage = document.getElementById("stage");
+      const sio = new IntersectionObserver(
+        (es) =>
+          es.forEach((e) => {
+            if (e.isIntersecting && mqDesk.matches) {
+              const cat = e.target.dataset.cat;
+              stage.dataset.active = cat;
+              plates.dataset.active = cat;
+              document
+                .querySelectorAll(".plate")
+                .forEach((p) => p.classList.toggle("active", p === e.target));
+            }
+          }),
+        { rootMargin: "-45% 0px -45% 0px" },
+      );
+      if (document.documentElement.classList.contains("still")) {
+        stage.dataset.active = plates.dataset.active = "komputer-ti";
+        document.querySelector(".plate").classList.add("active");
+      } else document.querySelectorAll(".plate").forEach((p) => sio.observe(p));
+    </script>
+  </body>
+</html>

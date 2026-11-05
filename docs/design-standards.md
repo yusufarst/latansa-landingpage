@@ -1,8 +1,8 @@
 # Design standards — Modern Institutional Elegance
 
-These are the fixed standards. The full Phase 3 art direction (concept "Kop", final type scale,
-grid, section wireframes, critique log) is in [art-direction.md](art-direction.md), and the motion
-catalog in [motion-spec.md](motion-spec.md). Those documents are binding.
+These were the Phase 2 standards. The palette, typography and motion are being redefined in Phase 3:
+see [design/phase-3-concepts.md](design/phase-3-concepts.md) (two directions under review). The
+mobile-first, contrast, logo and content rules below still apply to every direction.
 
 ## Palette
 

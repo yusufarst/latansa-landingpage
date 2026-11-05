@@ -1,64 +1,75 @@
 ---
 name: latansa-art-direction
-description: Art direction for the LATANSA JOGJAKARTA corporate website ("Modern Institutional Elegance", concept "Kop"). Use before any visual decision or UI implementation in this repo — layout, composition, typography, color, logo placement, imagery, and motion intent — and when reviewing whether a design looks premium, credible and non-generic. Enforces the letterhead concept, the Deep Ink / Porcelain palette, mobile-first composition, official-logo rules and the anti-template list.
+description: Art direction for the LATANSA JOGJAKARTA corporate website ("Modern Precision Corporate"). Use before any visual decision or UI implementation in this repo — layout, composition, typography, color, logo placement, illustration, and motion intent — and when reviewing whether a design looks premium, credible and non-generic. Points to the approved (or pending) direction, and enforces mobile-first composition, official-logo rules, contrast and the anti-template list.
 ---
 
-# LATANSA art direction — "Kop"
+# LATANSA art direction — Modern Precision Corporate
 
-**Binding spec:** `docs/art-direction.md`, `docs/motion-spec.md` and `docs/image-assets.md`.
-Read them before any UI work. This skill is the short version; if anything here differs, the
-docs win. Visual reference: `docs/design/phase-3-board.html` (the `design-board` launch config,
-then `/docs/design/phase-3-board.html`).
+## Current status (check first)
+
+- The first direction, **"Kop", was rejected** (2026-11-05) as too basic and conservative. Its
+  docs (`docs/art-direction.md`, `docs/motion-spec.md`) are marked superseded. **Do not implement
+  from them.**
+- Two directions are under review in `docs/design/phase-3-concepts.md`:
+  - **A · Presisi:** midnight navy, brass and ivory; Archivo Expanded; exploded axonometric
+    drawing of the five categories (recommended).
+  - **B · Terang:** daylight ivory, architectural greys, ultramarine; Plus Jakarta Sans Light and
+    Newsreader; a lit still life and a shelving unit.
+
+  Boards: `docs/design/concepts/` (launch config `design-board`, then `/docs/design/concepts/`).
+
+- **No UI implementation until the owner approves one direction** and its binding spec replaces
+  `docs/art-direction.md` and `docs/motion-spec.md`. After approval, those two files win over this
+  skill.
 
 Use together with the official `frontend-design` skill (method) and `motion` (mechanics).
 
-## Concept in one line
+## Standard
 
-The company introduces itself the way Indonesian institutions do: on letterhead. The hero is a
-_kop surat_ (logo, address, thick-over-thin rule) above a large editorial serif headline; the same
-rule closes the page in the footer. Everything between is quiet and typographic.
+The site must look like a high-budget, art-directed agency project and stay credible for
+Indonesian government and institutional procurement. Spend boldness on one signature (the hero
+artwork and its motion); keep everything around it disciplined. Use deliberate contrast, scale
+and density changes between sections, not just whitespace.
 
-## Non-negotiables
+## Non-negotiables (any direction)
 
-- **Kop rule** (3px ink, 3px gap, 1px ink) appears only under the hero letterhead and at the top
-  of the footer.
-- **Fonts**: Newsreader (display/headings/lead, optical sizes) and Plus Jakarta Sans
-  (text/UI/data). Self-hosted via `next/font`. Type scale in art-direction §3.
-- **Color mass**: Porcelain ground, exactly one full-bleed Ink band (procurement), exactly one
-  full-bleed Stone band (company data). Champagne only on Ink. Use the semantic tokens and the
-  contrast table in art-direction §4. Slate on Stone fails: use `slate-deep`.
-- **Logo**: official full-color artwork on Porcelain only. Horizontal in kop and compact header,
-  vertical once as the contact sign-off, symbol for icons. Never on Ink or Stone, never recolored,
-  cropped, outlined or animated in parts. No monochrome derivative.
-- **Layout**: left-aligned; 4/8/12-column grid; desktop headings in columns 1–5 with content in
-  6/7–12. Compose 360px first, then 390 → 430 → 768 → 1024 → 1440 → 1920.
-- **Motion**: one orchestrated hero load (rule draw and headline mask) plus the compact header.
-  Everything else answers the user (menu, hover, press). No section fade-ups. Full catalog in
-  `docs/motion-spec.md`.
-- **Imagery**: optional and additive. Never an empty placeholder frame. Never documentary-looking.
+- **Mobile first:** compose 390px first, then 360 and 430, then 768 → 1024 → 1440 → 1920. The
+  first screen at 390×844 must show the signature artwork, the headline and the primary CTA.
+- **Logo:** official full-color artwork only, always on a light surface (ivory header or footer);
+  never recolored, cropped, outlined or animated in parts.
+- **Artwork:** original SVG drawn in code, generated at build time (zero client JS for the art).
+  It is illustrative and never documentary. The footer says so.
+- **No grey placeholders, ever.** If an image is not available, the composition must be complete
+  without it.
+- **Contrast:** every text pair ≥ 4.5:1 (large display ≥ 3:1), measured. The tables are in the
+  concept doc.
+- **Motion:**
+  - one orchestrated hero entrance;
+  - purposeful scroll moments, each defined per direction;
+  - responses to user actions (menu, hover, press);
+  - animate only `transform`, `opacity` and `clip-path`;
+  - no scroll hijacking, heavy 3D or parallax;
+  - reduced motion shows final states.
 
 ## Rejected on sight (template tells)
 
 - uppercase tracked eyebrow labels;
-- 01/02/03 numbering for things that aren't a sequence (the sectors aren't one);
-- middle-dot meta strings (`A · B · C`);
-- `→` appended to link or button text;
-- a single italic or colored word inside a headline;
-- cards or identical boxes;
-- gradients, glassmorphism or blur, shadows, neon or glow;
-- textures and patterns, including guilloche (tried and rejected);
-- counters, stats, badges and seals (no verified numbers exist);
-- logo walls and testimonial carousels;
-- pricing UI;
-- looping or decorative animation, parallax, scroll-jacking;
+- 01/02/03 numbering for things that aren't a sequence;
+- middle-dot meta strings;
+- `→` appended to button text (an external-link icon is fine);
+- a single italic or colored word in a headline;
+- identical rounded cards with soft shadows;
+- gradients as decoration, glassmorphism or blur panels, neon or glow;
+- stats or counters, badges and seals (no verified numbers exist);
+- logo walls, testimonial carousels, pricing UI;
+- looping decorative animation;
 - a CTA that says one thing and does another.
 
 ## Self-check before handing off
 
-1. Does the 360×780 first screen look composed and premium on its own?
-2. Is the kop recognizable, with logo, address, rule and headline on one left edge?
-3. Could this layout belong to any other company? If yes, remove the generic part.
-4. Is every color pairing in the art-direction §4 contrast table?
-5. Is every fact rendered through the provenance rules (`latansa-public-content`)?
-6. Does every motion appear in `docs/motion-spec.md`, with a reduced-motion state?
-7. Do the acceptance criteria in art-direction §12 pass?
+1. Does the 390×844 first screen look composed and premium on its own?
+2. Could this page belong to any other company? If yes, push it toward LATANSA's subject: the
+   categories it supplies, procurement and precision.
+3. Is every color pair in the measured contrast table?
+4. Is every fact rendered through the provenance rules (`latansa-public-content`)?
+5. Does every motion have a purpose and a reduced-motion state?

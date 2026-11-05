@@ -8,9 +8,9 @@ Indonesian only. Design direction: **Modern Institutional Elegance**.
 
 Read before working: [docs/project-brief.md](docs/project-brief.md),
 [docs/roadmap.md](docs/roadmap.md), [docs/content-policy.md](docs/content-policy.md),
-[docs/design-standards.md](docs/design-standards.md). For any UI work, the binding design spec is
-[docs/art-direction.md](docs/art-direction.md) + [docs/motion-spec.md](docs/motion-spec.md) +
-[docs/image-assets.md](docs/image-assets.md).
+[docs/design-standards.md](docs/design-standards.md). Design direction: Phase 3 is choosing between two
+concepts in [docs/design/phase-3-concepts.md](docs/design/phase-3-concepts.md); do not implement UI
+until one is approved and its binding spec is written.
 
 ## Hard rules
 

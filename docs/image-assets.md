@@ -1,5 +1,11 @@
 # Image assets — AI pipeline and specification
 
+> **Update (2026-11-05, Phase 3 round 2).** Both new directions in
+> [design/phase-3-concepts.md](design/phase-3-concepts.md) use **original SVG artwork drawn in code**
+> (an exploded axonometric in Concept A, a lit still life in Concept B) instead of photography. AI
+> image generation is therefore no longer on the critical path. The specification below applies only
+> if photography is added later.
+
 The client authorizes AI-generated **supporting imagery**. Requirements: zero additional cost,
 commercial-use rights, no paid APIs or subscriptions, and never presented as documentary
 evidence of real LATANSA operations.

@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>LATANSA — Phase 3 concepts</title>
+    <style>
+      body {
+        margin: 0;
+        font:
+          16px/1.6 system-ui,
+          sans-serif;
+        background: #f1ece2;
+        color: #0d1c2c;
+      }
+      main {
+        max-width: 56rem;
+        margin: 0 auto;
+        padding: 3rem 1.25rem;
+      }
+      h1 {
+        font-size: 1.75rem;
+        margin: 0 0 0.5rem;
+      }
+      .grid {
+        display: grid;
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+      a.card {
+        display: block;
+        padding: 1.5rem;
+        border: 1px solid rgb(13 28 44 / 0.18);
+        color: inherit;
+        text-decoration: none;
+        background: #f8f5ef;
+      }
+      a.card:hover {
+        border-color: #0d1c2c;
+      }
+      a.card b {
+        display: block;
+        font-size: 1.25rem;
+      }
+      @media (min-width: 48rem) {
+        .grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Phase 3: two creative directions</h1>
+      <p>
+        Review mocks only, not production code. Open each board at mobile width first
+        (390px), then desktop (1440px). Add <code>?still</code> to see final states
+        without animation.
+      </p>
+      <div class="grid">
+        <a class="card" href="a-presisi"
+          ><b>Concept A · Presisi</b>Midnight navy, brass and ivory. An exploded
+          axonometric drawing of the five categories, technical callouts, scroll-linked
+          category story.</a
+        >
+        <a class="card" href="b-terang"
+          ><b>Concept B · Terang</b>Warm daylight, architectural greys and ultramarine. A
+          sculptural still life lit through a window, a shelving unit for the categories,
+          an ultramarine field.</a
+        >
+      </div>
+    </main>
+  </body>
+</html>

@@ -1,5 +1,10 @@
 # Motion specification — Phase 3 (binding spec for Phase 4)
 
+> **Superseded (2026-11-05).** The "Kop" direction described here was reviewed and rejected as too
+> basic. Two new directions are under review in [design/phase-3-concepts.md](design/phase-3-concepts.md). This
+> document is kept for history and will be rewritten for the approved direction. Do not implement
+> from it.
+
 Status: **proposed, awaiting approval.** Companion to [art-direction.md](art-direction.md).
 
 ## 1. Principles
