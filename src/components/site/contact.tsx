@@ -113,7 +113,6 @@ export function Contact() {
         <div className="mt-12 lg:col-span-6 lg:col-start-7 lg:mt-0">
           <Locator
             href={mapsHref}
-            label={`${copy.actions.maps}: ${company.legalName.value}`}
             caption={copy.contact.locatorCaption}
             coordinates={coordinates?.display}
           />

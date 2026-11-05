@@ -44,29 +44,28 @@ export function CompanyData() {
           <span className="corner corner-br" aria-hidden="true" />
           <div className="kop" aria-hidden="true" />
 
-          <dl className="mt-7 md:mt-9">
-            <div>
+          {/* One grid on the dl itself: every dt/dd pair is a direct div child. */}
+          <dl className="mt-7 grid md:mt-9 md:grid-cols-2 md:gap-x-10">
+            <div className="border-b border-hair pb-6 md:col-span-2 md:pb-8">
               <dt className="text-label text-slate">{copy.data.terms.name}</dt>
               <dd className="mt-1.5 text-[1.5rem] leading-tight font-semibold tracking-[-0.02em] md:text-[1.875rem]">
                 {company.legalName.value}
               </dd>
             </div>
-            <div className="mt-6 grid border-t border-hair md:mt-8 md:grid-cols-2 md:gap-x-10">
-              {particulars.map((item) => (
-                <div
-                  key={item.term}
-                  className={
-                    "grid gap-1 border-b border-hair py-5 last:border-b-0 md:py-6 " +
-                    (item.wide ? "md:col-span-2" : "")
-                  }
-                >
-                  <dt className="text-label text-slate">{item.term}</dt>
-                  <dd className="text-[1.0625rem] leading-snug font-semibold tracking-[-0.01em] md:text-[1.125rem]">
-                    {item.value}
-                  </dd>
-                </div>
-              ))}
-            </div>
+            {particulars.map((item) => (
+              <div
+                key={item.term}
+                className={
+                  "grid gap-1 border-b border-hair py-5 last:border-b-0 md:py-6 " +
+                  (item.wide ? "md:col-span-2" : "")
+                }
+              >
+                <dt className="text-label text-slate">{item.term}</dt>
+                <dd className="text-[1.0625rem] leading-snug font-semibold tracking-[-0.01em] md:text-[1.125rem]">
+                  {item.value}
+                </dd>
+              </div>
+            ))}
           </dl>
         </div>
       </div>

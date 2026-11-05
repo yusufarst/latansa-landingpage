@@ -9,7 +9,7 @@ in `main` by Pull Request. Nothing is deployed and no DNS is changed without exp
 | 2     | frontend-design plugin, Motion AI Kit, LATANSA skills, image pipeline research                                                    | Medium | Done (PR 1) |
 | 3     | Premium art direction and motion specification; image-asset plan                                                                  | High   | Done (PR 2) |
 | 4     | Frontend implementation, mobile-first; generate images if a suitable free tool exists                                             | MAX    | Done (PR 3) |
-| 5     | Browser visual testing and intensive refinement (mobile first)                                                                    | MAX    | —           |
+| 5     | Browser visual testing and intensive refinement (mobile first)                                                                    | MAX    | In review   |
 | 6     | SEO, accessibility, performance, `content:check --strict` (required launch info only), production verification, set `launchReady` | High   | —           |
 
 After Phase 6, deployment to Cloudflare Pages and the Hostinger DNS change are separate steps
@@ -27,6 +27,14 @@ and [domain-hostinger-dns.md](domain-hostinger-dns.md).
   derivatives and on-page rules.
 - The approved board and its screenshots are in [design/concepts/](design/concepts/). Photo
   provenance is in [design/concepts/photos/SOURCES.md](design/concepts/photos/SOURCES.md).
+
+## Phase 5 results
+
+- [qa/phase-5/README.md](qa/phase-5/README.md): the QA method, every defect found with its fix,
+  the per-viewport results and what was not verified, with screenshots.
+- Spec updates: the Phase 5 blocks in [art-direction.md](art-direction.md) (D36–D41, §9, §11)
+  and [motion-spec.md](motion-spec.md); robustness rules in
+  [design-standards.md](design-standards.md) and the `latansa-visual-qa` skill.
 
 ## Phase 4 constraints
 

@@ -25,17 +25,18 @@ sign-off.
 
 ## 2. Viewport ladder — in this order
 
-| Step | Size (w×h) | Notes                                                         |
-| ---- | ---------- | ------------------------------------------------------------- |
-| 0    | 320×568    | Stress test. Content must fit; the primary action visible.    |
-| 1    | 360×780    | Primary. Smallest common Android.                             |
-| 1b   | 375×667    | Short iPhone (SE). Headline, line and both actions visible.   |
-| 2    | 390×844    | Primary. Common iPhone.                                       |
-| 3    | 430×932    | Large phone (`xs:`).                                          |
-| 4    | 768×1024   | Tablet (`md:`), check portrait.                               |
-| 5    | 1024×768   | Laptop (`lg:`).                                               |
-| 6    | 1440×900   | Desktop (`2xl:`).                                             |
-| 7    | 1920×1080  | Large desktop (`3xl:`). Content must not float lost in space. |
+| Step | Size (w×h)       | Notes                                                            |
+| ---- | ---------------- | ---------------------------------------------------------------- |
+| 0    | 320×568          | Stress test. Content must fit; the primary action visible.       |
+| 1    | 360×780          | Primary. Smallest common Android.                                |
+| 1b   | 375×667          | Short iPhone (SE). Headline, line and both actions visible.      |
+| 1c   | 375×547, 360×560 | Real visible areas with browser toolbars. Hero headline legible. |
+| 2    | 390×844          | Primary. Common iPhone.                                          |
+| 3    | 430×932          | Large phone (`xs:`).                                             |
+| 4    | 768×1024         | Tablet (`md:`), check portrait.                                  |
+| 5    | 1024×768         | Laptop (`lg:`).                                                  |
+| 6    | 1440×900         | Desktop (`2xl:`).                                                |
+| 7    | 1920×1080        | Large desktop (`3xl:`). Content must not float lost in space.    |
 
 At each step: full-page screenshots top to bottom, reviewed visually against the art
 direction. Fix mobile issues before moving up the ladder. Reset the viewport to desktop when
@@ -77,6 +78,31 @@ new Promise((res) => {
 Also confirm: smallest body text ≥ 16px on mobile; no text clipped or overlapping; headings
 wrap well in Indonesian (no orphaned single words where avoidable).
 
+**Robustness (phones first, then 768–1440):**
+
+- **Larger default text:** set the browser's default font size to 20px and 24px (Chrome
+  Settings → Appearance → Font size, or DevTools Protocol
+  `Page.setFontSizes({ fontSizes: { standard: 20 } })`). From 320px, `scrollWidth` must equal
+  `clientWidth`. When hunting the cause, skip `position: fixed` layers: their width follows the
+  widened layout viewport, so they are symptoms.
+- **Forced dark mode:** emulate it as browsers apply it, with `prefers-color-scheme: dark` plus
+  auto dark mode (`Emulation.setAutoDarkModeOverride`, or
+  `--blink-settings=forceDarkModeEnabled=true,preferredColorScheme=0`). Auto dark with a light
+  preference is not a real browser state and ignores `only light`. Header, logo and buttons must
+  look as designed.
+- **Text over photographs:** hide the text, capture the rendered backdrop and compute the contrast
+  of each word or line from the pixels (5th percentile). Hero headline ≥ 4.5:1 at every width,
+  including step 1c.
+- **axe-core:** inject `node_modules/axe-core/axe.min.js` (installed with
+  `eslint-plugin-jsx-a11y`) and run the `wcag2a`, `wcag2aa`, `wcag21a`, `wcag21aa`, `wcag22aa`
+  and `best-practice` tags at 390 (menu closed and open), at 1440 and on the 404 page: no
+  violations. axe reports text over pseudo-elements, gradients and the carousel's clipped cards
+  as "incomplete"; verify those by computing each text colour against its solid surface.
+- **Icons:** every icon `svg` is `position: static` and centred beside its text. Only diagrams
+  are absolutely positioned.
+- **Keyboard:** Tab through the whole page at 390 and 1440. Every stop matches `:focus-visible`,
+  shows a ring, is scrolled into view, and follows the reading order (column by column).
+
 ## 4. Motion checks
 
 - Scroll the full page at 390px and 1440px: every animation has a purpose, finishes quickly,
@@ -95,9 +121,9 @@ wrap well in Indonesian (no orphaned single words where avoidable).
   recolored or cropped.
 - Colors: only palette tokens (`docs/art-direction.md` §4). Brass text appears only on navy or
   midnight. Focus rings are brass-deep on light surfaces and brass on dark ones.
-- Annotations: each hero marker sits on its object at every width (art-direction §8).
-- Imagery: the "Foto ilustrasi" chip and the footer imagery note are present. Photos are sharp,
-  with no upscaling, and match the slot crops.
+- Imagery: no visible photo label or disclaimer anywhere (owner decision; provenance stays in
+  `SOURCES.md` and `src/content/images.ts`). Photos are sharp, with no upscaling, and match the
+  slot crops.
 - No prices, stock, cart/checkout or pricing language visible.
 - PKP line reads exactly "Status Perpajakan: Pengusaha Kena Pajak (PKP)"; no NPWP visible.
 - No placeholder text; hidden facts (contacts, office hours, Mbizmarket) are absent until

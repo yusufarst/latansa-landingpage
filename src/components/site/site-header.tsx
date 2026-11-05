@@ -26,12 +26,12 @@ export function SiteHeader() {
         <a
           href="#top"
           aria-label={copy.nav.home}
-          className="flex min-h-11 shrink-0 items-center"
+          className="flex min-h-11 min-w-0 items-center"
         >
           <BrandLogo
             variant="horizontal"
             loading="eager"
-            className="h-auto w-[8.75rem] xs:w-[9.25rem] lg:w-[10.5rem]"
+            className="h-auto w-[8.75rem] min-w-0 xs:w-[9.25rem] lg:w-[10.5rem]"
           />
         </a>
 

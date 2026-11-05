@@ -44,7 +44,7 @@ export function Hero() {
       />
 
       <div className="frame flex flex-col justify-end pt-16 pb-9 md:pb-14 lg:justify-center lg:pt-12 lg:pb-32 2xl:pb-36">
-        <div className="max-w-[36rem] md:max-w-[29rem] lg:max-w-[40rem]">
+        <div className="hero-copy max-w-[36rem] md:max-w-[29rem] lg:max-w-[40rem]">
           <h1
             id="hero-heading"
             className="text-display font-semibold md:text-[2.875rem] lg:text-[length:clamp(3rem,1.2rem+2.8vw,3.75rem)]"

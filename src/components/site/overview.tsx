@@ -69,7 +69,10 @@ export function Overview() {
                 {item.value}
               </dd>
               <dd className="mt-auto pt-1">
-                <a href={item.href} className="tlink text-[0.9375rem] text-slate">
+                <a
+                  href={item.href}
+                  className="tlink text-base text-slate lg:text-[0.9375rem]"
+                >
                   {item.link}
                 </a>
               </dd>

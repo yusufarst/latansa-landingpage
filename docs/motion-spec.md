@@ -22,6 +22,14 @@ deltas D10, D11, D12 and D14 in [art-direction.md §12](art-direction.md#12-delt
 > - **M20 (new), category hover:** on hover-capable devices the photo scales to 1.04 over 900ms.
 > - **Locator:** on hover the marker scales to 1.18 and the frame warms to brass.
 
+> **Phase 5 refinement (2026-11-05).**
+>
+> - **M17 (meter):** as built, the bars are 20px and 40px. On rows narrower than 17rem (an
+>   enlarged default text size) the bars compress; below that the meter is hidden and the
+>   "1 dari 5" position carries the state.
+> - **Press feedback:** text links dim to 70% opacity while pressed (150ms). Phones show no grey
+>   tap flash.
+
 ## 1. Principles
 
 1. **One orchestrated moment.** The hero entrance runs once on load. The photograph opens, the

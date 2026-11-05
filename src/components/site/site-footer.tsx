@@ -40,7 +40,7 @@ export function SiteFooter() {
                 className="h-auto w-[9.5rem] lg:w-[10.5rem]"
               />
             </a>
-            <p className="mt-4 max-w-[26rem] text-[0.9375rem] leading-relaxed text-slate">
+            <p className="mt-4 max-w-[26rem] text-base leading-relaxed text-slate lg:text-[0.9375rem]">
               {company.positioning.summary}
             </p>
           </div>
@@ -52,7 +52,7 @@ export function SiteFooter() {
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    className="navlink flex min-h-11 w-fit items-center font-medium"
+                    className="navlink flex min-h-11 w-fit min-w-11 items-center font-medium"
                   >
                     {link.label}
                   </a>
@@ -63,7 +63,7 @@ export function SiteFooter() {
 
           <div className="lg:col-span-3">
             <h2 className={heading}>{copy.footer.contactHeading}</h2>
-            <div className="mt-3 grid gap-3 text-[0.9375rem]">
+            <div className="mt-3 grid gap-3 text-base lg:text-[0.9375rem]">
               {whatsapp && (
                 <a
                   href={whatsappHref(whatsapp)}
@@ -89,7 +89,11 @@ export function SiteFooter() {
                 {line2}
               </address>
               {mapsHref && (
-                <a href={mapsHref} {...extra} className="tlink w-fit text-[0.9375rem]">
+                <a
+                  href={mapsHref}
+                  {...extra}
+                  className="tlink w-fit text-base lg:text-[0.9375rem]"
+                >
                   {copy.actions.maps}
                   <ExternalIcon />
                   <span className="sr-only"> {copy.externalHint}</span>
@@ -102,12 +106,18 @@ export function SiteFooter() {
             <div className="lg:col-span-2">
               <h2 className={heading}>{copy.footer.procurementHeading}</h2>
               <div className="mt-3 grid gap-1">
-                <a href={store.url} {...extra} className="tlink w-fit text-[0.9375rem]">
+                <a
+                  href={store.url}
+                  {...extra}
+                  className="tlink w-fit text-base lg:text-[0.9375rem]"
+                >
                   {store.name}
                   <ExternalIcon />
                   <span className="sr-only"> {copy.externalHint}</span>
                 </a>
-                <p className="text-[0.9375rem] text-slate">{copy.footer.storeNote}</p>
+                <p className="text-base text-slate lg:text-[0.9375rem]">
+                  {copy.footer.storeNote}
+                </p>
               </div>
             </div>
           )}
@@ -119,7 +129,7 @@ export function SiteFooter() {
           </p>
           <a
             href="#top"
-            className="inline-flex min-h-11 w-fit items-center gap-2 font-medium text-navy"
+            className="inline-flex min-h-11 w-fit items-center gap-2 text-label font-medium text-navy"
           >
             {copy.footer.backToTop}
             <svg
