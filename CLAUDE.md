@@ -8,9 +8,11 @@ Indonesian only. Design direction: **Modern Institutional Elegance**.
 
 Read before working: [docs/project-brief.md](docs/project-brief.md),
 [docs/roadmap.md](docs/roadmap.md), [docs/content-policy.md](docs/content-policy.md),
-[docs/design-standards.md](docs/design-standards.md). Design direction: Phase 3 is choosing between two
-concepts in [docs/design/phase-3-concepts.md](docs/design/phase-3-concepts.md); do not implement UI
-until one is approved and its binding spec is written.
+[docs/design-standards.md](docs/design-standards.md). Design direction: Phase 3 is under review. The current
+proposal is the photographic Concept C in
+[docs/design/phase-3-photographic-direction.md](docs/design/phase-3-photographic-direction.md).
+Photorealistic imagery is mandatory. Do not implement UI until a direction is approved and its
+binding spec is written.
 
 ## Hard rules
 

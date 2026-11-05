@@ -1,5 +1,10 @@
 # Phase 3: two creative directions (review)
 
+> **Round 3 (2026-11-05).** The client made **photorealistic imagery mandatory**; neither A nor B is
+> approved. The current proposal is the photographic direction **Concept C · Presisi Terang**:
+> [phase-3-photographic-direction.md](phase-3-photographic-direction.md). A and B remain here for
+> reference. Their illustrated hero artwork no longer satisfies the brief.
+
 Status: **awaiting the owner's choice.** The first direction, "Kop", was reviewed on 2026-11-05 and
 rejected as too basic and conservative. It is archived at
 [archive/kop-board-rejected.html](archive/kop-board-rejected.html). This round replaces it with
