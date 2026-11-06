@@ -248,22 +248,40 @@ const siteHost = new URL(site.url).host;
 const pageHeaders = Object.fromEntries(
   Object.entries(headersFor(headerRules, "/", siteHost)).map(([k, [, v]]) => [k, v]),
 );
+const { ANALYTICS_BEACON_SOURCES, FIRST_PARTY_SOURCES, parseCsp, sourceAllows } =
+  await import("./lib/csp.mjs");
 const csp = pageHeaders["content-security-policy"] ?? "";
-const directives = Object.fromEntries(
-  csp
-    .split(";")
-    .map((d) => d.trim().split(/\s+/))
-    .filter(([name]) => name)
-    .map(([name, ...values]) => [name, values]),
+const directives = parseCsp(csp);
+// The analytics beacon is the only other source, and only in script-src.
+const otherSources = Object.entries(directives).flatMap(([name, values]) =>
+  values.filter(
+    (s) =>
+      !FIRST_PARTY_SOURCES.includes(s) &&
+      !(name === "script-src" && ANALYTICS_BEACON_SOURCES.includes(s)),
+  ),
 );
-const sources = Object.values(directives).flat();
 check(
   csp !== "" &&
-    sources.every((s) => ["'self'", "'none'", "'unsafe-inline'", "data:"].includes(s)) &&
+    otherSources.length === 0 &&
     directives["default-src"]?.join(" ") === "'self'" &&
+    directives["connect-src"]?.join(" ") === "'self'" &&
     directives["object-src"]?.join(" ") === "'none'" &&
     directives["frame-ancestors"]?.join(" ") === "'none'",
-  "Content-Security-Policy allows this origin only, no objects, no framing",
+  `Content-Security-Policy allows this origin only (plus the analytics beacon in script-src), no objects, no framing${otherSources.length ? `; unexpected: ${otherSources.join(" ")}` : ""}`,
+);
+// Cloudflare Web Analytics, as Pages injects it: the versioned beacon loads, its /cdn-cgi/rum
+// reports stay same-origin, and nothing else on the beacon host is allowed.
+const scriptSources = directives["script-src"] ?? [];
+const scriptAllowed = (url) =>
+  scriptSources.some((s) => /^https:/.test(s) && sourceAllows(s, url));
+check(
+  scriptAllowed(
+    "https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e0",
+  ) &&
+    scriptAllowed("https://static.cloudflareinsights.com/beacon.min.js") &&
+    !scriptAllowed("https://static.cloudflareinsights.com/other.js") &&
+    !scriptAllowed("https://cdn.example.com/beacon.min.js/"),
+  "Cloudflare Web Analytics beacon allowed by path in script-src; /cdn-cgi/rum via connect-src 'self'",
 );
 check(
   pageHeaders["x-content-type-options"] === "nosniff" &&
