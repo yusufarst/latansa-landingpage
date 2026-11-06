@@ -3,14 +3,14 @@
 Each phase starts only after the user approves it. Work happens on feature branches and lands
 in `main` by Pull Request. Nothing is deployed and no DNS is changed without explicit approval.
 
-| Phase | Scope                                                                                                                             | Effort | Status      |
-| ----- | --------------------------------------------------------------------------------------------------------------------------------- | ------ | ----------- |
-| 1     | Repository foundation, Next.js static export, docs, conventions, content baseline                                                 | Medium | Done (PR 1) |
-| 2     | frontend-design plugin, Motion AI Kit, LATANSA skills, image pipeline research                                                    | Medium | Done (PR 1) |
-| 3     | Premium art direction and motion specification; image-asset plan                                                                  | High   | Done (PR 2) |
-| 4     | Frontend implementation, mobile-first; generate images if a suitable free tool exists                                             | MAX    | Done (PR 3) |
-| 5     | Browser visual testing and intensive refinement (mobile first)                                                                    | MAX    | Done (PR 4) |
-| 6     | SEO, accessibility, performance, `content:check --strict` (required launch info only), production verification, set `launchReady` | High   | In review   |
+| Phase | Scope                                                                                                                             | Effort | Status            |
+| ----- | --------------------------------------------------------------------------------------------------------------------------------- | ------ | ----------------- |
+| 1     | Repository foundation, Next.js static export, docs, conventions, content baseline                                                 | Medium | Done (PR 1)       |
+| 2     | frontend-design plugin, Motion AI Kit, LATANSA skills, image pipeline research                                                    | Medium | Done (PR 1)       |
+| 3     | Premium art direction and motion specification; image-asset plan                                                                  | High   | Done (PR 2)       |
+| 4     | Frontend implementation, mobile-first; generate images if a suitable free tool exists                                             | MAX    | Done (PR 3)       |
+| 5     | Browser visual testing and intensive refinement (mobile first)                                                                    | MAX    | Done (PR 4)       |
+| 6     | SEO, accessibility, performance, `content:check --strict` (required launch info only), production verification, set `launchReady` | High   | Done (PR 5, PR 6) |
 
 After Phase 6, deployment to Cloudflare Pages and the Hostinger DNS change are separate steps
 that each need explicit approval. See [deployment-cloudflare-pages.md](deployment-cloudflare-pages.md)
@@ -37,9 +37,10 @@ and [domain-hostinger-dns.md](domain-hostinger-dns.md).
   - accessibility, WebKit verification, and the photo-license re-check.
 - **Launch gate:** the owner approved the headline on 2026-11-06, and `content:check --strict`
   passes.
-- **Still open for launch:**
-  1. Merge PR 5, then the launch PR, which only sets `launchReady: true`.
-  2. Deployment and DNS, each with its own explicit approval.
+- **Merged on 2026-11-06:** PR 5 (Phase 6) and PR 6, which sets `launchReady: true`.
+- **Before the first deploy:** every `*.pages.dev` URL sends `X-Robots-Tag: noindex`, so only the
+  custom domain is indexed.
+- **Still open for launch:** deployment and DNS, each with its own explicit approval.
 
 ## Phase 5 results
 

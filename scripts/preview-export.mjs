@@ -85,7 +85,9 @@ const server = createServer((req, res) => {
   const status = file ? 200 : 404;
   file ??= join(out, "404.html");
   const headers = { "Content-Type": TYPES[extname(file)] ?? "application/octet-stream" };
-  for (const [name, value] of Object.values(headersFor(rules, pathname)))
+  // Host-specific rules (the *.pages.dev noindex) apply only on their host.
+  const host = String(req.headers.host ?? "").replace(/:\d+$/, "");
+  for (const [name, value] of Object.values(headersFor(rules, pathname, host)))
     headers[name] = value;
   const accepts = String(req.headers["accept-encoding"] ?? "");
   const encoding = !COMPRESSIBLE.has(extname(file))

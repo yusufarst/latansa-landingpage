@@ -5,6 +5,10 @@
  * - A rule starts with a URL pattern at column 0; indented `Name: value`
  *   lines below it add headers, and `! Name` removes one set by an earlier rule.
  * - `*` (splat) matches anything; `:name` matches one path segment.
+ * - An absolute pattern (`https://host/path`) also needs the request's host to
+ *   match. A host placeholder may span labels: Cloudflare documents
+ *   `https://:project.pages.dev/*` as covering *.pages.dev and *.*.pages.dev.
+ *   A rule with a host never applies when no host is given.
  * - Every matching rule applies, in file order. A header set by two rules has
  *   its values joined with ", ", as Pages does.
  */
@@ -35,9 +39,16 @@ export function parseHeaders(text) {
   return rules;
 }
 
-const toRegExp = (pattern) => {
-  const path = pattern.replace(/^https?:\/\/[^/]+/, "");
-  const source = path
+/** `https://host/path` → { host, path }; a bare path has no host. */
+const splitPattern = (pattern) => {
+  const absolute = pattern.match(/^https?:\/\/([^/]+)(\/.*)?$/);
+  return absolute
+    ? { host: absolute[1], path: absolute[2] ?? "/*" }
+    : { host: null, path: pattern };
+};
+
+const toRegExp = (pattern, flags = "") => {
+  const source = pattern
     .split(/(\*|:[A-Za-z]\w*)/)
     .map((part) => {
       if (part === "*") return ".*";
@@ -45,14 +56,20 @@ const toRegExp = (pattern) => {
       return part.replace(/[.+?^${}()|[\]\\]/g, "\\$&");
     })
     .join("");
-  return new RegExp(`^${source}$`);
+  return new RegExp(`^${source}$`, flags);
 };
 
-/** The headers Pages would send for `pathname`, as `{ lowercased-name: [displayName, value] }`. */
-export function headersFor(rules, pathname) {
+/**
+ * The headers Pages would send for `pathname` on `host` (e.g.
+ * "latansajogja.co.id"), as `{ lowercased-name: [displayName, value] }`.
+ */
+export function headersFor(rules, pathname, host = null) {
   const out = {};
   for (const rule of rules) {
-    if (!toRegExp(rule.pattern).test(pathname)) continue;
+    const pattern = splitPattern(rule.pattern);
+    // Hosts compare case-insensitively; paths do not.
+    if (pattern.host && !(host && toRegExp(pattern.host, "i").test(host))) continue;
+    if (!toRegExp(pattern.path).test(pathname)) continue;
     for (const name of rule.detach) delete out[name];
     for (const [name, value] of rule.headers) {
       const key = name.toLowerCase();
