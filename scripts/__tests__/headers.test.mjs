@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { describe, it } from "node:test";
 import { fileURLToPath } from "node:url";
+import { ANALYTICS_BEACON_SOURCES, parseCsp, sourceAllows } from "../lib/csp.mjs";
 import { headersFor, parseHeaders } from "../lib/headers.mjs";
 
 const value = (rules, path, name, host = null) =>
@@ -62,13 +63,47 @@ describe("_headers parsing (Cloudflare Pages rules)", () => {
     );
     const rules = parseHeaders(text);
     const csp = value(rules, "/", "content-security-policy", "latansajogja.co.id");
-    assert.match(csp, /default-src 'self'/);
-    assert.match(csp, /frame-ancestors 'none'/);
-    assert.doesNotMatch(csp, /https?:/);
+    const directives = parseCsp(csp);
+    assert.deepEqual(directives["default-src"], ["'self'"]);
+    assert.deepEqual(directives["frame-ancestors"], ["'none'"]);
+    // The only other source is the analytics beacon, by path, in script-src only.
+    assert.deepEqual(directives["script-src"], [
+      "'self'",
+      "'unsafe-inline'",
+      ...ANALYTICS_BEACON_SOURCES,
+    ]);
+    assert.deepEqual(directives["connect-src"], ["'self'"]); // /cdn-cgi/rum is same-origin
+    for (const [name, values] of Object.entries(directives))
+      if (name !== "script-src")
+        assert.ok(
+          values.every((s) => !/^https?:|\*/.test(s)),
+          `${name} allows no other origin`,
+        );
     assert.doesNotMatch(value(rules, "/", "permissions-policy"), /interest-cohort/);
     // Only the real domain is indexable; every *.pages.dev copy is noindex.
     assert.equal(value(rules, "/", "x-robots-tag", "latansajogja.co.id"), undefined);
     assert.equal(value(rules, "/", "x-robots-tag", "latansa.pages.dev"), "noindex");
     assert.equal(value(rules, "/", "x-robots-tag", "a1b2.latansa.pages.dev"), "noindex");
+  });
+});
+
+describe("CSP source paths (Cloudflare Web Analytics beacon)", () => {
+  const [exact, prefix] = ANALYTICS_BEACON_SOURCES;
+  const injected =
+    "https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e0";
+  it("allows the injected, versioned beacon and the manual snippet's URL", () => {
+    assert.ok(sourceAllows(prefix, injected));
+    assert.ok(sourceAllows(exact, "https://static.cloudflareinsights.com/beacon.min.js"));
+    assert.ok(!sourceAllows(exact, injected)); // an exact path is not a prefix
+  });
+  it("allows nothing else on that host or elsewhere", () => {
+    for (const url of [
+      "https://static.cloudflareinsights.com/",
+      "https://static.cloudflareinsights.com/beacon.min.jsx",
+      "https://static.cloudflareinsights.com/other/beacon.min.js/v1",
+      "https://evil.example/beacon.min.js/v1",
+      "http://static.cloudflareinsights.com/beacon.min.js/v1",
+    ])
+      assert.ok(!ANALYTICS_BEACON_SOURCES.some((s) => sourceAllows(s, url)), url);
   });
 });

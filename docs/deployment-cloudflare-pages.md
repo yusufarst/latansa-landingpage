@@ -53,8 +53,11 @@ Load Balancing etc. are not needed).
 
 - `out/index.html` at `/`, `out/404.html` for unknown paths (HTTP 404).
 - `out/_headers` applies security and cache headers (see `public/_headers`). The
-  Content-Security-Policy allows this origin only. Adding a third-party script, font or embed
-  means extending it in the same PR; `verify:export` fails on any other origin.
+  Content-Security-Policy allows this origin only, plus the Cloudflare Web Analytics beacon that
+  Pages injects (`static.cloudflareinsights.com/beacon.min.js/…`, by path, in `script-src`). Its
+  reports go to `/cdn-cgi/rum` on this origin, which `connect-src 'self'` covers. Adding another
+  third-party script, font or embed means extending the CSP in the same PR; `verify:export`
+  fails on any other origin.
 - `www` → apex redirect: configure as a free **Redirect Rule** in the zone (see the DNS guide),
   not in `next.config.ts` (static export cannot redirect).
 
