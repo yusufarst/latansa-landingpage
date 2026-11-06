@@ -129,7 +129,7 @@ describe("confirmable copy", () => {
 
   it("collects copy items but not facts, and lists only pending ones", () => {
     const items = collectCopy({
-      positioning: { headline: copy("pending"), tagline: copy("confirmed") },
+      positioning: { headline: copy("pending"), tagline: copy("client-confirmed") },
       legalName: fact("client-confirmed", "CV", "required"),
     });
     assert.deepEqual(paths(items), [
@@ -144,10 +144,12 @@ describe("confirmable copy", () => {
       collectCopy({
         a: copy("maybe"),
         b: { text: "x", confirmation: "pending", source: "" },
-        c: copy("confirmed", " "),
+        c: copy("client-confirmed", " "),
+        // The confirmed state uses the facts' word, "client-confirmed".
+        d: copy("confirmed"),
       }),
     );
-    assert.equal(errors.length, 3);
+    assert.equal(errors.length, 4);
   });
 });
 
@@ -319,7 +321,8 @@ describe("project content", () => {
     const { company } = await import("../../src/content/company.ts");
     const { headline } = company.positioning;
     // Approved by the owner as the official headline, 2026-11-06.
-    assert.equal(headline.confirmation, "confirmed");
+    assert.equal(headline.confirmation, "client-confirmed");
+    assert.match(headline.source, /2026-11-06/);
     assert.equal(
       headline.text,
       "Perangkat dan perlengkapan kerja untuk instansi dan lembaga.",

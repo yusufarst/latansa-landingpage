@@ -109,7 +109,7 @@ export const company = {
   positioning: {
     headline: {
       text: "Perangkat dan perlengkapan kerja untuk instansi dan lembaga.",
-      confirmation: "confirmed",
+      confirmation: "client-confirmed",
       source:
         "Approved by the owner in chat as the official website headline, 2026-11-06 (the Concept C headline, used provisionally since Phase 4, 2026-11-05)",
       note: "A replacement needs the owner's approval and must stay ≤ 62 characters and ≤ 5 lines at 360px (docs/art-direction.md §3).",

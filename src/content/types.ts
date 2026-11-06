@@ -57,13 +57,14 @@ export const PUBLISHABLE_STATUSES: readonly FactStatus[] = [
 ];
 
 /**
- * Copy (not a fact) that is shown on the site but still needs the client's
- * final confirmation. `content:check` lists every pending item, and
- * `--strict` blocks launch until it is confirmed.
+ * Copy (not a fact) that is shown on the site and needs the client's final
+ * word. `content:check` lists every `"pending"` item, and `--strict` blocks
+ * launch until it is `"client-confirmed"` (the same word facts use), with the
+ * approval recorded in `source`.
  */
 export interface ConfirmableCopy {
   text: string;
-  confirmation: "confirmed" | "pending";
+  confirmation: "client-confirmed" | "pending";
   source: string;
   note?: string;
 }

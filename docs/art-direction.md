@@ -886,8 +886,8 @@ rule or replaces a stand-in.
   - Email Routing is receive-only: it forwards inbound mail and sends none.
   - The personal forwarding inbox is never recorded or published. A test and `verify:export`
     reject any other address in `src/` and in the exported pages.
-- **`positioning.headline`:** confirmable copy, `confirmation: "confirmed"`. The owner approved it
-  as the official website headline on 2026-11-06. It had been shown provisionally since Phase 4,
+- **`positioning.headline`:** confirmable copy, `confirmation: "client-confirmed"`. The owner
+  approved it as the official website headline on 2026-11-06. It had been shown provisionally since Phase 4,
   when it blocked `content:check --strict`. A replacement needs the owner's approval.
 - **Address and location (updated):** `mapsUrl` and `coordinates` are now `client-confirmed`
   (owner, 2026-11-05) and published. Previously: `address.regionShort`; `mapsUrl` and `coordinates` (both
