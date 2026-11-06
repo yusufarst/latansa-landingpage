@@ -65,7 +65,9 @@ Design, code and review in this order: **360 & 390 → 430 → 768 → 1024 → 
   forbidden content or unguarded fact access. `--strict` (Phase 6 launch gate) fails only on
   unresolved **required** launch information; optional facts never block. See
   `docs/content-policy.md`.
-- `src/config/site.ts` → `launchReady` stays `false` (noindex) until Phase 6 sign-off.
+- `src/config/site.ts` → `launchReady` is `true` since the launch PR (2026-11-06): pages are
+  indexable and robots.txt lists the sitemap. While it is `true`, `verify:export` fails the build
+  on any launch blocker. Set it to `false` only to take the site out of search indexes.
 
 ## Effort policy (the user selects the level manually)
 
