@@ -243,8 +243,10 @@ try {
 } catch (error) {
   check(false, `_headers parses (${error.message})`);
 }
+// Headers as served on the real domain (host rules for other hosts do not apply).
+const siteHost = new URL(site.url).host;
 const pageHeaders = Object.fromEntries(
-  Object.entries(headersFor(headerRules, "/")).map(([k, [, v]]) => [k, v]),
+  Object.entries(headersFor(headerRules, "/", siteHost)).map(([k, [, v]]) => [k, v]),
 );
 const csp = pageHeaders["content-security-policy"] ?? "";
 const directives = Object.fromEntries(
@@ -275,10 +277,22 @@ check(
 );
 check(
   /immutable/.test(
-    headersFor(headerRules, "/_next/static/x.js")["cache-control"]?.[1] ?? "",
+    headersFor(headerRules, "/_next/static/x.js", siteHost)["cache-control"]?.[1] ?? "",
   ) &&
-    /max-age/.test(headersFor(headerRules, "/images/x.avif")["cache-control"]?.[1] ?? ""),
+    /max-age/.test(
+      headersFor(headerRules, "/images/x.avif", siteHost)["cache-control"]?.[1] ?? "",
+    ),
   "cache headers: immutable build assets, revalidated photos",
+);
+
+// Only the real domain may be indexed: every *.pages.dev copy (the production
+// alias and previews) sends noindex, whatever the project is called.
+const robotsTag = (host) => headersFor(headerRules, "/", host)["x-robots-tag"]?.[1] ?? "";
+check(
+  ["latansa-landingpage.pages.dev", "0a1b2c3d.latansa-landingpage.pages.dev"].every(
+    (host) => /noindex/.test(robotsTag(host)),
+  ) && !/noindex/.test(robotsTag(siteHost)),
+  `X-Robots-Tag: noindex on *.pages.dev, none on ${siteHost}`,
 );
 
 if (failures.length) {

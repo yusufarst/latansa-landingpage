@@ -29,3 +29,9 @@
 
 /og/*
   Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+# Only https://latansajogja.co.id is indexed. The project's *.pages.dev copies (the production
+# alias and every preview) send noindex: Cloudflare's documented pattern, which covers
+# *.pages.dev and *.*.pages.dev without naming the project.
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex

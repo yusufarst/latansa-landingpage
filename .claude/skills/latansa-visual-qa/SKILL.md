@@ -21,7 +21,9 @@ npm run content:check
 Then serve `out/` with the `static-export` config in `.claude/launch.json` (port 4173) via the
 built-in browser's `preview_start`. It runs `scripts/preview-export.mjs`, which serves the way
 Cloudflare Pages does: `_headers` applied (CSP included), brotli/gzip, and HTTP 404 for unknown
-paths. Restart it after a build that changes `_headers`.
+paths. Restart it after a build that changes `_headers`. Host rules (the `*.pages.dev` noindex)
+apply only to a matching `Host`; check them with
+`curl -sI -H "Host: latansa.pages.dev" http://localhost:4173/`.
 
 On a real phone, open the Network URL that `npm run preview` prints (same Wi-Fi); `next dev` over
 the LAN needs `allowedDevOrigins`. Use `dev` (port 3000) only for quick iteration, never for

@@ -153,6 +153,23 @@ merged after PR 5. Verified on its build:
   - Search Console verification is not set up; it needs either a DNS record or a file from the
     owner's account, so it is a later, separate step.
 
+## Before the first deploy: `*.pages.dev` stays out of search
+
+With indexing on, the copies Cloudflare serves on `*.pages.dev` would also be indexable: the
+production alias and every preview. They could compete with the real domain, especially before
+DNS points it at Pages. This was added after PRs 5 and 6 were merged (2026-11-06).
+
+- **The rule:** `public/_headers` adds `https://:project.pages.dev/*` →
+  `X-Robots-Tag: noindex`. This is Cloudflare's documented pattern; it covers `*.pages.dev` and
+  `*.*.pages.dev` and needs no project name.
+- **Local tooling matches hosts:** host rules apply only to a matching request host, so the local
+  preview and the checks do not apply the rule to `localhost` or the real domain.
+- **Checked:**
+  - `verify:export` requires `noindex` on `*.pages.dev` hosts and none on `latansajogja.co.id`.
+    Removing the rule failed the build as expected.
+  - Unit tests cover host matching.
+  - The preview server sends the header for a `*.pages.dev` Host and not for `localhost`.
+
 ## Not verified
 
 - **Lighthouse on Cloudflare:** the deployed preview is not deployed. That is a separate step

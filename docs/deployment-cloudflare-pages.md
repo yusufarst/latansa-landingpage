@@ -9,13 +9,13 @@ database or paid add-on is needed.
 
 ## Free plan limits that matter
 
-| Limit                                  | Free plan                                | This site                                |
-| -------------------------------------- | ---------------------------------------- | ---------------------------------------- |
-| Builds                                 | 500 / month (account-wide), 1 concurrent | A few per week                           |
-| Build timeout                          | 20 minutes                               | < 2 minutes                              |
-| Files per deployment                   | 20,000                                   | ~60 (checked by `npm run verify:export`) |
-| Max file size                          | 25 MiB                                   | Largest asset < 100 KB                   |
-| Bandwidth / requests for static assets | Unmetered                                | —                                        |
+| Limit                                  | Free plan                                | This site                                 |
+| -------------------------------------- | ---------------------------------------- | ----------------------------------------- |
+| Builds                                 | 500 / month (account-wide), 1 concurrent | A few per week                            |
+| Build timeout                          | 20 minutes                               | < 2 minutes                               |
+| Files per deployment                   | 20,000                                   | ~130 (checked by `npm run verify:export`) |
+| Max file size                          | 25 MiB                                   | Largest file 388 KB (a photo)             |
+| Bandwidth / requests for static assets | Unmetered                                | —                                         |
 
 Re-check the current limits on [Cloudflare's limits page](https://developers.cloudflare.com/pages/platform/limits/)
 before deploying. No credit card is required for Pages Free.
@@ -41,7 +41,9 @@ before deploying. No credit card is required for Pages Free.
    version (`.nvmrc` also says 24).
 
 5. **Preview deployments:** keep enabled for non-production branches. Previews get a
-   `*.pages.dev` URL; they are noindex as long as `launchReady` is `false`.
+   `*.pages.dev` URL. Every `*.pages.dev` URL, the production alias included, sends
+   `X-Robots-Tag: noindex` (`public/_headers`). Only the custom domain is indexed, even with
+   `launchReady: true`.
 6. Save and deploy. Confirm the `*.pages.dev` URL works before attaching the domain.
 
 Do **not** enable paid add-ons (Web Analytics is free and optional; Images, Workers Paid,
@@ -58,6 +60,10 @@ Load Balancing etc. are not needed).
 
 `npm run preview` serves `out/` the same way: `_headers` applied, brotli/gzip, 404 status. Check
 headers and CSP locally before any deploy.
+
+Host-specific rules apply only on their host. To see the `*.pages.dev` noindex locally, run
+`curl -sI -H "Host: latansa.pages.dev" http://localhost:4173/`. `verify:export` fails if the
+rule disappears or if the real domain ever gets `noindex`.
 
 ## Before the first production deploy (Phase 6 gate)
 
