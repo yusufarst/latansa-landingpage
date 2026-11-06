@@ -12,7 +12,7 @@ const STATUSES = new Set([
   "unverified",
   "missing",
 ]);
-const CONFIRMATIONS = new Set(["confirmed", "pending"]);
+const CONFIRMATIONS = new Set(["client-confirmed", "pending"]);
 
 const isFactLike = (node) =>
   node !== null &&
