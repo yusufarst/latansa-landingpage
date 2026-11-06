@@ -14,8 +14,9 @@ officers more than a missing section. Full policy: `docs/content-policy.md`.
   (types in `src/content/types.ts`).
 - Publishable statuses: `client-confirmed`, `client-provided`. Not publishable:
   `needs-confirmation`, `pending-activation`, `unverified`, `missing`.
-- Copy shown provisionally (the hero headline) is `ConfirmableCopy` with
-  `confirmation: "pending"`; `--strict` blocks launch until the client confirms it.
+- Copy shown provisionally is `ConfirmableCopy` with `confirmation: "pending"`; `--strict` blocks
+  launch until it is `client-confirmed`. The hero headline is `client-confirmed` (owner,
+  2026-11-06); any replacement needs the owner's approval first.
 - Every fact declares `launch`: `"required"` (must be publishable to launch),
   `"optional"` (may stay unresolved), or `{ atLeastOneOf: "contact" }` (one member of the
   group must be resolved). New facts are `"optional"` unless the site cannot credibly launch

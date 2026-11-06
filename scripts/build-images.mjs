@@ -34,6 +34,11 @@ const PHOTOS = {
     file: "hero-desk.jpg",
     crop: { left: 1092, top: 0, width: 1508, height: 1465 },
     grade: { saturation: 0.72, brightness: 1.0, linear: [1.06, -5], cool: 0.16, warm: 0 },
+    // The phones' LCP image (Phase 6 budget). The graded photo is nearly
+    // monochrome and mostly under the navy grade: at q50 4:2:0 a 1:1
+    // comparison shows no visible difference, and the 1280 file drops from
+    // 96 to 61 KB.
+    avif: { quality: 50, chromaSubsampling: "4:2:0" },
   },
   // Tablets and desktop: the full width, y 0–82% (drops the house model). The
   // empty leather at the upper left carries the headline.
@@ -115,7 +120,7 @@ for (const [name, spec] of Object.entries(PHOTOS)) {
     const resized = sharp(master).resize({ width: w, withoutEnlargement: true });
     await resized
       .clone()
-      .avif({ quality: 60, effort: 6, chromaSubsampling: "4:4:4" })
+      .avif({ quality: 60, effort: 6, chromaSubsampling: "4:4:4", ...spec.avif })
       .toFile(join(OUT, `${name}-${w}.avif`));
     await resized
       .clone()

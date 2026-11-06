@@ -81,6 +81,10 @@ the values hold. `it-keyboard` keeps full saturation because it is already near-
 
 - **Formats:** AVIF (quality 60, 4:4:4) first, then WebP (quality 82), through `<picture>`, with
   `sizes` from [art-direction.md §7](art-direction.md#7-imagery). Output: `public/images/`.
+  - **Phase 6 exception:** the phones' hero crop (`hero`, the mobile LCP image) is AVIF quality
+    50, 4:2:0. The graded photo is near-monochrome and mostly under the navy grade; a 1:1
+    comparison shows no visible difference. The 1280 file drops from 96 to 61 KB.
+    `scripts/build-images.mjs` sets it per photo (`avif`); every other photo is unchanged.
 - **Widths:** 640, 960, 1280, 1600 and 2048, each capped at the master's width (never upscaled).
   The hero master is 1508 wide, so its ladder is 640, 960, 1280 and 1508.
 - **Byte budgets:**

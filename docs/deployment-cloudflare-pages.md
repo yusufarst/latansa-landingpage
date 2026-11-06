@@ -50,9 +50,14 @@ Load Balancing etc. are not needed).
 ## What Cloudflare serves
 
 - `out/index.html` at `/`, `out/404.html` for unknown paths (HTTP 404).
-- `out/_headers` applies security and cache headers (see `public/_headers`).
+- `out/_headers` applies security and cache headers (see `public/_headers`). The
+  Content-Security-Policy allows this origin only. Adding a third-party script, font or embed
+  means extending it in the same PR; `verify:export` fails on any other origin.
 - `www` → apex redirect: configure as a free **Redirect Rule** in the zone (see the DNS guide),
   not in `next.config.ts` (static export cannot redirect).
+
+`npm run preview` serves `out/` the same way: `_headers` applied, brotli/gzip, 404 status. Check
+headers and CSP locally before any deploy.
 
 ## Before the first production deploy (Phase 6 gate)
 
@@ -63,6 +68,11 @@ npm run content:check -- --strict   # fails only on required launch information
 
 Then set `launchReady: true` in `src/config/site.ts` (enables indexing and the sitemap entry in
 robots.txt) in its own reviewed PR.
+
+After the first deploy to the `*.pages.dev` preview, run PageSpeed Insights (mobile) on it and
+record LCP against the 2.5s budget. Phase 6 measured 2.2–2.3s under applied throttling, but
+3.4s with Lighthouse's localhost simulation, which cannot model Cloudflare's HTTP/2 and HTTP/3
+prioritization ([qa/phase-6](qa/phase-6/README.md)).
 
 ## Rollback
 

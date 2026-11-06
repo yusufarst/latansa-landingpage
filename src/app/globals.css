@@ -435,6 +435,14 @@
       clip-path 550ms var(--ease-precise),
       visibility 0s;
   }
+  /* Reduced motion: the global rule zeroes durations but not delays, which kept
+     a closed sheet visible (and its links focusable) for 550ms. */
+  @media (prefers-reduced-motion: reduce) {
+    .menu-sheet,
+    .menu-sheet[data-open="true"] {
+      transition: none;
+    }
+  }
   .menu-link {
     display: flex;
     align-items: center;

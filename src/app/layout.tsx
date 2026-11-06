@@ -13,9 +13,21 @@ const jakarta = Plus_Jakarta_Sans({
   display: "swap",
 });
 
+/** The share image (scripts/og-image.mjs), for Open Graph and X/Twitter. */
+const shareImage = {
+  url: "/og/latansa-og.jpg",
+  width: 1200,
+  height: 630,
+  alt: company.seo.ogImageAlt,
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
-  title: company.seo.title,
+  title: {
+    default: company.seo.title,
+    // Other pages (the 404) read "<title> — CV. Latansa Jogjakarta".
+    template: `%s — ${company.legalName.value}`,
+  },
   description: company.seo.description,
   applicationName: company.legalName.value,
   alternates: { canonical: "/" },
@@ -26,6 +38,13 @@ export const metadata: Metadata = {
     siteName: company.legalName.value,
     title: company.seo.title,
     description: company.seo.description,
+    images: [shareImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: company.seo.title,
+    description: company.seo.description,
+    images: [shareImage],
   },
   robots: site.launchReady
     ? { index: true, follow: true }

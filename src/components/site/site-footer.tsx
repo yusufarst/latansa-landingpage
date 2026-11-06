@@ -39,6 +39,7 @@ export function SiteFooter() {
             >
               <BrandLogo
                 variant="horizontal"
+                sizes="(min-width: 1024px) 10.5rem, 9.5rem"
                 className="h-auto w-[9.5rem] lg:w-[10.5rem]"
               />
             </a>

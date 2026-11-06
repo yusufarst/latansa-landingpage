@@ -122,6 +122,8 @@ export const copy = {
   },
 
   notFound: {
+    /** Page title; the layout's template appends " — CV. Latansa Jogjakarta". */
+    title: "Halaman tidak ditemukan",
     code: "404",
     heading: "Halaman tidak ditemukan.",
     back: "Kembali ke beranda",

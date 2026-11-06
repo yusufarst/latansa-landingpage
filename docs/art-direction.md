@@ -25,7 +25,8 @@ wins.** Every difference is listed with its reason in [§12](#12-deltas-from-the
 > - **Contact:** the official WhatsApp is client-provided and live. The planned address
 >   `info@latansajogja.co.id` is recorded as `pending-activation` and is not published until it
 >   receives email.
-> - **Headline:** used provisionally, still pending the client's final confirmation.
+> - **Headline:** used provisionally, pending the client's final confirmation. The owner approved
+>   it on 2026-11-06 (§13).
 >
 > The implemented build is the reference for these changes; see §12 (D16–D24).
 
@@ -765,6 +766,27 @@ Measured on the exported `out/` build in Phase 6.
 | First-view transfer (mobile)          | ≤ 500 KB target, including the hero derivative                       |
 | Images                                | Per [image-assets.md](image-assets.md)                               |
 
+**Phase 6 results** (2026-11-06, `npm run preview` with compression; record in
+[qa/phase-6/](qa/phase-6/README.md)):
+
+- **Met:**
+  - CLS 0;
+  - lab INP median 184ms under 4× CPU, worst the first menu open;
+  - app JavaScript 7.8 KB gzip;
+  - one 27 KB font;
+  - first-screen transfer 276 KB;
+  - desktop LCP 0.76s.
+- **LCP, mobile:**
+  - 2.20–2.34s under applied throttling (real Slow 4G and 4× CPU);
+  - 3.42s median when simulated on localhost, where the Next.js runtime and the lazy photos fall
+    into Lighthouse's pessimistic estimate.
+  - Re-measure the simulated value with PageSpeed Insights on the deployed preview: Cloudflare's
+    HTTP/2 and HTTP/3 prioritize the hero over the low-priority scripts.
+- **Changes for the budgets:**
+  - the phone hero at AVIF q50 4:2:0 (62 KB);
+  - a responsive logo (20 KB, was 44 KB);
+  - the menu restyles the page after the sheet paints.
+
 ## 11. Acceptance criteria (Phase 4 and 5 sign-off)
 
 A build is accepted only when **all** of these hold:
@@ -864,8 +886,9 @@ rule or replaces a stand-in.
   - Email Routing is receive-only: it forwards inbound mail and sends none.
   - The personal forwarding inbox is never recorded or published. A test and `verify:export`
     reject any other address in `src/` and in the exported pages.
-- **`positioning.headline`:** confirmable copy with `confirmation: "pending"`. It is shown
-  provisionally, and `content:check --strict` blocks launch until the client confirms it.
+- **`positioning.headline`:** confirmable copy, `confirmation: "client-confirmed"`. The owner
+  approved it as the official website headline on 2026-11-06. It had been shown provisionally since Phase 4,
+  when it blocked `content:check --strict`. A replacement needs the owner's approval.
 - **Address and location (updated):** `mapsUrl` and `coordinates` are now `client-confirmed`
   (owner, 2026-11-05) and published. Previously: `address.regionShort`; `mapsUrl` and `coordinates` (both
   `needs-confirmation`, hidden); `officeHours` as day-group rows (`needs-confirmation`, hidden).
@@ -878,13 +901,13 @@ rule or replaces a stand-in.
 
 ## 14. Open items for the owner
 
-| Item                                                                                | Needed for                                         |
-| ----------------------------------------------------------------------------------- | -------------------------------------------------- |
-| Confirm the headline "Perangkat dan perlengkapan kerja untuk instansi dan lembaga." | **Launch** (blocks `--strict`)                     |
-| Activate `info@latansajogja.co.id`, test delivery, then mark it client-confirmed    | Optional (WhatsApp already meets the contact rule) |
-| Confirm the office hours                                                            | Optional                                           |
-| Verify the Mbizmarket profile                                                       | Optional                                           |
-| Re-verify every Unsplash photo page                                                 | Phase 6                                            |
+| Item                                                                                | Needed for                                       |
+| ----------------------------------------------------------------------------------- | ------------------------------------------------ |
+| Confirm the headline "Perangkat dan perlengkapan kerja untuk instansi dan lembaga." | Done 2026-11-06 (owner approved; strict passes)  |
+| Activate `info@latansajogja.co.id`, test delivery, then mark it client-confirmed    | Done 2026-11-06 (published in Kontak and footer) |
+| Confirm the office hours                                                            | Optional                                         |
+| Verify the Mbizmarket profile                                                       | Optional                                         |
+| Re-verify every Unsplash photo page                                                 | Done 2026-11-06 (Phase 6)                        |
 
 ## 15. Build notes (implemented in Phase 4)
 

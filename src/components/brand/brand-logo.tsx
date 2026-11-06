@@ -1,17 +1,22 @@
-import Image from "next/image";
 import brandAssets from "@/config/brand-assets.json";
 
 type Variant = "horizontal" | "vertical" | "symbol";
 
-const SOURCES = {
-  horizontal: brandAssets["latansa-logo-horizontal"]["960"],
-  vertical: brandAssets["latansa-logo-vertical"]["960"],
-  symbol: brandAssets["latansa-symbol"]["512"],
+const ASSETS = {
+  horizontal: brandAssets["latansa-logo-horizontal"],
+  vertical: brandAssets["latansa-logo-vertical"],
+  symbol: brandAssets["latansa-symbol"],
 } as const;
 
 interface BrandLogoProps {
   variant: Variant;
   className?: string;
+  /**
+   * The rendered width per breakpoint, as for `<img sizes>`, so the browser
+   * picks the smallest derivative that stays sharp (Phase 6: the header logo
+   * was a 960px PNG for 140px).
+   */
+  sizes: string;
   priority?: boolean;
   /** Above-the-fold logos load eagerly without competing for priority. */
   loading?: "eager" | "lazy";
@@ -25,18 +30,37 @@ interface BrandLogoProps {
  * - horizontal: navbar and compact headers
  * - vertical: selected corporate-identity compositions
  * - symbol: favicon/app icon contexts only
+ *
+ * `<picture>` is `display: contents`, so the `<img>` stays the layout box
+ * (the header lets it shrink when large text leaves no room).
  */
-export function BrandLogo({ variant, className, priority, loading }: BrandLogoProps) {
-  const src = SOURCES[variant];
+export function BrandLogo({
+  variant,
+  className,
+  sizes,
+  priority,
+  loading,
+}: BrandLogoProps) {
+  const sources = Object.values(ASSETS[variant]);
+  const largest = sources.at(-1)!;
+  const srcSet = (format: "png" | "webp") =>
+    sources.map((s) => `${s[format]} ${s.width}w`).join(", ");
   return (
-    <Image
-      src={src.png}
-      width={src.width}
-      height={src.height}
-      alt="LATANSA — CV Latansa Jogjakarta"
-      priority={priority}
-      loading={priority ? undefined : loading}
-      className={className}
-    />
+    <picture className="contents">
+      <source type="image/webp" srcSet={srcSet("webp")} sizes={sizes} />
+      {/* Static export: derivatives are pre-built, not optimized by next/image. */}
+      <img
+        src={sources[0].png}
+        srcSet={srcSet("png")}
+        sizes={sizes}
+        width={largest.width}
+        height={largest.height}
+        alt="LATANSA — CV Latansa Jogjakarta"
+        loading={priority ? "eager" : (loading ?? "lazy")}
+        fetchPriority={priority ? "high" : undefined}
+        decoding="async"
+        className={className}
+      />
+    </picture>
   );
 }

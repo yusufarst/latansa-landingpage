@@ -22,9 +22,11 @@ Every fact is a `Fact<T>` with a `status` and a `source`:
 Components **omit the element entirely** when a fact is not publishable. Visitors never see
 placeholder text. Optional sections are dropped when their data is missing.
 
-**Confirmable copy.** Copy shown on the site that still needs the client's final word (currently
-the hero headline) is a `ConfirmableCopy` with `confirmation: "pending"`. It may be shown, and
-`content:check --strict` blocks launch until it is confirmed.
+**Confirmable copy.** Copy shown on the site that still needs the client's final word is a
+`ConfirmableCopy` with `confirmation: "pending"`. It may be shown, and `content:check --strict`
+blocks launch until it is `"client-confirmed"` (the same word facts use), with the approval in
+`source`. The hero headline was the case until the owner approved it on 2026-11-06; nothing is
+pending now.
 
 ## Launch requirements
 
@@ -59,6 +61,17 @@ but safe to omit until the client confirms it.
   publishable status without a value.
 
 It always lists launch blockers and unresolved optional facts.
+
+**Machine-readable output follows the same rules.** Search engines read more than the visible
+page: metadata, the share image's alt text, and the JSON-LD (`src/components/site/structured-data.tsx`).
+These come from the same publishable facts, through `publishedValue()`.
+`npm run verify:export` checks them on the built page:
+
+- no tax ID or NPWP;
+- no founding year, ratings, reviews or awards;
+- no `telephone`, because the WhatsApp number is offered for chat;
+- no opening hours while unconfirmed;
+- the email exactly as published.
 
 `npm run content:check -- --strict` is the Phase 6 production gate: it additionally fails while
 any **launch blocker** remains: an unresolved required fact, a group with no resolved member,

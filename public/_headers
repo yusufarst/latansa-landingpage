@@ -1,17 +1,31 @@
 # Cloudflare Pages response headers (https://developers.cloudflare.com/pages/configuration/headers/)
-# A Content-Security-Policy is added and tested in Phase 6.
+# `npm run preview` applies this file the way Pages does; `npm run verify:export` checks it.
+#
+# Content-Security-Policy: everything comes from this origin. Next.js inlines its RSC payload
+# as inline scripts and a static export has no per-request nonce, so script-src keeps
+# 'unsafe-inline' (the Next.js guide's static recommendation). style-src needs it for the
+# inline CSS variables. No third-party origin is allowed anywhere.
 
 /*
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'
+  Strict-Transport-Security: max-age=31536000
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
-  Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=()
   Cross-Origin-Opener-Policy: same-origin
 
 # Content-hashed build assets never change — cache for a year.
 /_next/static/*
   Cache-Control: public, max-age=31536000, immutable
 
-# Brand derivatives are regenerated rarely; revalidate daily.
+# Brand derivatives, photo derivatives and the share image keep their names when
+# regenerated, so they revalidate daily.
 /brand/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/images/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/og/*
   Cache-Control: public, max-age=86400, stale-while-revalidate=604800

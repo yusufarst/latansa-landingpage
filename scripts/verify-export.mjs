@@ -128,6 +128,159 @@ check(
   `no email address but ${email ?? "the published one"} in ${pages.length} pages${stray.size ? `: ${[...stray].join(", ")}` : ""}`,
 );
 
+// ── SEO (Phase 6) ──────────────────────────────────────────────────────────
+const { site } = await import("../src/config/site.ts");
+const decode = (s) =>
+  s
+    .replaceAll("&amp;", "&")
+    .replaceAll("&quot;", '"')
+    .replaceAll("&#x27;", "'")
+    .replaceAll("&lt;", "<")
+    .replaceAll("&gt;", ">");
+const meta = (html, attr, name) =>
+  decode(html.match(new RegExp(`<meta ${attr}="${name}" content="([^"]*)"`))?.[1] ?? "");
+const title = decode(index.match(/<title>([^<]*)<\/title>/)?.[1] ?? "");
+check(
+  title === company.seo.title && [...title].length <= 60,
+  `title is the SEO title, ${[...title].length} ≤ 60 characters`,
+);
+const description = meta(index, "name", "description");
+check(
+  description === company.seo.description && [...description].length <= 160,
+  `meta description, ${[...description].length} ≤ 160 characters`,
+);
+check(
+  /<link rel="canonical" href="https:\/\/latansajogja\.co\.id\/?"/.test(index),
+  "canonical is the domain root",
+);
+const ogImage = meta(index, "property", "og:image");
+check(
+  ogImage.startsWith(`${site.url}/`) &&
+    existsSync(join(out, ogImage.slice(site.url.length))) &&
+    meta(index, "property", "og:image:width") === "1200" &&
+    meta(index, "property", "og:image:height") === "630" &&
+    meta(index, "property", "og:image:alt") !== "",
+  `og:image ${ogImage.slice(site.url.length)} exists, 1200×630, with alt text`,
+);
+check(
+  meta(index, "name", "twitter:card") === "summary_large_image",
+  "twitter:card is summary_large_image",
+);
+const robotsMeta = meta(index, "name", "robots");
+check(
+  site.launchReady ? robotsMeta === "index, follow" : robotsMeta === "noindex, nofollow",
+  `robots meta "${robotsMeta}" matches launchReady=${site.launchReady}`,
+);
+const robotsTxt = readFileSync(join(out, "robots.txt"), "utf8");
+check(
+  site.launchReady
+    ? /Allow: \//.test(robotsTxt) &&
+        robotsTxt.includes(`Sitemap: ${site.url}/sitemap.xml`)
+    : /Disallow: \//.test(robotsTxt) && !/Sitemap:/.test(robotsTxt),
+  `robots.txt ${site.launchReady ? "allows crawling with the sitemap" : "blocks crawling until launch"}`,
+);
+if (site.launchReady) {
+  // Indexing may only be on when the strict launch gate is clean (CI runs this script).
+  const { collectCopy, collectFacts, evaluateLaunch, pendingCopy } =
+    await import("./lib/content-rules.mjs");
+  const { blocking } = evaluateLaunch(collectFacts(company));
+  const pending = pendingCopy(collectCopy(company));
+  check(
+    blocking.length === 0 && pending.length === 0,
+    `launchReady with no launch blockers (content:check --strict)${blocking.length + pending.length ? `: ${[...blocking, ...pending].map((x) => x.path).join(", ")}` : ""}`,
+  );
+}
+const sitemap = readFileSync(join(out, "sitemap.xml"), "utf8");
+check(sitemap.includes(`<loc>${site.url}/</loc>`), "sitemap.xml lists the domain root");
+
+// Structured data: valid JSON-LD built from publishable facts only.
+const ldText = index.match(
+  /<script type="application\/ld\+json">([\s\S]*?)<\/script>/,
+)?.[1];
+let ld = null;
+try {
+  ld = ldText ? JSON.parse(ldText) : null;
+} catch {
+  ld = null;
+}
+const organization = ld?.["@graph"]?.find((n) => n["@type"] === "Organization");
+const ldString = JSON.stringify(ld ?? {});
+const forbiddenKeys = [
+  "taxID",
+  "vatID",
+  "foundingDate",
+  "aggregateRating",
+  "review",
+  "award",
+  "telephone",
+  ...(published(company.officeHours)
+    ? []
+    : ["openingHours", "openingHoursSpecification"]),
+].filter((key) => ldString.includes(`"${key}"`));
+check(
+  organization?.name === company.legalName.value &&
+    organization?.address?.postalCode === company.address.value.postalCode &&
+    (organization?.email ?? null) === email &&
+    forbiddenKeys.length === 0 &&
+    !/npwp/i.test(ldString),
+  `JSON-LD Organization from publishable facts${forbiddenKeys.length ? `; forbidden: ${forbiddenKeys.join(", ")}` : ""}`,
+);
+
+// The 404 page: its own title, never indexed, no canonical to the homepage.
+const notFound = readFileSync(join(out, "404.html"), "utf8");
+check(
+  /<title>Halaman tidak ditemukan — /.test(notFound) &&
+    /<meta name="robots" content="noindex/.test(notFound) &&
+    !/rel="canonical"/.test(notFound),
+  "404 page: own title, noindex, no canonical",
+);
+
+// ── Response headers (out/_headers, applied by Cloudflare Pages) ──────────
+const { parseHeaders, headersFor } = await import("./lib/headers.mjs");
+let headerRules = [];
+try {
+  headerRules = parseHeaders(readFileSync(join(out, "_headers"), "utf8"));
+} catch (error) {
+  check(false, `_headers parses (${error.message})`);
+}
+const pageHeaders = Object.fromEntries(
+  Object.entries(headersFor(headerRules, "/")).map(([k, [, v]]) => [k, v]),
+);
+const csp = pageHeaders["content-security-policy"] ?? "";
+const directives = Object.fromEntries(
+  csp
+    .split(";")
+    .map((d) => d.trim().split(/\s+/))
+    .filter(([name]) => name)
+    .map(([name, ...values]) => [name, values]),
+);
+const sources = Object.values(directives).flat();
+check(
+  csp !== "" &&
+    sources.every((s) => ["'self'", "'none'", "'unsafe-inline'", "data:"].includes(s)) &&
+    directives["default-src"]?.join(" ") === "'self'" &&
+    directives["object-src"]?.join(" ") === "'none'" &&
+    directives["frame-ancestors"]?.join(" ") === "'none'",
+  "Content-Security-Policy allows this origin only, no objects, no framing",
+);
+check(
+  pageHeaders["x-content-type-options"] === "nosniff" &&
+    pageHeaders["referrer-policy"] === "strict-origin-when-cross-origin" &&
+    /max-age=\d+/.test(pageHeaders["strict-transport-security"] ?? ""),
+  "nosniff, referrer policy and HSTS on every page",
+);
+check(
+  !/interest-cohort/.test(pageHeaders["permissions-policy"] ?? "interest-cohort"),
+  "Permissions-Policy present, without the retired interest-cohort feature",
+);
+check(
+  /immutable/.test(
+    headersFor(headerRules, "/_next/static/x.js")["cache-control"]?.[1] ?? "",
+  ) &&
+    /max-age/.test(headersFor(headerRules, "/images/x.avif")["cache-control"]?.[1] ?? ""),
+  "cache headers: immutable build assets, revalidated photos",
+);
+
 if (failures.length) {
   console.error("\nStatic export verification FAILED:");
   for (const f of failures) console.error(`  ✗ ${f}`);
